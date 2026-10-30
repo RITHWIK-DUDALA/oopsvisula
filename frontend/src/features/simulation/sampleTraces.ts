@@ -450,8 +450,456 @@ public class Main {
   ],
 };
 
+/**
+ * 3. Composition & Reference Pointer Trace (Car -> Engine)
+ */
+export const compositionTrace: ExecutionTrace = {
+  id: 'trace-composition',
+  programTitle: 'Car & Engine (Composition & Heap References)',
+  sourceCode: `public class Engine {
+    private int horsepower;
+    public Engine(int hp) { this.horsepower = hp; }
+    public int getHp() { return this.horsepower; }
+}
+
+public class Car {
+    private String model;
+    private Engine engine;
+
+    public Car(String model, int hp) {
+        this.model = model;
+        this.engine = new Engine(hp);
+    }
+
+    public static void main(String[] args) {
+        Car sedan = new Car("Apex-GT", 280);
+        System.out.println("HP: " + sedan.engine.getHp());
+    }
+}`,
+  totalSteps: 6,
+  durationMs: 16.8,
+  stdoutAggregate: 'HP: 280\n',
+  events: [
+    {
+      step: 1,
+      type: 'STEP_ENTER',
+      line: 16,
+      methodName: 'main',
+      className: 'Car',
+      description: 'Entering main(args). Metaspace initialized for Car and Engine.',
+      stackFrames: [
+        {
+          frameId: 'frame-comp-main',
+          methodName: 'main(args)',
+          className: 'Car',
+          line: 16,
+          localVariables: [
+            { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
+            { name: 'sedan', type: 'Car', value: 'null', isReference: true },
+          ],
+        },
+      ],
+      heapObjects: [
+        {
+          address: '@0x0001',
+          className: 'String[0]',
+          fields: [{ name: 'length', type: 'int', value: 0, isReference: false }],
+        },
+      ],
+    },
+    {
+      step: 2,
+      type: 'OBJECT_ALLOCATED',
+      line: 11,
+      methodName: 'Car.<init>',
+      className: 'Car',
+      description: 'Allocated Car instance at @0x7B1A on JVM Eden space.',
+      stackFrames: [
+        {
+          frameId: 'frame-comp-main',
+          methodName: 'main(args)',
+          className: 'Car',
+          line: 16,
+          localVariables: [
+            { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
+            { name: 'sedan', type: 'Car', value: 'ref @0x7B1A', isReference: true, targetAddress: '@0x7B1A' },
+          ],
+        },
+        {
+          frameId: 'frame-car-init',
+          methodName: 'Car(model, hp)',
+          className: 'Car',
+          line: 11,
+          localVariables: [
+            { name: 'this', type: 'Car', value: 'ref @0x7B1A', isReference: true, targetAddress: '@0x7B1A' },
+            { name: 'model', type: 'String', value: '"Apex-GT"', isReference: false },
+            { name: 'hp', type: 'int', value: 280, isReference: false },
+          ],
+        },
+      ],
+      heapObjects: [
+        {
+          address: '@0x0001',
+          className: 'String[0]',
+          fields: [{ name: 'length', type: 'int', value: 0, isReference: false }],
+        },
+        {
+          address: '@0x7B1A',
+          className: 'Car',
+          fields: [
+            { name: 'model', type: 'String', value: '"Apex-GT"', isReference: false },
+            { name: 'engine', type: 'Engine', value: 'null', isReference: true },
+          ],
+        },
+      ],
+    },
+    {
+      step: 3,
+      type: 'OBJECT_ALLOCATED',
+      line: 3,
+      methodName: 'Engine.<init>',
+      className: 'Engine',
+      description: 'Composition: Car instantiated owned Engine instance at @0x9F4C.',
+      stackFrames: [
+        {
+          frameId: 'frame-comp-main',
+          methodName: 'main(args)',
+          className: 'Car',
+          line: 16,
+          localVariables: [
+            { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
+            { name: 'sedan', type: 'Car', value: 'ref @0x7B1A', isReference: true, targetAddress: '@0x7B1A' },
+          ],
+        },
+        {
+          frameId: 'frame-eng-init',
+          methodName: 'Engine(hp)',
+          className: 'Engine',
+          line: 3,
+          localVariables: [
+            { name: 'this', type: 'Engine', value: 'ref @0x9F4C', isReference: true, targetAddress: '@0x9F4C' },
+            { name: 'hp', type: 'int', value: 280, isReference: false },
+          ],
+        },
+      ],
+      heapObjects: [
+        {
+          address: '@0x0001',
+          className: 'String[0]',
+          fields: [{ name: 'length', type: 'int', value: 0, isReference: false }],
+        },
+        {
+          address: '@0x7B1A',
+          className: 'Car',
+          fields: [
+            { name: 'model', type: 'String', value: '"Apex-GT"', isReference: false },
+            { name: 'engine', type: 'Engine', value: 'ref @0x9F4C', isReference: true, targetAddress: '@0x9F4C' },
+          ],
+        },
+        {
+          address: '@0x9F4C',
+          className: 'Engine',
+          fields: [{ name: 'horsepower', type: 'int', value: 280, isReference: false }],
+        },
+      ],
+    },
+    {
+      step: 4,
+      type: 'FRAME_POP',
+      line: 17,
+      methodName: 'main',
+      className: 'Car',
+      description: 'Car constructor finished. Nested heap reference established: @0x7B1A.engine -> @0x9F4C.',
+      stackFrames: [
+        {
+          frameId: 'frame-comp-main',
+          methodName: 'main(args)',
+          className: 'Car',
+          line: 17,
+          localVariables: [
+            { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
+            { name: 'sedan', type: 'Car', value: 'ref @0x7B1A', isReference: true, targetAddress: '@0x7B1A' },
+          ],
+        },
+      ],
+      heapObjects: [
+        {
+          address: '@0x0001',
+          className: 'String[0]',
+          fields: [{ name: 'length', type: 'int', value: 0, isReference: false }],
+        },
+        {
+          address: '@0x7B1A',
+          className: 'Car',
+          fields: [
+            { name: 'model', type: 'String', value: '"Apex-GT"', isReference: false },
+            { name: 'engine', type: 'Engine', value: 'ref @0x9F4C', isReference: true, targetAddress: '@0x9F4C' },
+          ],
+        },
+        {
+          address: '@0x9F4C',
+          className: 'Engine',
+          fields: [{ name: 'horsepower', type: 'int', value: 280, isReference: false }],
+        },
+      ],
+    },
+    {
+      step: 5,
+      type: 'STDOUT',
+      line: 17,
+      methodName: 'main',
+      className: 'Car',
+      description: 'Invoked sedan.engine.getHp() and printed result to standard output.',
+      stackFrames: [
+        {
+          frameId: 'frame-comp-main',
+          methodName: 'main(args)',
+          className: 'Car',
+          line: 17,
+          localVariables: [
+            { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
+            { name: 'sedan', type: 'Car', value: 'ref @0x7B1A', isReference: true, targetAddress: '@0x7B1A' },
+          ],
+        },
+      ],
+      heapObjects: [
+        {
+          address: '@0x7B1A',
+          className: 'Car',
+          fields: [
+            { name: 'model', type: 'String', value: '"Apex-GT"', isReference: false },
+            { name: 'engine', type: 'Engine', value: 'ref @0x9F4C', isReference: true, targetAddress: '@0x9F4C' },
+          ],
+        },
+        {
+          address: '@0x9F4C',
+          className: 'Engine',
+          fields: [{ name: 'horsepower', type: 'int', value: 280, isReference: false }],
+        },
+      ],
+      stdout: 'HP: 280\n',
+    },
+    {
+      step: 6,
+      type: 'EXECUTION_COMPLETED',
+      line: 18,
+      methodName: 'main',
+      className: 'Car',
+      description: 'Execution terminated. Thread stack unmounted; heap objects eligible for Garbage Collection.',
+      stackFrames: [],
+      heapObjects: [
+        {
+          address: '@0x7B1A',
+          className: 'Car',
+          fields: [
+            { name: 'model', type: 'String', value: '"Apex-GT"', isReference: false },
+            { name: 'engine', type: 'Engine', value: 'ref @0x9F4C', isReference: true, targetAddress: '@0x9F4C' },
+          ],
+        },
+        {
+          address: '@0x9F4C',
+          className: 'Engine',
+          fields: [{ name: 'horsepower', type: 'int', value: 280, isReference: false }],
+        },
+      ],
+    },
+  ],
+};
+
+/**
+ * 4. Java 21 Record & Pattern Matching Trace
+ */
+export const recordPatternTrace: ExecutionTrace = {
+  id: 'trace-record-pattern',
+  programTitle: 'StudentRecord (Java 21 Records & Pattern Matching)',
+  sourceCode: `public record StudentRecord(String name, int score) {
+    public StudentRecord {
+        if (score < 0 || score > 100) {
+            throw new IllegalArgumentException("Invalid score");
+        }
+    }
+}
+
+public class Main {
+    public static String grade(Object obj) {
+        return switch (obj) {
+            case StudentRecord(var name, int score) when score >= 90 -> name + ": Grade A";
+            case StudentRecord(var name, int score) -> name + ": Passing";
+            default -> "Unknown";
+        };
+    }
+
+    public static void main(String[] args) {
+        StudentRecord student = new StudentRecord("Diana", 95);
+        String result = grade(student);
+        System.out.println(result);
+    }
+}`,
+  totalSteps: 5,
+  durationMs: 12.4,
+  stdoutAggregate: 'Diana: Grade A\n',
+  events: [
+    {
+      step: 1,
+      type: 'STEP_ENTER',
+      line: 19,
+      methodName: 'main',
+      className: 'Main',
+      description: 'Entering main(args). StudentRecord class definition verified in Metaspace.',
+      stackFrames: [
+        {
+          frameId: 'frame-rec-1',
+          methodName: 'main(args)',
+          className: 'Main',
+          line: 19,
+          localVariables: [
+            { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
+            { name: 'student', type: 'StudentRecord', value: 'null', isReference: true },
+          ],
+        },
+      ],
+      heapObjects: [
+        {
+          address: '@0x0001',
+          className: 'String[0]',
+          fields: [{ name: 'length', type: 'int', value: 0, isReference: false }],
+        },
+      ],
+    },
+    {
+      step: 2,
+      type: 'OBJECT_ALLOCATED',
+      line: 2,
+      methodName: 'StudentRecord.<init>',
+      className: 'StudentRecord',
+      description: 'Compact constructor executed. Transparent immutable record allocated at @0x5E21.',
+      stackFrames: [
+        {
+          frameId: 'frame-rec-1',
+          methodName: 'main(args)',
+          className: 'Main',
+          line: 19,
+          localVariables: [
+            { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
+            { name: 'student', type: 'StudentRecord', value: 'ref @0x5E21', isReference: true, targetAddress: '@0x5E21' },
+          ],
+        },
+      ],
+      heapObjects: [
+        {
+          address: '@0x0001',
+          className: 'String[0]',
+          fields: [{ name: 'length', type: 'int', value: 0, isReference: false }],
+        },
+        {
+          address: '@0x5E21',
+          className: 'StudentRecord (Record)',
+          fields: [
+            { name: 'name', type: 'String', value: '"Diana"', isReference: false },
+            { name: 'score', type: 'int', value: 95, isReference: false },
+          ],
+        },
+      ],
+    },
+    {
+      step: 3,
+      type: 'FRAME_PUSH',
+      line: 12,
+      methodName: 'grade',
+      className: 'Main',
+      description: 'Pattern matching switch evaluated: matched record deconstruction pattern with guard "when score >= 90".',
+      stackFrames: [
+        {
+          frameId: 'frame-rec-1',
+          methodName: 'main(args)',
+          className: 'Main',
+          line: 20,
+          localVariables: [
+            { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
+            { name: 'student', type: 'StudentRecord', value: 'ref @0x5E21', isReference: true, targetAddress: '@0x5E21' },
+          ],
+        },
+        {
+          frameId: 'frame-grade-2',
+          methodName: 'grade(obj)',
+          className: 'Main',
+          line: 12,
+          localVariables: [
+            { name: 'obj', type: 'Object', value: 'ref @0x5E21', isReference: true, targetAddress: '@0x5E21' },
+            { name: 'name', type: 'String', value: '"Diana"', isReference: false },
+            { name: 'score', type: 'int', value: 95, isReference: false },
+          ],
+        },
+      ],
+      heapObjects: [
+        {
+          address: '@0x5E21',
+          className: 'StudentRecord (Record)',
+          fields: [
+            { name: 'name', type: 'String', value: '"Diana"', isReference: false },
+            { name: 'score', type: 'int', value: 95, isReference: false },
+          ],
+        },
+      ],
+    },
+    {
+      step: 4,
+      type: 'STDOUT',
+      line: 21,
+      methodName: 'main',
+      className: 'Main',
+      description: 'Evaluated switch expression returned "Diana: Grade A", printed to standard output.',
+      stackFrames: [
+        {
+          frameId: 'frame-rec-1',
+          methodName: 'main(args)',
+          className: 'Main',
+          line: 21,
+          localVariables: [
+            { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
+            { name: 'student', type: 'StudentRecord', value: 'ref @0x5E21', isReference: true, targetAddress: '@0x5E21' },
+            { name: 'result', type: 'String', value: '"Diana: Grade A"', isReference: false },
+          ],
+        },
+      ],
+      heapObjects: [
+        {
+          address: '@0x5E21',
+          className: 'StudentRecord (Record)',
+          fields: [
+            { name: 'name', type: 'String', value: '"Diana"', isReference: false },
+            { name: 'score', type: 'int', value: 95, isReference: false },
+          ],
+        },
+      ],
+      stdout: 'Diana: Grade A\n',
+    },
+    {
+      step: 5,
+      type: 'EXECUTION_COMPLETED',
+      line: 22,
+      methodName: 'main',
+      className: 'Main',
+      description: 'Execution completed cleanly. All record memory verified.',
+      stackFrames: [],
+      heapObjects: [
+        {
+          address: '@0x5E21',
+          className: 'StudentRecord (Record)',
+          fields: [
+            { name: 'name', type: 'String', value: '"Diana"', isReference: false },
+            { name: 'score', type: 'int', value: 95, isReference: false },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
 export const allSampleTraces: ExecutionTrace[] = [
   bankAccountTrace,
   shapeHierarchyTrace,
+  compositionTrace,
+  recordPatternTrace,
 ];
 

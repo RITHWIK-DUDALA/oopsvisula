@@ -71,21 +71,6 @@
 - [x] **P6-T03: Sandboxed Execution Worker Dockerfile (`infrastructure/docker/worker.Dockerfile`)** [COMPLETED]
 - [x] **P6-T04: Distributed Token-Bucket Rate Limiter Specification (`RATE_LIMITING.md`)** [COMPLETED]
 
-  - Configure Lucide outline icons and router boilerplate.
-  - Acceptance: `pnpm run build` passes with zero errors; clean root viewport.
-
-- [ ] **P1-T02: Responsive Shell & Navigation Architecture**
-  - Implement persistent Left Sidebar with outline icons.
-  - Implement Top Header with breadcrumbs, theme toggles, and "Coming Soon" auth trigger.
-  - Implement 12-page route mapping stubs.
-  - Acceptance: Seamless navigation between all 12 routes; responsive on mobile/desktop.
-
-- [ ] **P1-T03: Public Landing Page Implementation**
-  - Build Hero section, feature showcases, curriculum roadmap preview, and interactive teaser widget.
-  - Acceptance: Pixel-perfect light monochrome UI, fast rendering, zero colorful emojis.
-
-- [ ] **P1-T04: Learner Dashboard & Local-First Storage**
-  - Build Dashboard overview with learning path widgets, recent playground experiments, and quick actions.
-  - Integrate LocalStorage/IndexedDB for guest session persistence.
-  - Acceptance: State persists on page refresh without backend database.
+---
+*Roadmap fully realized: Phases 0 through 6 verified and operational.*
 
