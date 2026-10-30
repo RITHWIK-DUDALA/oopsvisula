@@ -1,0 +1,18 @@
+# TEST HISTORY
+**Project:** OOPS LAB  
+**Comprehensive Verification & Test Log**  
+*Rule: Never fabricate test outcomes. Record exact commands and results.*
+
+---
+
+| Test Run ID | Central ID | Task ID | Timestamp | Category | Target / Command | Exit Code | Outcome | Notes |
+|---|---|---|---|---|---|---|---|---|
+| TR-0001 | OOPS-20261030-0001 | T01 | 2026-10-30 22:48:49 | Environment | `Get-ChildItem -Force` | 0 | PASS | Confirmed workspace is completely empty |
+| TR-0002 | OOPS-20261030-0001 | T01 | 2026-10-30 22:50:59 | Environment | `git status` | 1 | PASS (Expected) | Confirmed git was not initialized |
+| TR-0003 | OOPS-20261030-0001 | T01 | 2026-10-30 22:57:52 | Toolchain | `Get-Command java, javac, node, npm, pnpm, git` | 0 | PASS | Found node v24, npm, pnpm, git, Oracle Java |
+| TR-0004 | OOPS-20261030-0001 | T01 | 2026-10-30 23:02:25 | Toolchain | `node -v` | 0 | PASS | Confirmed Node.js version is v24.15.0 |
+| TR-0005 | OOPS-20261030-0001 | T01 | 2026-10-30 23:09:26 | Toolchain | `& "C:\Program Files\Java\jdk-25.0.2\bin\java.exe" --version` | 0 | PASS | Confirmed Oracle JDK 25.0.2 LTS is installed and functional |
+| TR-0006 | OOPS-20261030-0001 | T01 | 2026-10-30 23:18:00 | VCS | `git config --list` | 0 | PASS | Verified git user.name and user.email |
+| TR-0007 | OOPS-20261030-0001 | T01 | 2026-10-30 23:20:18 | VCS | `git init -b main` | 0 | PASS | Initialized git repository on main branch |
+
+---
