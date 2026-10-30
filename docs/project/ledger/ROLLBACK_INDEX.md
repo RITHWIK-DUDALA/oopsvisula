@@ -17,5 +17,6 @@
 | CP-0008 | OOPS-20261030-0001-P5T01 | f2c86d3 | 2026-10-31 01:20:07 | feat(phase-5): Complete 14-step curriculum track, interactive concept walkthroughs, and practice auto-grader | 11 | `git checkout f2c86d3` / `GO TO OOPS-20261030-0001-P5T01` | VERIFIED |
 | CP-0009 | OOPS-20261030-0001-P6T01 | 00b607a | 2026-10-31 01:23:20 | feat(phase-6): Complete multi-service docker-compose stack, Nginx reverse proxy, and distributed rate limiting specification | 12 | `git checkout 00b607a` / `GO TO OOPS-20261030-0001-P6T01` | VERIFIED |
 | CP-0010 | OOPS-20261030-0001-P6POST | 2912947 | 2026-10-31 01:32:36 | feat(polish): Complete reference guide, workspace settings store, and full system topology | 39 | `git checkout 2912947` / `GO TO OOPS-20261030-0001-P6POST` | VERIFIED |
+| CP-0011 | OOPS-20261030-0001-P6POST02 | 920958d | 2026-10-31 01:39:01 | feat(simulation): Add composition and record pattern matching traces, clean roadmap | 8 | `git checkout 920958d` / `GO TO OOPS-20261030-0001-P6POST02` | VERIFIED |
 
 ---
