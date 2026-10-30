@@ -21,5 +21,6 @@
 | CP-0012 | OOPS-20261031-0001-LANDING | ea43e9f | 2026-10-31 02:27:17 | feat(landing): Isolate public landing page without feature access; add guest & auth entry gateway | 14 | `git checkout ea43e9f` / `GO TO OOPS-20261031-0001-LANDING` | VERIFIED |
 | CP-0013 | OOPS-20261031-0001-GUEST_RESTRICTION | 8eeabe7 | 2026-10-31 02:40:36 | feat(auth): Restrict Dashboard and Profile to authenticated accounts; guests enter directly to Playground | 14 | `git checkout 8eeabe7` / `GO TO OOPS-20261031-0001-GUEST_RESTRICTION` | VERIFIED |
 | CP-0014 | OOPS-20261031-0001-LOGO_LOADER | c054247 | 2026-10-31 02:46:54 | feat(ui): Implement reusable SVG LogoTraceLoader component and integrate into loading states | 13 | `git checkout c054247` / `GO TO OOPS-20261031-0001-LOGO_LOADER` | VERIFIED |
+| CP-0015 | OOPS-20261031-0002-REACT_BITS | 8f0a634 | 2026-10-31 03:10:31 | feat(ui): Integrate React Bits BranchedMenu in LeftSidebar and CallChip in Visualizer | 15 | `git checkout 8f0a634` / `GO TO OOPS-20261031-0002-REACT_BITS` | VERIFIED |
 
 ---
