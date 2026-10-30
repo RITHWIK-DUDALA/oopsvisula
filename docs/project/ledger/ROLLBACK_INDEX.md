@@ -24,5 +24,6 @@
 | CP-0015 | OOPS-20261031-0002-REACT_BITS | 8f0a634 | 2026-10-31 03:10:31 | feat(ui): Integrate React Bits BranchedMenu in LeftSidebar and CallChip in Visualizer | 15 | `git checkout 8f0a634` / `GO TO OOPS-20261031-0002-REACT_BITS` | VERIFIED |
 | CP-0016 | OOPS-20261031-0003-COMET_DIAL | 55a9377 | 2026-10-31 03:15:54 | feat(ui): Integrate React Bits CometDial for animation speed control | 13 | `git checkout 55a9377` / `GO TO OOPS-20261031-0003-COMET_DIAL` | VERIFIED |
 | CP-0017 | OOPS-20261031-0004-SKELETON_LOADING | cefff94 | 2026-10-31 03:20:26 | feat(ui): Implement 2.5s skeleton loading screen with smooth exit fade | 11 | `git checkout cefff94` / `GO TO OOPS-20261031-0004-SKELETON_LOADING` | VERIFIED |
+| CP-0018 | OOPS-20261031-0005-ICON_ERROR_FIX | 43e6bc1 | 2026-10-31 03:25:33 | fix(ui): Resolve Hugeicons currentIcon is not iterable error and add route error boundary | 10 | `git checkout 43e6bc1` / `GO TO OOPS-20261031-0005-ICON_ERROR_FIX` | VERIFIED |
 
 ---
