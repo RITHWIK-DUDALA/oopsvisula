@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSimulationStore } from '@/features/simulation/simulationStore';
+import CallChip from '@/components/CallChip';
 import {
   Play,
   Pause,
@@ -17,6 +18,8 @@ export const ExecutionInspector: React.FC = () => {
     currentStepIndex,
     isPlaying,
     playbackSpeed,
+    activeCall,
+    triggerCall,
     getCurrentEvent,
     getStdoutHistory,
     stepForward,
@@ -108,43 +111,72 @@ export const ExecutionInspector: React.FC = () => {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="h-10 px-4 border-b border-border flex items-center space-x-4 text-xs font-medium shrink-0">
-        <button
-          onClick={() => setActiveTab('inspector')}
-          className={`h-full flex items-center space-x-1.5 border-b-2 transition-all ${
-            activeTab === 'inspector'
-              ? 'border-foreground text-foreground font-semibold'
-              : 'border-transparent text-muted-foreground hover:text-foreground'
-          }`}
-        >
-          <Activity className="w-3.5 h-3.5 stroke-[1.5]" />
-          <span>Inspector</span>
-        </button>
+      {/* Tabs & Live CallChip */}
+      <div className="h-10 px-4 border-b border-border flex items-center justify-between text-xs font-medium shrink-0">
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => {
+              setActiveTab('inspector');
+              triggerCall('inspector', 'view.memory', 'search', 'done');
+            }}
+            className={`h-full flex items-center space-x-1.5 border-b-2 transition-all ${
+              activeTab === 'inspector'
+                ? 'border-foreground text-foreground font-semibold'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Activity className="w-3.5 h-3.5 stroke-[1.5]" />
+            <span>Inspector</span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('console')}
-          className={`h-full flex items-center space-x-1.5 border-b-2 transition-all ${
-            activeTab === 'console'
-              ? 'border-foreground text-foreground font-semibold'
-              : 'border-transparent text-muted-foreground hover:text-foreground'
-          }`}
-        >
-          <Terminal className="w-3.5 h-3.5 stroke-[1.5]" />
-          <span>Console Output</span>
-        </button>
+          <button
+            onClick={() => {
+              setActiveTab('console');
+              triggerCall('inspector', 'view.stdout', 'terminal', 'done');
+            }}
+            className={`h-full flex items-center space-x-1.5 border-b-2 transition-all ${
+              activeTab === 'console'
+                ? 'border-foreground text-foreground font-semibold'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Terminal className="w-3.5 h-3.5 stroke-[1.5]" />
+            <span>Console Output</span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('events')}
-          className={`h-full flex items-center space-x-1.5 border-b-2 transition-all ${
-            activeTab === 'events'
-              ? 'border-foreground text-foreground font-semibold'
-              : 'border-transparent text-muted-foreground hover:text-foreground'
-          }`}
-        >
-          <Sliders className="w-3.5 h-3.5 stroke-[1.5]" />
-          <span>Event Timeline</span>
-        </button>
+          <button
+            onClick={() => {
+              setActiveTab('events');
+              triggerCall('inspector', 'view.timeline', 'search', 'done');
+            }}
+            className={`h-full flex items-center space-x-1.5 border-b-2 transition-all ${
+              activeTab === 'events'
+                ? 'border-foreground text-foreground font-semibold'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Sliders className="w-3.5 h-3.5 stroke-[1.5]" />
+            <span>Event Timeline</span>
+          </button>
+        </div>
+
+        {activeCall && (
+          <div className="hidden sm:flex items-center">
+            <CallChip
+              key={activeCall.id}
+              icon={activeCall.icon || 'terminal'}
+              name={activeCall.name}
+              argument={activeCall.argument}
+              status={activeCall.status}
+              size={24}
+              radius={6}
+              surfaceColor="#18181b"
+              color="#ffffff"
+              expectedMs={500}
+              showTimer={false}
+            />
+          </div>
+        )}
       </div>
 
       {/* Tab Contents */}

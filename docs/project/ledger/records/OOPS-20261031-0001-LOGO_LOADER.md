@@ -42,3 +42,4 @@
 ## 3. Implementation Verification
 - **Production Build:** `tsc -b && vite build` built in 11.50s; **1,649 modules transformed with 0 errors**.
 - **Knowledge Graph:** `.graphify/` updated to **619 nodes, 921 edges, and 56 communities**.
+

@@ -131,6 +131,14 @@
 | OOPS-20261031-0001 | LOADER-01 | `frontend/src/components/shared/AuthModal.tsx` | MODIFIED | Replaced text-only loading with LogoTraceLoader during auth submission | UX feedback |
 | OOPS-20261031-0001 | LOADER-01 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Added LogoTraceLoader to execution button and JDI runtime status bar | UX feedback |
 | OOPS-20261031-0001 | LOADER-01 | `frontend/src/features/practice/PracticePage.tsx` | MODIFIED | Added LogoTraceLoader to AST verification action button | UX feedback |
+| OOPS-20261031-0002 | RB-01 | `frontend/package.json` | MODIFIED | Added @hugeicons/core-free-icons and @hugeicons/react dependencies | Dependency requirement |
+| OOPS-20261031-0002 | RB-01 | `frontend/src/components/navigation/BranchedMenu.tsx` | CREATED | React Bits BranchedMenu implementation with Lucide/Hugeicons rendering and active sync | Navigation UI requirement |
+| OOPS-20261031-0002 | RB-01 | `frontend/src/components/navigation/BranchedMenu.css` | CREATED | Monochromatic styles, SVG branch reach paths, and collapsible folder transitions | Styling requirement |
+| OOPS-20261031-0002 | RB-01 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Integrated BranchedMenu for expanded sidebar navigation with live route tracking | User visual directive |
+| OOPS-20261031-0002 | RB-01 | `frontend/src/components/CallChip.tsx` | CREATED | React Bits CallChip component with progressive fill, status roll, timer, and retry | Telemetry feedback requirement |
+| OOPS-20261031-0002 | RB-01 | `frontend/src/components/CallChip.css` | CREATED | Styles for CallChip progress wipe, wash opacity, and error shake | Styling requirement |
+| OOPS-20261031-0002 | RB-01 | `frontend/src/features/simulation/simulationStore.ts` | MODIFIED | Added activeCall telemetry and triggered CallChip events on all simulation actions | Visualizer reactive feedback |
+| OOPS-20261031-0002 | RB-01 | `frontend/src/features/visualizer/ExecutionInspector.tsx` | MODIFIED | Rendered live CallChip in inspector bar for all button clicks and tab changes | User visual directive |
 
 ---
 

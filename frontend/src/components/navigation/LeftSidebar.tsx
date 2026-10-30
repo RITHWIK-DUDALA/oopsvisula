@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import {
   Home,
   LayoutDashboard,
@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useShellStore } from '@/app/store/shellStore';
 import { useAuthStore } from '@/services/storage/authStore';
+import BranchedMenu, { BranchedMenuItem } from './BranchedMenu';
 
 interface NavItem {
   name: string;
@@ -36,6 +37,8 @@ export const LeftSidebar: React.FC = () => {
   } = useShellStore();
 
   const { isAuthenticated } = useAuthStore();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const mainNavItems: NavItem[] = isAuthenticated
     ? [
@@ -70,6 +73,40 @@ export const LeftSidebar: React.FC = () => {
         { name: 'About', path: '/about', icon: Info },
         { name: 'Public Landing', path: '/', icon: Home },
       ];
+
+  const menuItems: BranchedMenuItem[] = [
+    {
+      label: 'Laboratory',
+      children: mainNavItems.map((item) => ({
+        value: item.path,
+        label: item.name,
+        icon: item.icon,
+      })),
+    },
+    {
+      label: 'Preferences',
+      children: secondaryNavItems.map((item) => ({
+        value: item.path,
+        label: item.name,
+        icon: item.icon,
+      })),
+    },
+  ];
+
+  const allNavItems = [...mainNavItems, ...secondaryNavItems];
+  const matchedItem = allNavItems.find(
+    (item) =>
+      item.path === location.pathname ||
+      (item.path !== '/' && location.pathname.startsWith(item.path))
+  );
+  const currentActivePath = matchedItem?.path ?? location.pathname;
+
+  const handleSelect = (path: string) => {
+    navigate(path);
+    if (isMobileDrawerOpen) {
+      setMobileDrawer(false);
+    }
+  };
 
   const handleNavClick = () => {
     if (isMobileDrawerOpen) {
@@ -142,80 +179,74 @@ export const LeftSidebar: React.FC = () => {
         </div>
 
         {/* Main Navigation */}
-        <div className="flex-1 overflow-y-auto px-2.5 py-4 space-y-6">
-          <div>
-            {!isSidebarCollapsed && (
-              <div className="px-2.5 mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Laboratory
+        <div className="flex-1 overflow-y-auto px-2 py-3">
+          {isSidebarCollapsed ? (
+            <nav className="space-y-4">
+              <div className="space-y-1">
+                {mainNavItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      onClick={handleNavClick}
+                      title={item.name}
+                      className={({ isActive }) =>
+                        `flex items-center justify-center px-2 py-2.5 rounded-lg text-sm transition-colors ${
+                          isActive
+                            ? 'bg-foreground text-background font-medium'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                        }`
+                      }
+                    >
+                      <Icon className="w-4 h-4 shrink-0 stroke-[1.5]" />
+                    </NavLink>
+                  );
+                })}
               </div>
-            )}
-            <nav className="space-y-1">
-              {mainNavItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    onClick={handleNavClick}
-                    title={isSidebarCollapsed ? item.name : undefined}
-                    className={({ isActive }) =>
-                      `flex items-center ${
-                        isSidebarCollapsed
-                          ? 'justify-center px-2 py-2.5'
-                          : 'space-x-3 px-3 py-2'
-                      } rounded-lg text-sm transition-colors ${
-                        isActive
-                          ? 'bg-foreground text-background font-medium'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-                      }`
-                    }
-                  >
-                    <Icon className="w-4 h-4 shrink-0 stroke-[1.5]" />
-                    {!isSidebarCollapsed && (
-                      <span className="truncate">{item.name}</span>
-                    )}
-                  </NavLink>
-                );
-              })}
-            </nav>
-          </div>
-
-          <div>
-            {!isSidebarCollapsed && (
-              <div className="px-2.5 mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Preferences
+              <div className="pt-2 border-t border-border space-y-1">
+                {secondaryNavItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      onClick={handleNavClick}
+                      title={item.name}
+                      className={({ isActive }) =>
+                        `flex items-center justify-center px-2 py-2.5 rounded-lg text-sm transition-colors ${
+                          isActive
+                            ? 'bg-foreground text-background font-medium'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                        }`
+                      }
+                    >
+                      <Icon className="w-4 h-4 shrink-0 stroke-[1.5]" />
+                    </NavLink>
+                  );
+                })}
               </div>
-            )}
-            <nav className="space-y-1">
-              {secondaryNavItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    onClick={handleNavClick}
-                    title={isSidebarCollapsed ? item.name : undefined}
-                    className={({ isActive }) =>
-                      `flex items-center ${
-                        isSidebarCollapsed
-                          ? 'justify-center px-2 py-2.5'
-                          : 'space-x-3 px-3 py-2'
-                      } rounded-lg text-sm transition-colors ${
-                        isActive
-                          ? 'bg-foreground text-background font-medium'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-                      }`
-                    }
-                  >
-                    <Icon className="w-4 h-4 shrink-0 stroke-[1.5]" />
-                    {!isSidebarCollapsed && (
-                      <span className="truncate">{item.name}</span>
-                    )}
-                  </NavLink>
-                );
-              })}
             </nav>
-          </div>
+          ) : (
+            <BranchedMenu
+              items={menuItems}
+              defaultOpen={[0, 1]}
+              defaultActive={currentActivePath}
+              onSelect={handleSelect}
+              color="#18181b"
+              accentColor="#18181b"
+              lineColor="#e4e4e7"
+              width={240}
+              rowHeight={34}
+              indent={36}
+              trunk={14}
+              radius={10}
+              lineWidth={1.5}
+              fontSize={13}
+              drawDuration={400}
+              foldDuration={300}
+            />
+          )}
         </div>
 
         {/* Footer Info */}
