@@ -56,6 +56,15 @@
 | OOPS-20261030-0001 | P1-T01 | `frontend/*` | CREATED | Vite + React 19 + TypeScript + Tailwind scaffolding, 12 routes, layout | Implementation requirement (Section 10) |
 | OOPS-20261030-0001 | P1-T01 | `frontend/pnpm-workspace.yaml` | CREATED | Configured esbuild build script approval for pnpm 11 | Toolchain requirement |
 | OOPS-20261030-0001 | P1-T01 | `docs/project/ledger/records/OOPS-20261030-0001-P1T01.md` | CREATED | Task record for frontend scaffolding and build verification | Audit requirement (Section 4.5) |
+| OOPS-20261030-0001 | P1-T02 | `frontend/src/app/store/shellStore.ts` | CREATED | Zustand store managing responsive sidebar collapse and mobile drawer state | State management requirement |
+| OOPS-20261030-0001 | P1-T02 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Added collapsible desktop mini-mode, mobile drawer with backdrop overlay | Responsive UX requirement |
+| OOPS-20261030-0001 | P1-T02 | `frontend/src/components/navigation/TopHeader.tsx` | MODIFIED | Added mobile menu trigger button, responsive padding and breadcrumb styles | Responsive UX requirement |
+| OOPS-20261030-0001 | P1-T02 | `docs/project/ledger/records/OOPS-20261030-0001-P1T02.md` | CREATED | Task record for responsive shell navigation | Audit requirement (Section 4.5) |
+| OOPS-20261030-0001 | P1-T03 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Interactive 3-panel workspace preview, concept tabs, architecture pillars | UX showcase requirement |
+| OOPS-20261030-0001 | P1-T03 | `docs/project/ledger/records/OOPS-20261030-0001-P1T03.md` | CREATED | Task record for Landing Page interactive showcase | Audit requirement (Section 4.5) |
+| OOPS-20261030-0001 | P1-T04 | `frontend/src/services/storage/localStore.ts` | CREATED | Persistent Zustand store for guest metrics, progress, JSON export/import | ADR-002 Local-First Storage requirement |
+| OOPS-20261030-0001 | P1-T04 | `frontend/src/features/dashboard/DashboardPage.tsx` | MODIFIED | Wired dynamic learner metrics, JSON backup export, reset controls | UX state requirement |
+| OOPS-20261030-0001 | P1-T04 | `docs/project/ledger/records/OOPS-20261030-0001-P1T04.md` | CREATED | Task record for local storage persistence and dashboard | Audit requirement (Section 4.5) |
 
 ---
 

@@ -1,10 +1,10 @@
 # PROJECT STATUS — OOPS LAB
 
-- **Overall Project Status:** ACTIVE IMPLEMENTATION (PHASE 1)
-- **Current Phase:** Phase 1 — Foundational Scaffolding & Design System
+- **Overall Project Status:** ACTIVE IMPLEMENTATION (PHASE 1 COMPLETE)
+- **Current Phase:** Phase 1 Complete → Transitioning to Phase 2 (Simulation Engine Core)
 - **Current Central ID:** OOPS-20261030-0001
-- **Current Task ID:** P1-T02 (Responsive Shell & Navigation)
-- **Last Verified Git Checkpoint:** 34e7634 (Git commits batched per user directive)
+- **Current Task ID:** P1-T04 [COMPLETED]
+- **Last Verified Git Checkpoint:** 5b8319c (CP-0003)
 
 ---
 
@@ -43,10 +43,18 @@
   - Fixed pnpm 11 build approvals via `pnpm-workspace.yaml`.
   - Verified production build clean: `tsc -b && vite build` passed (1631 modules transformed, 0 errors).
 
-### Pending Tasks (Phase 1)
-- [ ] **OOPS-20261030-0001-P1T02**: Responsive Shell & Mobile Viewport Navigation
-- [ ] **OOPS-20261030-0001-P1T03**: Public Landing Page Deep Polish
-- [ ] **OOPS-20261030-0001-P1T04**: LocalStorage/IndexedDB Guest Session Persistence
+- [x] **OOPS-20261030-0001-P1T02**: Responsive Shell & Mobile Viewport Navigation
+  - Created `useShellStore` (Zustand), collapsible LeftSidebar (icon-only 64px to 256px), mobile drawer overlay with backdrop, mobile hamburger menu in TopHeader.
+- [x] **OOPS-20261030-0001-P1T03**: Public Landing Page Deep Polish & Interactive Showcase
+  - Interactive 3-panel workspace preview with live simulated Stack/Heap memory projections across 4 OOP concepts (Encapsulation, Inheritance, Polymorphism, Records).
+- [x] **OOPS-20261030-0001-P1T04**: Learner Dashboard & Local-First Storage (ADR-002)
+  - Persistent `useLearnerStore` with LocalStorage, JSON export/import/reset methods, dynamic dashboard metrics calculation.
+
+### Pending Tasks (Phase 2: Simulation Engine & Visualizer Core)
+- [ ] **OOPS-20261030-0001-P2T01**: Execution Event Schema & Trace Parser
+- [ ] **OOPS-20261030-0001-P2T02**: Deterministic Simulation State Machine (Zustand Replay)
+- [ ] **OOPS-20261030-0001-P2T03**: 3-Panel Workspace Shell & Drag-Resizable Layout
+- [ ] **OOPS-20261030-0001-P2T04**: Interactive Stack & Heap Visualizer Canvas (React Flow)
 
 ### Blocked Tasks
 - None.

@@ -9,5 +9,6 @@
 |---|---|---|---|---|---|---|---|
 | CP-0001 | OOPS-20261030-0001-T01 | 8544edf | 2026-10-30 23:26:06 | OOPS-20261030-0001-T01: Inspect environment and establish project ledger | 10 | `git checkout 8544edf` / `GO TO OOPS-20261030-0001-T01` | VERIFIED |
 | CP-0002 | OOPS-20261030-0001-T02 | fdf8bef | 2026-10-30 23:42:17 | OOPS-20261030-0001-T02: Read uploaded skills and build skill inventory | 11 | `git checkout fdf8bef` / `GO TO OOPS-20261030-0001-T02` | VERIFIED |
+| CP-0003 | OOPS-20261030-0001-P1T01 | 5b8319c | 2026-10-31 00:39:00 | feat(phase-0-1): Complete project governance, master specification, system architecture, and frontend shell with 12 routes | 56 | `git checkout 5b8319c` / `GO TO OOPS-20261030-0001-P1T01` | VERIFIED |
 
 ---
