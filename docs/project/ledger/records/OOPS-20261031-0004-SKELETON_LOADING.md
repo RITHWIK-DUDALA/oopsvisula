@@ -42,3 +42,4 @@ Requirements:
 - Production build: `tsc -b && vite build` built in **13.30s** with **0 errors** (8,120 modules transformed).
 - Knowledge graph: Rebuilt via `.venv/Scripts/graphify.exe update .` to **673 nodes, 1011 edges, 55 communities**.
 - Dev server: Hot-reloading on `http://localhost:5173/`.
+

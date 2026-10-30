@@ -77,19 +77,25 @@ export const LeftSidebar: React.FC = () => {
   const menuItems: BranchedMenuItem[] = [
     {
       label: 'Laboratory',
-      children: mainNavItems.map((item) => ({
-        value: item.path,
-        label: item.name,
-        icon: item.icon,
-      })),
+      children: mainNavItems.map((item) => {
+        const Icon = item.icon;
+        return {
+          value: item.path,
+          label: item.name,
+          icon: <Icon className="w-4 h-4 shrink-0 stroke-[1.5]" />,
+        };
+      }),
     },
     {
       label: 'Preferences',
-      children: secondaryNavItems.map((item) => ({
-        value: item.path,
-        label: item.name,
-        icon: item.icon,
-      })),
+      children: secondaryNavItems.map((item) => {
+        const Icon = item.icon;
+        return {
+          value: item.path,
+          label: item.name,
+          icon: <Icon className="w-4 h-4 shrink-0 stroke-[1.5]" />,
+        };
+      }),
     },
   ];
 

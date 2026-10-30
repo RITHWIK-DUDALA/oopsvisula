@@ -41,11 +41,17 @@ const MARK = 16;
 const renderIcon = (icon: any) => {
   if (!icon) return null;
   if (isValidElement(icon)) return icon;
-  if (typeof icon === 'function') {
+  if (
+    typeof icon === 'function' ||
+    (typeof icon === 'object' && icon !== null && ('$$typeof' in icon || 'render' in icon))
+  ) {
     const IconComp = icon;
     return <IconComp className="w-4 h-4 stroke-[1.5]" />;
   }
-  return <HugeiconsIcon icon={icon} size={15} strokeWidth={1.8} />;
+  if (Array.isArray(icon)) {
+    return <HugeiconsIcon icon={icon} size={15} strokeWidth={1.8} />;
+  }
+  return null;
 };
 
 const toSet = (open: number | number[] | undefined): Set<number> => {

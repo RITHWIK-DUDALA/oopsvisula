@@ -146,6 +146,10 @@
 | OOPS-20261031-0004 | SK-01 | `frontend/src/components/shared/SkeletonLoadingPage.tsx` | CREATED | Monochromatic skeleton placeholder page with shimmering layout and floating badge | Skeleton loading requirement |
 | OOPS-20261031-0004 | SK-01 | `frontend/src/index.css` | MODIFIED | Added skeleton-shimmer gradient and skeleton-progress keyframe animations | Animation requirement |
 | OOPS-20261031-0004 | SK-01 | `frontend/src/app/App.tsx` | MODIFIED | Integrated 2.5-second skeleton loading timer with smooth 300ms exit fade-out | User directive requirement |
+| OOPS-20261031-0005 | BF-01 | `frontend/src/components/navigation/BranchedMenu.tsx` | MODIFIED | Fixed renderIcon to properly handle Lucide forwardRef components and validate arrays | Bugfix requirement |
+| OOPS-20261031-0005 | BF-01 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Pre-instantiated Lucide icon elements passed into BranchedMenu | Bugfix requirement |
+| OOPS-20261031-0005 | BF-01 | `frontend/src/components/CallChip.tsx` | MODIFIED | Added renderGlyph helper with Array.isArray guard preventing invalid Hugeicons calls | Bugfix requirement |
+| OOPS-20261031-0005 | BF-01 | `frontend/src/app/routes.tsx` | MODIFIED | Added RouteErrorBoundary component to replace default React Router error screen | Error handling requirement |
 
 ---
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState, CSSProperties, ReactNode } from 'react';
+import React, { isValidElement, useEffect, useLayoutEffect, useRef, useState, CSSProperties, ReactNode } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   CommandLineIcon,
@@ -52,6 +52,20 @@ const fmt = (ms: number) => (ms < 10000 ? `${Math.round(ms)} ms` : `${(ms / 1000
 const reduceMotion = () =>
   typeof window !== 'undefined' && (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
 const glyphOf = (s: string) => (s === 'done' ? 'check' : s === 'error' ? 'retry' : 'tool');
+
+const renderGlyph = (g: any, sz: number, sw = 1.8) => {
+  if (!g) return null;
+  if (isValidElement(g)) return g;
+  if (Array.isArray(g)) return <HugeiconsIcon icon={g} size={sz} strokeWidth={sw} />;
+  if (
+    typeof g === 'function' ||
+    (typeof g === 'object' && g !== null && ('$$typeof' in g || 'render' in g))
+  ) {
+    const Comp = g;
+    return <Comp className="w-3.5 h-3.5" />;
+  }
+  return null;
+};
 
 export default function CallChip({
   icon = 'terminal',
@@ -212,13 +226,13 @@ export default function CallChip({
       <span ref={fillRef} className="call-chip__fill" aria-hidden="true" />
       <span className="call-chip__slot" aria-hidden="true">
         <span className="call-chip__glyph" data-state={glyphState('tool')}>
-          {toolIcon ? <HugeiconsIcon icon={toolIcon} size={iconSize} strokeWidth={1.8} /> : icon}
+          {toolIcon ? renderGlyph(toolIcon, iconSize, 1.8) : renderGlyph(icon, iconSize, 1.8)}
         </span>
         <span className="call-chip__glyph" data-state={glyphState('check')}>
-          <HugeiconsIcon icon={Tick02Icon} size={iconSize} strokeWidth={2.2} />
+          {renderGlyph(Tick02Icon, iconSize, 2.2)}
         </span>
         <span className="call-chip__glyph" data-state={glyphState('retry')}>
-          <HugeiconsIcon icon={RefreshIcon} size={iconSize} strokeWidth={2} />
+          {renderGlyph(RefreshIcon, iconSize, 2)}
         </span>
       </span>
       <span className="call-chip__name" aria-hidden="true">
