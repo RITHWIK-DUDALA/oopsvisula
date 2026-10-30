@@ -51,3 +51,4 @@ Installed via pnpm:
 - Production build: `tsc -b && vite build` passed cleanly with 0 TypeScript and bundling errors (7,715 modules transformed).
 - Knowledge graph: Rebuilt via `.venv/Scripts/graphify.exe update .` to 645 nodes, 963 edges, and 53 communities.
 - Dev server: Running and hot-reloading on `http://localhost:5173/`.
+

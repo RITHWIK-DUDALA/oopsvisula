@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSettingsStore } from '@/services/storage/settingsStore';
+import CometDial from '@/components/CometDial';
 import {
   Sun,
   Type,
@@ -170,23 +171,57 @@ export const SettingsPage: React.FC = () => {
             <h2 className="text-sm font-bold text-foreground">Simulation & Visualizer Engine</h2>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-semibold text-foreground block">Playback Speed Multiplier</label>
-            <p className="text-xs text-muted-foreground">Controls delay between steps during automated playback.</p>
-            <div className="flex items-center space-x-2">
-              {speeds.map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setSimulationSpeed(s)}
-                  className={`px-3 py-1.5 text-xs font-mono rounded-lg transition-colors ${
-                    simulationSpeed === s
-                      ? 'bg-foreground text-background font-bold'
-                      : 'bg-surface border border-border text-foreground hover:bg-surface/80'
-                  }`}
-                >
-                  {s.toFixed(1)}x {s === 1.0 && '(Normal)'}
-                </button>
-              ))}
+          <div className="p-5 border border-border rounded-xl bg-surface/30 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="space-y-3">
+              <div>
+                <span className="text-xs font-semibold text-foreground block">Animation Playback Speed (CometDial)</span>
+                <p className="text-xs text-muted-foreground mt-1 max-w-md">
+                  Calibrate the step-by-step animation delay between bytecode execution events. Drag the dial or flick for momentum physics.
+                </p>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                {speeds.map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setSimulationSpeed(s)}
+                    className={`px-3 py-1.5 text-xs font-mono rounded-lg transition-colors ${
+                      simulationSpeed === s
+                        ? 'bg-foreground text-background font-bold'
+                        : 'bg-white border border-border text-foreground hover:bg-surface'
+                    }`}
+                  >
+                    {s.toFixed(1)}x {s === 1.0 && '(Normal)'}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center justify-center p-4 bg-white border border-border rounded-xl shadow-xs shrink-0">
+              <CometDial
+                value={simulationSpeed}
+                defaultValue={1.0}
+                min={0.2}
+                max={3.0}
+                step={0.1}
+                unit="x"
+                label="Animation Speed"
+                accent="#18181b"
+                ink="#71717a"
+                size={150}
+                sweep={300}
+                thickness={5}
+                speed={30}
+                tapBounce={0.2}
+                flickBounce={0.1}
+                momentum={1}
+                cometReach={160}
+                cometWidth={8}
+                onChange={(val) => setSimulationSpeed(Number(val.toFixed(1)))}
+              />
+              <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground mt-1">
+                Drag dial or flick
+              </span>
             </div>
           </div>
 

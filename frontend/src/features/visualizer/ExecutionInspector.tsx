@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSimulationStore } from '@/features/simulation/simulationStore';
 import CallChip from '@/components/CallChip';
+import CometDial from '@/components/CometDial';
 import {
   Play,
   Pause,
@@ -10,6 +11,8 @@ import {
   Terminal,
   Activity,
   Sliders,
+  Gauge,
+  X,
 } from 'lucide-react';
 
 export const ExecutionInspector: React.FC = () => {
@@ -31,6 +34,7 @@ export const ExecutionInspector: React.FC = () => {
   } = useSimulationStore();
 
   const [activeTab, setActiveTab] = useState<'inspector' | 'console' | 'events'>('inspector');
+  const [isSpeedDialOpen, setIsSpeedDialOpen] = useState(false);
   const event = getCurrentEvent();
   const stdout = getStdoutHistory();
 
@@ -89,7 +93,7 @@ export const ExecutionInspector: React.FC = () => {
         </div>
 
         {/* Speed Selector & Step counter */}
-        <div className="flex items-center space-x-3 text-xs font-mono">
+        <div className="relative flex items-center space-x-3 text-xs font-mono">
           <span className="text-muted-foreground">
             Step {currentStepIndex + 1} / {currentTrace.events.length}
           </span>
@@ -107,7 +111,67 @@ export const ExecutionInspector: React.FC = () => {
                 {spd}x
               </button>
             ))}
+            <button
+              type="button"
+              onClick={() => setIsSpeedDialOpen(!isSpeedDialOpen)}
+              className={`p-1 rounded text-[10px] font-mono transition-colors ${
+                isSpeedDialOpen || ![0.5, 1, 2].includes(playbackSpeed)
+                  ? 'bg-foreground text-background font-bold'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+              title="Open CometDial Animation Speed Controller"
+              aria-label="Animation Speed Dial"
+            >
+              <Gauge className="w-3 h-3 stroke-[1.8]" />
+            </button>
           </div>
+
+          {/* Speed Dial Popover */}
+          {isSpeedDialOpen && (
+            <div className="absolute right-0 top-10 z-50 p-4 bg-white border border-border rounded-xl shadow-lg flex flex-col items-center space-y-2 select-none animate-in fade-in zoom-in-95 duration-150">
+              <div className="w-full flex items-center justify-between pb-1 border-b border-border text-[11px] font-semibold text-foreground">
+                <span className="flex items-center space-x-1.5">
+                  <Gauge className="w-3.5 h-3.5 stroke-[1.5]" />
+                  <span>Animation Speed</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setIsSpeedDialOpen(false)}
+                  className="p-1 text-muted-foreground hover:text-foreground rounded"
+                >
+                  <X className="w-3 h-3 stroke-[2]" />
+                </button>
+              </div>
+
+              <CometDial
+                value={playbackSpeed}
+                defaultValue={1.0}
+                min={0.2}
+                max={3.0}
+                step={0.1}
+                unit="x"
+                label="Animation Speed"
+                accent="#18181b"
+                ink="#71717a"
+                size={160}
+                sweep={300}
+                thickness={5}
+                speed={30}
+                tapBounce={0.2}
+                flickBounce={0.1}
+                momentum={1}
+                cometReach={160}
+                cometWidth={8}
+                onChange={(val) => setPlaybackSpeed(Number(val.toFixed(1)))}
+              />
+
+              <div className="w-full flex items-center justify-between pt-1 border-t border-border text-[10px] text-muted-foreground font-mono">
+                <span>0.2x (Slow)</span>
+                <span>Current: {playbackSpeed}x</span>
+                <span>3.0x (Fast)</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

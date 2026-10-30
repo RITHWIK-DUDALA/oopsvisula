@@ -139,6 +139,10 @@
 | OOPS-20261031-0002 | RB-01 | `frontend/src/components/CallChip.css` | CREATED | Styles for CallChip progress wipe, wash opacity, and error shake | Styling requirement |
 | OOPS-20261031-0002 | RB-01 | `frontend/src/features/simulation/simulationStore.ts` | MODIFIED | Added activeCall telemetry and triggered CallChip events on all simulation actions | Visualizer reactive feedback |
 | OOPS-20261031-0002 | RB-01 | `frontend/src/features/visualizer/ExecutionInspector.tsx` | MODIFIED | Rendered live CallChip in inspector bar for all button clicks and tab changes | User visual directive |
+| OOPS-20261031-0003 | CD-01 | `frontend/src/components/CometDial.tsx` | CREATED | React Bits CometDial circular arc slider with spring physics, momentum, and trail | Speed control requirement |
+| OOPS-20261031-0003 | CD-01 | `frontend/src/components/CometDial.css` | CREATED | Monochromatic light styling for CometDial arc track, bead head, and comet trail | Styling requirement |
+| OOPS-20261031-0003 | CD-01 | `frontend/src/features/visualizer/ExecutionInspector.tsx` | MODIFIED | Added interactive CometDial animation speed popover dial in inspector toolbar | Visualizer UX requirement |
+| OOPS-20261031-0003 | CD-01 | `frontend/src/features/settings/SettingsPage.tsx` | MODIFIED | Embedded CometDial in Visualizer Simulation Settings for speed calibration | Settings UX requirement |
 
 ---
 
