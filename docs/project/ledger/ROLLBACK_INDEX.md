@@ -18,6 +18,5 @@
 | CP-0009 | OOPS-20261030-0001-P6T01 | 00b607a | 2026-10-31 01:23:20 | feat(phase-6): Complete multi-service docker-compose stack, Nginx reverse proxy, and distributed rate limiting specification | 12 | `git checkout 00b607a` / `GO TO OOPS-20261030-0001-P6T01` | VERIFIED |
 | CP-0010 | OOPS-20261030-0001-P6POST | 2912947 | 2026-10-31 01:32:36 | feat(polish): Complete reference guide, workspace settings store, and full system topology | 39 | `git checkout 2912947` / `GO TO OOPS-20261030-0001-P6POST` | VERIFIED |
 | CP-0011 | OOPS-20261030-0001-P6POST02 | 920958d | 2026-10-31 01:39:01 | feat(simulation): Add composition and record pattern matching traces, clean roadmap | 8 | `git checkout 920958d` / `GO TO OOPS-20261030-0001-P6POST02` | VERIFIED |
-| CP-0012 | OOPS-20261031-0001-LANDING | d68ef8b | 2026-10-31 02:14:52 | feat(landing): Complete 7-stage GPU particle scroll recreation with Three.js WebGL | 13 | `git checkout d68ef8b` / `GO TO OOPS-20261031-0001-LANDING` | VERIFIED |
 
 ---

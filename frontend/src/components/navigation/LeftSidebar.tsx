@@ -27,7 +27,6 @@ interface NavItem {
 }
 
 const mainNavItems: NavItem[] = [
-  { name: 'Home', path: '/', icon: Home },
   { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
   { name: 'Concepts', path: '/concepts', icon: BookOpen },
   { name: 'Visualizers', path: '/visualizers', icon: Eye },
@@ -42,6 +41,7 @@ const secondaryNavItems: NavItem[] = [
   { name: 'About', path: '/about', icon: Info },
   { name: 'Settings', path: '/settings', icon: Settings },
   { name: 'Profile', path: '/profile', icon: User },
+  { name: 'Public Landing', path: '/', icon: Home },
 ];
 
 export const LeftSidebar: React.FC = () => {

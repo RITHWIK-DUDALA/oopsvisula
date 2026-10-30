@@ -14,11 +14,16 @@ import { SettingsPage } from '@/features/settings/SettingsPage';
 import { ProfilePage } from '@/features/profile/ProfilePage';
 
 export const router = createBrowserRouter([
+  // Public Standalone Landing Page (Zero application feature access; sign-in / guest gateway)
   {
     path: '/',
+    element: <LandingPage />,
+  },
+
+  // Internal Laboratory Application Shell (Only accessible once user enters as guest or signs in)
+  {
     element: <AppLayout />,
     children: [
-      { index: true, element: <LandingPage /> },
       { path: 'dashboard', element: <DashboardPage /> },
       { path: 'concepts', element: <ConceptsPage /> },
       { path: 'visualizers', element: <VisualizerPage /> },
@@ -30,8 +35,7 @@ export const router = createBrowserRouter([
       { path: 'about', element: <AboutPage /> },
       { path: 'settings', element: <SettingsPage /> },
       { path: 'profile', element: <ProfilePage /> },
-      { path: '*', element: <Navigate to="/" replace /> },
+      { path: '*', element: <Navigate to="/dashboard" replace /> },
     ],
   },
 ]);
-
