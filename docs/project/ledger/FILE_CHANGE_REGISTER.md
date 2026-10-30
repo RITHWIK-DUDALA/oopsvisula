@@ -125,6 +125,12 @@
 | OOPS-20261031-0001 | GUEST-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Updated guest entry to route straight to /playground | User directive |
 | OOPS-20261031-0001 | GUEST-01 | `frontend/src/features/dashboard/DashboardPage.tsx` | MODIFIED | Display authenticated user name dynamically | Auth UX |
 | OOPS-20261031-0001 | GUEST-01 | `frontend/src/features/profile/ProfilePage.tsx` | MODIFIED | Display authenticated user name, email, and sign out control | Profile auth UX |
+| OOPS-20261031-0001 | LOADER-01 | `frontend/src/components/LogoTraceLoader.tsx` | CREATED | Reusable SVG logo trace loader component with 4 phases & timeout fallbacks | Component requirement |
+| OOPS-20261031-0001 | LOADER-01 | `frontend/src/components/shared/LogoTraceLoader.tsx` | CREATED | Re-export alias for convenient modular consumption | Modularity |
+| OOPS-20261031-0001 | LOADER-01 | `frontend/src/index.css` | MODIFIED | Added @keyframes logo-trace-loader-loop animation | Animation requirement |
+| OOPS-20261031-0001 | LOADER-01 | `frontend/src/components/shared/AuthModal.tsx` | MODIFIED | Replaced text-only loading with LogoTraceLoader during auth submission | UX feedback |
+| OOPS-20261031-0001 | LOADER-01 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Added LogoTraceLoader to execution button and JDI runtime status bar | UX feedback |
+| OOPS-20261031-0001 | LOADER-01 | `frontend/src/features/practice/PracticePage.tsx` | MODIFIED | Added LogoTraceLoader to AST verification action button | UX feedback |
 
 ---
 

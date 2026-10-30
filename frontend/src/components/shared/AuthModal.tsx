@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Lock, ShieldCheck, ArrowRight, UserCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/services/storage/authStore';
+import { LogoTraceLoader } from '@/components/LogoTraceLoader';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -133,10 +134,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-2.5 px-4 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.99] transition-all flex items-center justify-center space-x-1.5 shadow-xs"
+            className="w-full py-2.5 px-4 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.99] transition-all flex items-center justify-center space-x-2 shadow-xs"
           >
-            <span>{isSubmitting ? 'Signing in...' : authMode === 'signin' ? 'Sign In & Open Dashboard' : 'Create Account & Open Dashboard'}</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            {isSubmitting ? (
+              <>
+                <LogoTraceLoader size={16} strokeWidth={2.5} className="text-background" />
+                <span>Authenticating...</span>
+              </>
+            ) : (
+              <>
+                <span>{authMode === 'signin' ? 'Sign In & Open Dashboard' : 'Create Account & Open Dashboard'}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </>
+            )}
           </button>
         </form>
 

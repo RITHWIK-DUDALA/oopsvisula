@@ -7,6 +7,7 @@ import { MemoryCanvas } from '@/features/visualizer/MemoryCanvas';
 import { ExecutionInspector } from '@/features/visualizer/ExecutionInspector';
 import { VisualClassBuilder } from '@/features/class-builder/VisualClassBuilder';
 import { scanJavaSourceSecurity } from '@/services/ast/astSecurityFilter';
+import { LogoTraceLoader } from '@/components/LogoTraceLoader';
 import {
   Play,
   RotateCcw,
@@ -134,10 +135,19 @@ export const PlaygroundPage: React.FC = () => {
             type="button"
             onClick={handleTraceExecution}
             disabled={isPlaying}
-            className="flex items-center space-x-1.5 px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.98] disabled:opacity-50 transition-all shadow-xs"
+            className="flex items-center space-x-1.5 px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.98] disabled:opacity-90 transition-all shadow-xs"
           >
-            <Play className="w-3.5 h-3.5 stroke-[2]" />
-            <span>Trace Execution</span>
+            {isPlaying ? (
+              <>
+                <LogoTraceLoader size={13} strokeWidth={2.5} className="text-background" />
+                <span>Tracing...</span>
+              </>
+            ) : (
+              <>
+                <Play className="w-3.5 h-3.5 stroke-[2]" />
+                <span>Trace Execution</span>
+              </>
+            )}
           </button>
         </div>
       </div>
@@ -227,9 +237,15 @@ export const PlaygroundPage: React.FC = () => {
       {/* Status Bar */}
       <div className="h-8 px-4 bg-surface border-t border-border flex items-center justify-between text-[11px] font-mono text-muted-foreground shrink-0">
         <div className="flex items-center space-x-3">
-          <span className="flex items-center space-x-1">
-            <span className="w-2 h-2 rounded-full bg-foreground inline-block" />
-            <span className="text-foreground font-medium">JDI Step Tracer: Ready</span>
+          <span className="flex items-center space-x-1.5">
+            {isPlaying ? (
+              <LogoTraceLoader size={12} strokeWidth={2.5} className="text-foreground" />
+            ) : (
+              <span className="w-2 h-2 rounded-full bg-foreground inline-block" />
+            )}
+            <span className="text-foreground font-medium">
+              {isPlaying ? 'JDI Step Tracer: Running' : 'JDI Step Tracer: Ready'}
+            </span>
           </span>
           <span>Target: Java 21 LTS</span>
           <span className="hidden sm:inline">AST Isolation: Active</span>

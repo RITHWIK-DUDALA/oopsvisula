@@ -45,3 +45,11 @@ body {
   background: #A1A1AA;
 }
 
+/* Logo Trace Loader Animation */
+@keyframes logo-trace-loader-loop {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+

@@ -47,3 +47,4 @@
 - **Production Build:** `tsc -b && vite build` built in 7.00s; **1,648 modules transformed with 0 errors**.
 - **Knowledge Graph:** `.graphify/` updated to **607 nodes, 899 edges, and 54 communities**.
 - **Dev Server:** Live on `http://localhost:5173/`.
+

@@ -14,6 +14,7 @@ import {
 import { useLearnerStore } from '@/services/storage/localStore';
 import { useSettingsStore } from '@/services/storage/settingsStore';
 import { scanJavaSourceSecurity } from '@/services/ast/astSecurityFilter';
+import { LogoTraceLoader } from '@/components/LogoTraceLoader';
 
 interface Challenge {
   id: number;
@@ -155,6 +156,7 @@ export const PracticePage: React.FC = () => {
   const [userCode, setUserCode] = useState('');
   const [evaluationResult, setEvaluationResult] = useState<{ passed: boolean; message: string } | null>(null);
   const [showHint, setShowHint] = useState(false);
+  const [isEvaluating, setIsEvaluating] = useState(false);
 
   const handleOpenChallenge = (c: Challenge) => {
     setActiveChallenge(c);
@@ -165,24 +167,29 @@ export const PracticePage: React.FC = () => {
 
   const handleEvaluate = () => {
     if (!activeChallenge) return;
+    setIsEvaluating(true);
 
-    // 1. Security Check
-    const security = scanJavaSourceSecurity(userCode);
-    if (!security.passed) {
-      setEvaluationResult({
-        passed: false,
-        message: `Security Violation: ${security.violations[0]}`,
-      });
-      return;
-    }
+    setTimeout(() => {
+      // 1. Security Check
+      const security = scanJavaSourceSecurity(userCode);
+      if (!security.passed) {
+        setEvaluationResult({
+          passed: false,
+          message: `Security Violation: ${security.violations[0]}`,
+        });
+        setIsEvaluating(false);
+        return;
+      }
 
-    // 2. Structural Assertion Check
-    const result = activeChallenge.solutionAssertion(userCode);
-    setEvaluationResult(result);
+      // 2. Structural Assertion Check
+      const result = activeChallenge.solutionAssertion(userCode);
+      setEvaluationResult(result);
+      setIsEvaluating(false);
 
-    if (result.passed) {
-      markChallengeSolved(activeChallenge.id);
-    }
+      if (result.passed) {
+        markChallengeSolved(activeChallenge.id);
+      }
+    }, 400);
   };
 
   return (
@@ -359,10 +366,20 @@ export const PracticePage: React.FC = () => {
                 </button>
                 <button
                   onClick={handleEvaluate}
-                  className="flex items-center space-x-1.5 px-4 py-1.5 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.98] transition-all shadow-xs"
+                  disabled={isEvaluating}
+                  className="flex items-center space-x-1.5 px-4 py-1.5 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.98] disabled:opacity-90 transition-all shadow-xs"
                 >
-                  <Play className="w-3.5 h-3.5 stroke-[2]" />
-                  <span>Run AST Verification</span>
+                  {isEvaluating ? (
+                    <>
+                      <LogoTraceLoader size={13} strokeWidth={2.5} className="text-background" />
+                      <span>Verifying AST...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-3.5 h-3.5 stroke-[2]" />
+                      <span>Run AST Verification</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
