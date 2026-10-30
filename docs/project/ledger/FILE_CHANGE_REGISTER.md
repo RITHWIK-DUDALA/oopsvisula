@@ -17,5 +17,13 @@
 | OOPS-20261030-0001 | T01 | `docs/project/ledger/ARCHITECTURE_CHANGE_LOG.md` | CREATED | Initialized architecture decisions and evolution log | Architecture audit requirement (Section 4.2) |
 | OOPS-20261030-0001 | T01 | `docs/project/PROJECT_STATUS.md` | CREATED | Initialized project status dashboard | Project reporting requirement (Section 22) |
 | OOPS-20261030-0001 | T01 | `docs/project/TASK_PLAN.md` | CREATED | Initialized startup phase dependency-aware task plan | Task control requirement (Section 6.1) |
+| OOPS-20261030-0001 | T02 | `docs/project/SKILL_INVENTORY.md` | CREATED | Built formal skill inventory cataloging all 7 Antigravity skills | Skill management requirement (Section 3.1) |
+| OOPS-20261030-0001 | T02 | `docs/project/ledger/records/OOPS-20261030-0001-T02.md` | CREATED | Created task record for Skill Discovery and Inventory | Detailed task audit requirement (Section 4.5) |
+| OOPS-20261030-0001 | T02 | `docs/project/ledger/MASTER_ACTIVITY_LOG.md` | MODIFIED | Appended T02 execution entry | Chronological logging requirement (Section 4.3) |
+| OOPS-20261030-0001 | T02 | `docs/project/ledger/ROLLBACK_INDEX.md` | MODIFIED | Appended CP-0002 for T02 | Rollback tracking requirement (Section 5) |
+| OOPS-20261030-0001 | T02 | `docs/project/ledger/TEST_HISTORY.md` | MODIFIED | Appended TR-0008 for T02 validation | Test tracking requirement (Section 20) |
+| OOPS-20261030-0001 | T02 | `docs/project/PROJECT_STATUS.md` | MODIFIED | Updated task completion and next task state | Project reporting requirement (Section 22) |
+| OOPS-20261030-0001 | T02 | `docs/project/TASK_PLAN.md` | MODIFIED | Marked T02 completed, prepared T03 | Task control requirement (Section 6.1) |
 
 ---
+

@@ -14,11 +14,11 @@ OOPS-20261030-0001 (Parent Request)
     ├── T01: Environment & Workspace Inspection [COMPLETED]
     │       └── Acceptance: Clean empty workspace verified, toolchain discovered, Git repo initialized.
     │
-    ├── T02: Read Uploaded Skills & Build Skill Inventory [READY - Next]
+    ├── T02: Read Uploaded Skills & Build Skill Inventory [COMPLETED]
     │       └── Acceptance: All available skills discovered, read, mapped to tasks, recorded in SKILL_INVENTORY.md.
     │
-    ├── T03: Complete Project Governance & Policy Files [BACKLOG]
-    │       └── Acceptance: DECISIONS.md, AGENTS.md, CONTRIBUTING.md, complete ledger synchronization.
+    ├── T03: Complete Project Governance & Policy Files [READY - Next]
+    │       └── Acceptance: DECISIONS.md, AGENTS.md, README.md, complete ledger synchronization.
     │
     ├── T04: Document Requirements in MASTER_SPECIFICATION.md [BACKLOG]
     │       └── Acceptance: Confirmed, Proposed, Pending requirements categorized without speculation.
@@ -45,7 +45,7 @@ OOPS-20261030-0001 (Parent Request)
   - Ledger structure created.
 
 ### OOPS-20261030-0001-T02: Read Uploaded Skills & Build Skill Inventory
-- **Status:** READY (Awaiting user authorization)
+- **Status:** COMPLETED
 - **Dependencies:** T01
 - **Scope:** Read all built-in and uploaded skill markdown files, analyze capabilities, and populate `docs/project/SKILL_INVENTORY.md`.
 - **Acceptance Criteria:**
@@ -53,7 +53,7 @@ OOPS-20261030-0001 (Parent Request)
   - All available skills evaluated and mapped to OOPS LAB tasks.
 
 ### OOPS-20261030-0001-T03: Complete Project Governance
-- **Status:** BACKLOG
+- **Status:** READY (Awaiting user authorization)
 - **Dependencies:** T02
 - **Scope:** Create `docs/project/DECISIONS.md`, core repository guidelines (`AGENTS.md`, `README.md`).
 - **Acceptance Criteria:**
@@ -82,3 +82,4 @@ OOPS-20261030-0001 (Parent Request)
 - **Scope:** Formulate the step-by-step development sequence for subsequent phases.
 - **Acceptance Criteria:**
   - Phased task schedule with dependency graph and verifiable criteria.
+
