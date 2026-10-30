@@ -150,6 +150,9 @@
 | OOPS-20261031-0005 | BF-01 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Pre-instantiated Lucide icon elements passed into BranchedMenu | Bugfix requirement |
 | OOPS-20261031-0005 | BF-01 | `frontend/src/components/CallChip.tsx` | MODIFIED | Added renderGlyph helper with Array.isArray guard preventing invalid Hugeicons calls | Bugfix requirement |
 | OOPS-20261031-0005 | BF-01 | `frontend/src/app/routes.tsx` | MODIFIED | Added RouteErrorBoundary component to replace default React Router error screen | Error handling requirement |
+| OOPS-20261031-0006 | LM-01 | `frontend/src/features/landing/components/WordReveal.tsx` | CREATED | Kinetic typography component with staggered blur and slide-up word reveals | Typography requirement |
+| OOPS-20261031-0006 | LM-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Integrated WordReveal, top scroll progress bar, smooth anchor scrolling, and AnimatePresence | User motion directive |
+| OOPS-20261031-0006 | LM-01 | `frontend/src/index.css` | MODIFIED | Added html scroll-behavior: smooth for browser-wide smooth anchor transitions | Styling requirement |
 
 ---
 

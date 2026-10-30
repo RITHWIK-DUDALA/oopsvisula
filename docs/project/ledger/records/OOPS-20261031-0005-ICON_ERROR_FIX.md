@@ -54,3 +54,4 @@ Screen showed default React Router ErrorBoundary error overlay.
 - Production build: `tsc -b && vite build` built in **11.51s** with **0 errors** (8,120 modules transformed).
 - Knowledge graph: Rebuilt to **683 nodes, 1021 edges, 57 communities**.
 - Live Dev Server: Hot reloaded cleanly.
+
