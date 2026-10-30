@@ -454,3 +454,4 @@ export const allSampleTraces: ExecutionTrace[] = [
   bankAccountTrace,
   shapeHierarchyTrace,
 ];
+

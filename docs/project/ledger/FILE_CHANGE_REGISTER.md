@@ -79,6 +79,19 @@
 | OOPS-20261030-0001 | P3-T02 | `frontend/src/features/class-builder/VisualClassBuilder.tsx` | CREATED | 3-column interactive Class Builder workspace | UI requirement |
 | OOPS-20261030-0001 | P3-T03 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Added Class Builder view switcher tab & rendering | Integration requirement |
 | OOPS-20261030-0001 | P3-T01 | `docs/project/ledger/records/OOPS-20261030-0001-P3T01.md` | CREATED | Task record for Visual Class Builder | Audit requirement (Section 4.5) |
+| OOPS-20261030-0001 | P4-T01 | `backend/pom.xml` | CREATED | Maven POM with Spring Boot 3.3.4, Java 21 LTS release, JavaParser 3.26.1 | Backend scaffold requirement (Section 8.2) |
+| OOPS-20261030-0001 | P4-T01 | `backend/src/main/resources/application.yml` | CREATED | Sandbox memory, CPU, timeout configuration | Security requirement (Section 8.4) |
+| OOPS-20261030-0001 | P4-T01 | `backend/src/main/java/com/oopslab/OopsLabApplication.java` | CREATED | Spring Boot application entry point | Architecture requirement |
+| OOPS-20261030-0001 | P4-T02 | `backend/src/main/java/com/oopslab/parser/validator/AstSecurityValidator.java` | CREATED | JavaParser visitor blocking reflection, System.exit, ProcessBuilder | Security requirement (Section 8.4) |
+| OOPS-20261030-0001 | P4-T02 | `backend/src/main/java/com/oopslab/parser/service/AstAnalysisService.java` | CREATED | AST analysis service for static security validation | Parser requirement |
+| OOPS-20261030-0001 | P4-T03 | `backend/src/main/java/com/oopslab/execution/service/ExecutionService.java` | CREATED | Job submission, JDI event trace generation, status tracking | Execution service requirement |
+| OOPS-20261030-0001 | P4-T03 | `backend/src/main/java/com/oopslab/api/controller/ExecutionController.java` | CREATED | REST endpoints: POST /run and GET /status/{jobId} | API requirement |
+| OOPS-20261030-0001 | P4-T03 | `backend/src/main/java/com/oopslab/api/controller/HealthController.java` | CREATED | Health check endpoint GET /api/v1/health | Observability requirement |
+| OOPS-20261030-0001 | P4-T03 | `backend/src/main/java/com/oopslab/config/WebConfig.java` | CREATED | CORS mapping for frontend origin http://localhost:5173 | API integration requirement |
+| OOPS-20261030-0001 | P4-T02 | `backend/src/test/java/com/oopslab/parser/AstSecurityValidatorTest.java` | CREATED | Unit tests validating AST security boundaries | Verification requirement |
+| OOPS-20261030-0001 | P4-T02 | `frontend/src/services/ast/astSecurityFilter.ts` | CREATED | Browser-side AST security pre-filter for instant validation | ADR-002 Local-First requirement |
+| OOPS-20261030-0001 | P4-T03 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Integrated pre-execution security scan and alert banner | UX security integration |
+| OOPS-20261030-0001 | P4-T01 | `docs/project/ledger/records/OOPS-20261030-0001-P4T01.md` | CREATED | Task record for Phase 4 backend and security pipeline | Audit requirement (Section 4.5) |
 
 ---
 

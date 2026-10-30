@@ -266,3 +266,4 @@ export const useClassBuilderStore = create<ClassBuilderState>((set, get) => ({
     set({ diagram: initialDiagram, selectedEntityId: 'entity-2' });
   },
 }));
+

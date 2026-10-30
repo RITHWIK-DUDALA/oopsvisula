@@ -112,3 +112,4 @@ export const generateJavaCodeForEntity = (
 export const generateCompleteJavaModel = (model: ClassDiagramModel): string => {
   return model.entities.map((e) => generateJavaCodeForEntity(e, model)).join('\n');
 };
+

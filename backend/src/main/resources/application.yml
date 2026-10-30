@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  shutdown: graceful
+
+spring:
+  application:
+    name: oops-lab-backend
+  main:
+    banner-mode: off
+
+logging:
+  level:
+    root: INFO
+    com.oopslab: DEBUG
+
+oopslab:
+  sandbox:
+    memory-limit-mb: 256
+    cpu-limit: 1.0
+    timeout-ms: 5000
+    max-output-kb: 64

@@ -1,10 +1,10 @@
 # PROJECT STATUS — OOPS LAB
 
-- **Overall Project Status:** ACTIVE IMPLEMENTATION (PHASE 3 COMPLETE)
-- **Current Phase:** Phase 3 Complete → Transitioning to Phase 4 (Backend Architecture & Execution Pipeline)
+- **Overall Project Status:** ACTIVE IMPLEMENTATION (PHASE 4 COMPLETE)
+- **Current Phase:** Phase 4 Complete → Transitioning to Phase 5 (Curriculum & Practice Engine)
 - **Current Central ID:** OOPS-20261030-0001
-- **Current Task ID:** P3-T04 [COMPLETED]
-- **Last Verified Git Checkpoint:** 590e1ae (CP-0005)
+- **Current Task ID:** P4-T04 [COMPLETED]
+- **Last Verified Git Checkpoint:** 8e1c767 (CP-0006)
 
 ---
 
@@ -68,11 +68,20 @@
 - [x] **OOPS-20261030-0001-P3T04**: Relationship Connectors (Inheritance, Implementation, Composition)
   - Integrated into `/playground` workspace view switcher.
 
-### Pending Tasks (Phase 4: Backend Architecture & Sandboxed Execution Pipeline)
-- [ ] **OOPS-20261030-0001-P4T01**: Spring Boot 3.x API Scaffold (Java 21 LTS)
-- [ ] **OOPS-20261030-0001-P4T02**: JavaParser AST Security & Static Analysis Filter
-- [ ] **OOPS-20261030-0001-P4T03**: Execution Job Submission & Status Controller
-- [ ] **OOPS-20261030-0001-P4T04**: JDI Trace Capture Engine & Sandboxed Worker Prototype
+- [x] **OOPS-20261030-0001-P4T01**: Spring Boot 3.3.4 Backend Scaffold (Java 21 LTS)
+  - Created `backend/pom.xml` (Spring Boot 3.3.4, Java 21 release, JavaParser 3.26.1), `application.yml`, and `OopsLabApplication.java`.
+- [x] **OOPS-20261030-0001-P4T02**: JavaParser AST Security & Static Analysis Filter
+  - Implemented `AstSecurityValidator.java`, `AstAnalysisService.java`, and unit test suite `AstSecurityValidatorTest.java`.
+- [x] **OOPS-20261030-0001-P4T03**: Execution Job Submission REST Controller
+  - Implemented `ExecutionController.java`, `HealthController.java`, and `WebConfig.java` (CORS).
+- [x] **OOPS-20261030-0001-P4T04**: Local & Sandboxed Worker Pipeline with Browser AST Pre-Filter
+  - Created `astSecurityFilter.ts` and wired real-time security pre-filtering into `/playground`.
+
+### Pending Tasks (Phase 5: Curriculum Modules & Practice Engine)
+- [ ] **OOPS-20261030-0001-P5T01**: 14 OOP Curriculum Modules Content Schema & Structured Lessons
+- [ ] **OOPS-20261030-0001-P5T02**: Interactive Concept Topic Detail View with Step-by-Step Walkthrough
+- [ ] **OOPS-20261030-0001-P5T03**: Practice Challenges Auto-Evaluation Engine
+- [ ] **OOPS-20261030-0001-P5T04**: Learner Progress & Achievement Badges Synchronization
 
 ### Blocked Tasks
 - None.

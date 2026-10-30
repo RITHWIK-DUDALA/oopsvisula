@@ -5,10 +5,13 @@ import { allSampleTraces } from '@/features/simulation/sampleTraces';
 import { MemoryCanvas } from '@/features/visualizer/MemoryCanvas';
 import { ExecutionInspector } from '@/features/visualizer/ExecutionInspector';
 import { VisualClassBuilder } from '@/features/class-builder/VisualClassBuilder';
+import { scanJavaSourceSecurity } from '@/services/ast/astSecurityFilter';
 import {
   Play,
   RotateCcw,
   Code2,
+  ShieldAlert,
+  X,
 } from 'lucide-react';
 
 export const PlaygroundPage: React.FC = () => {
@@ -22,7 +25,18 @@ export const PlaygroundPage: React.FC = () => {
   } = useSimulationStore();
 
   const [activePanelTab, setActivePanelTab] = useState<'both' | 'visualizer' | 'editor' | 'class-builder'>('both');
+  const [securityAlert, setSecurityAlert] = useState<string | null>(null);
   const event = getCurrentEvent();
+
+  const handleTraceExecution = () => {
+    const scan = scanJavaSourceSecurity(currentTrace.sourceCode);
+    if (!scan.passed) {
+      setSecurityAlert(scan.violations[0]);
+      return;
+    }
+    setSecurityAlert(null);
+    play();
+  };
 
   const handleScenarioChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const found = allSampleTraces.find((t) => t.id === e.target.value);
@@ -110,7 +124,7 @@ export const PlaygroundPage: React.FC = () => {
 
           <button
             type="button"
-            onClick={play}
+            onClick={handleTraceExecution}
             disabled={isPlaying}
             className="flex items-center space-x-1.5 px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.98] disabled:opacity-50 transition-all shadow-xs"
           >
@@ -119,6 +133,23 @@ export const PlaygroundPage: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Security Alert Toast if violation caught */}
+      {securityAlert && (
+        <div className="px-4 py-2.5 bg-foreground text-background text-xs font-mono flex items-center justify-between shrink-0 shadow-sm">
+          <div className="flex items-center space-x-2">
+            <ShieldAlert className="w-4 h-4 text-background shrink-0 stroke-[2]" />
+            <span>[AST Security Filter] {securityAlert}</span>
+          </div>
+          <button
+            onClick={() => setSecurityAlert(null)}
+            className="p-1 hover:opacity-80 transition-opacity"
+            aria-label="Dismiss security alert"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
 
       {/* 3-Panel Main Execution Canvas */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">

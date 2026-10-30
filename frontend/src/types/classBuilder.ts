@@ -49,3 +49,4 @@ export interface ClassDiagramModel {
   entities: ClassEntity[];
   relationships: ClassRelationship[];
 }
+
