@@ -17,3 +17,4 @@ public record AstValidationResultDto(
         return new AstValidationResultDto(false, violations, null, 0, parseTimeMs);
     }
 }
+

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { useSimulationStore } from '@/features/simulation/simulationStore';
+import { useSettingsStore } from '@/services/storage/settingsStore';
 import { allSampleTraces } from '@/features/simulation/sampleTraces';
 import { MemoryCanvas } from '@/features/visualizer/MemoryCanvas';
 import { ExecutionInspector } from '@/features/visualizer/ExecutionInspector';
@@ -23,6 +24,13 @@ export const PlaygroundPage: React.FC = () => {
     play,
     isPlaying,
   } = useSimulationStore();
+
+  const {
+    editorFontSize,
+    editorMinimap,
+    editorLineNumbers,
+    editorWordWrap,
+  } = useSettingsStore();
 
   const [activePanelTab, setActivePanelTab] = useState<'both' | 'visualizer' | 'editor' | 'class-builder'>('both');
   const [securityAlert, setSecurityAlert] = useState<string | null>(null);
@@ -184,11 +192,11 @@ export const PlaygroundPage: React.FC = () => {
                 value={currentTrace.sourceCode}
                 options={{
                   readOnly: false,
-                  minimap: { enabled: false },
-                  fontSize: 13,
-                  lineNumbers: 'on',
+                  minimap: { enabled: editorMinimap },
+                  fontSize: editorFontSize,
+                  lineNumbers: editorLineNumbers,
                   scrollBeyondLastLine: false,
-                  wordWrap: 'on',
+                  wordWrap: editorWordWrap,
                   renderLineHighlight: 'all',
                 }}
               />

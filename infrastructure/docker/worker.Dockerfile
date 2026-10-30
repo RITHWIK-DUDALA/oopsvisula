@@ -20,3 +20,4 @@ WORKDIR /sandbox/workspace
 # - read-only root with tmpfs /sandbox/workspace
 
 CMD ["sh"]
+

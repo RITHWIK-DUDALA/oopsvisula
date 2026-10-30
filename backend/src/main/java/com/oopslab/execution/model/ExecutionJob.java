@@ -30,3 +30,4 @@ public class ExecutionJob {
     public long getDurationMs() { return durationMs; }
     public void setDurationMs(long durationMs) { this.durationMs = durationMs; }
 }
+

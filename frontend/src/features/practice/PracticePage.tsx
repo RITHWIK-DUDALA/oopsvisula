@@ -12,6 +12,7 @@ import {
   HelpCircle,
 } from 'lucide-react';
 import { useLearnerStore } from '@/services/storage/localStore';
+import { useSettingsStore } from '@/services/storage/settingsStore';
 import { scanJavaSourceSecurity } from '@/services/ast/astSecurityFilter';
 
 interface Challenge {
@@ -149,6 +150,7 @@ public record Red() implements TrafficLight {}
 
 export const PracticePage: React.FC = () => {
   const { solvedChallengeIds, markChallengeSolved } = useLearnerStore();
+  const { editorFontSize, editorMinimap, editorLineNumbers, editorWordWrap } = useSettingsStore();
   const [activeChallenge, setActiveChallenge] = useState<Challenge | null>(null);
   const [userCode, setUserCode] = useState('');
   const [evaluationResult, setEvaluationResult] = useState<{ passed: boolean; message: string } | null>(null);
@@ -316,10 +318,10 @@ export const PracticePage: React.FC = () => {
                 value={userCode}
                 onChange={(val) => setUserCode(val || '')}
                 options={{
-                  fontSize: 13,
-                  lineNumbers: 'on',
-                  minimap: { enabled: false },
-                  wordWrap: 'on',
+                  fontSize: editorFontSize,
+                  lineNumbers: editorLineNumbers,
+                  minimap: { enabled: editorMinimap },
+                  wordWrap: editorWordWrap,
                 }}
               />
             </div>

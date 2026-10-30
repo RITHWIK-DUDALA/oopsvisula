@@ -71,3 +71,4 @@ export const scanJavaSourceSecurity = (code: string): SecurityScanResult => {
     primaryClass,
   };
 };
+

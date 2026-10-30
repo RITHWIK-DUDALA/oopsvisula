@@ -35,3 +35,4 @@ When a client breaches their token allocation, the gateway emits:
 - **Scale Out:** If Redis `execution_queue` length > 25 for 10 consecutive seconds, launch +2 worker container replicas.
 - **Scale In:** If queue length == 0 for 60 seconds, scale worker replicas down to baseline minimum (2 workers).
 - **Hard Maximum:** 10 concurrent worker containers (capped at 2.5GB RAM, 10 virtual CPUs total).
+

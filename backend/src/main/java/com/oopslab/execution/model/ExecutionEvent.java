@@ -44,3 +44,4 @@ public record ExecutionEvent(
         List<ObjectFieldSnapshot> fields
     ) {}
 }
+

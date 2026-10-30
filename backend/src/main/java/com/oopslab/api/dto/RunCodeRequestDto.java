@@ -10,3 +10,4 @@ public record RunCodeRequestDto(
 
     String languageVersion
 ) {}
+

@@ -65,3 +65,4 @@ public class AstAnalysisService {
         return AstValidationResultDto.success(primaryName != null ? primaryName : "Main", totalTypes, duration);
     }
 }
+

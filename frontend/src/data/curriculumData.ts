@@ -344,3 +344,4 @@ export const curriculumLessons: CurriculumLesson[] = [
     exercisePrompt: 'Create a custom InvalidTransferException and throw it when amount <= 0.',
   },
 ];
+

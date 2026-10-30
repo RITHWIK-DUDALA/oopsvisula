@@ -106,6 +106,12 @@
 | OOPS-20261030-0001 | P6-T04 | `docs/architecture/RATE_LIMITING.md` | CREATED | Token-bucket rate limiting matrix and worker autoscaling thresholds | Scaling requirement (Section 12) |
 | OOPS-20261030-0001 | P6-T01 | `docs/project/ROADMAP.md` | MODIFIED | Marked all 6 implementation phases completed with full breakdowns | Roadmap tracking requirement (Section 9) |
 | OOPS-20261030-0001 | P6-T01 | `docs/project/ledger/records/OOPS-20261030-0001-P6T01.md` | CREATED | Task record for Phase 6 infrastructure and hardening | Audit requirement (Section 4.5) |
+| OOPS-20261030-0001 | P6-POST-01 | `frontend/src/features/reference/ReferencePage.tsx` | MODIFIED | Comprehensive cheat sheets: JVM layout, UML, Java 21, SOLID anti-patterns | Reference UI requirement |
+| OOPS-20261030-0001 | P6-POST-01 | `frontend/src/services/storage/settingsStore.ts` | CREATED | Zustand persistent workspace settings store (font size, minimap, line numbers, speed) | Settings state requirement |
+| OOPS-20261030-0001 | P6-POST-01 | `frontend/src/features/settings/SettingsPage.tsx` | MODIFIED | Interactive settings controls with live Monaco preview and reset capability | Settings UI requirement |
+| OOPS-20261030-0001 | P6-POST-01 | `frontend/src/features/about/AboutPage.tsx` | MODIFIED | Architecture pillars, multi-tier system topology, tech specs matrix | Documentation UI requirement |
+| OOPS-20261030-0001 | P6-POST-01 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Bound Monaco editor options dynamically to useSettingsStore | UX consistency requirement |
+| OOPS-20261030-0001 | P6-POST-01 | `frontend/src/features/practice/PracticePage.tsx` | MODIFIED | Bound practice Monaco editor options dynamically to useSettingsStore | UX consistency requirement |
 
 ---
 
