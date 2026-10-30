@@ -20,5 +20,6 @@
 | CP-0011 | OOPS-20261030-0001-P6POST02 | 920958d | 2026-10-31 01:39:01 | feat(simulation): Add composition and record pattern matching traces, clean roadmap | 8 | `git checkout 920958d` / `GO TO OOPS-20261030-0001-P6POST02` | VERIFIED |
 | CP-0012 | OOPS-20261031-0001-LANDING | ea43e9f | 2026-10-31 02:27:17 | feat(landing): Isolate public landing page without feature access; add guest & auth entry gateway | 14 | `git checkout ea43e9f` / `GO TO OOPS-20261031-0001-LANDING` | VERIFIED |
 | CP-0013 | OOPS-20261031-0001-GUEST_RESTRICTION | 8eeabe7 | 2026-10-31 02:40:36 | feat(auth): Restrict Dashboard and Profile to authenticated accounts; guests enter directly to Playground | 14 | `git checkout 8eeabe7` / `GO TO OOPS-20261031-0001-GUEST_RESTRICTION` | VERIFIED |
+| CP-0014 | OOPS-20261031-0001-LOGO_LOADER | c054247 | 2026-10-31 02:46:54 | feat(ui): Implement reusable SVG LogoTraceLoader component and integrate into loading states | 13 | `git checkout c054247` / `GO TO OOPS-20261031-0001-LOGO_LOADER` | VERIFIED |
 
 ---
