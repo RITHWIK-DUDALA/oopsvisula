@@ -4,6 +4,7 @@ import { useSimulationStore } from '@/features/simulation/simulationStore';
 import { allSampleTraces } from '@/features/simulation/sampleTraces';
 import { MemoryCanvas } from '@/features/visualizer/MemoryCanvas';
 import { ExecutionInspector } from '@/features/visualizer/ExecutionInspector';
+import { VisualClassBuilder } from '@/features/class-builder/VisualClassBuilder';
 import {
   Play,
   RotateCcw,
@@ -20,7 +21,7 @@ export const PlaygroundPage: React.FC = () => {
     isPlaying,
   } = useSimulationStore();
 
-  const [activePanelTab, setActivePanelTab] = useState<'both' | 'visualizer' | 'editor'>('both');
+  const [activePanelTab, setActivePanelTab] = useState<'both' | 'visualizer' | 'editor' | 'class-builder'>('both');
   const event = getCurrentEvent();
 
   const handleScenarioChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -87,6 +88,14 @@ export const PlaygroundPage: React.FC = () => {
             >
               Visualizer Only
             </button>
+            <button
+              onClick={() => setActivePanelTab('class-builder')}
+              className={`px-2 py-1 rounded text-[11px] ${
+                activePanelTab === 'class-builder' ? 'bg-foreground text-background font-bold' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Class Builder
+            </button>
           </div>
 
           <button
@@ -113,6 +122,13 @@ export const PlaygroundPage: React.FC = () => {
 
       {/* 3-Panel Main Execution Canvas */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
+        {/* Full-width Class Builder */}
+        {activePanelTab === 'class-builder' && (
+          <div className="lg:col-span-12 h-full overflow-hidden">
+            <VisualClassBuilder />
+          </div>
+        )}
+
         {/* Panel 1: Monaco Java Editor */}
         {(activePanelTab === 'both' || activePanelTab === 'editor') && (
           <div

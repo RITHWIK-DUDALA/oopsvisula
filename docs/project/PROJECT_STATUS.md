@@ -1,10 +1,10 @@
 # PROJECT STATUS — OOPS LAB
 
-- **Overall Project Status:** ACTIVE IMPLEMENTATION (PHASE 2 COMPLETE)
-- **Current Phase:** Phase 2 Complete → Transitioning to Phase 3 (Visual Class Builder)
+- **Overall Project Status:** ACTIVE IMPLEMENTATION (PHASE 3 COMPLETE)
+- **Current Phase:** Phase 3 Complete → Transitioning to Phase 4 (Backend Architecture & Execution Pipeline)
 - **Current Central ID:** OOPS-20261030-0001
-- **Current Task ID:** P2-T04 [COMPLETED]
-- **Last Verified Git Checkpoint:** 5693201 (CP-0004)
+- **Current Task ID:** P3-T04 [COMPLETED]
+- **Last Verified Git Checkpoint:** 590e1ae (CP-0005)
 
 ---
 
@@ -59,11 +59,20 @@
 - [x] **OOPS-20261030-0001-P2T04**: Interactive Stack & Heap Visualizer Canvas
   - Implemented `MemoryCanvas` (Call Stack frames + Eden Space heap objects) and `ExecutionInspector` (variables table, JDI event log, stdout console).
 
-### Pending Tasks (Phase 3: Visual Class Builder & Code Sync)
-- [ ] **OOPS-20261030-0001-P3T01**: Class Model Schema & AST Code Generator
-- [ ] **OOPS-20261030-0001-P3T02**: Visual Class Diagram Canvas with Drag-and-Drop Nodes
-- [ ] **OOPS-20261030-0001-P3T03**: Bi-Directional Synchronizer (Editor ⟷ Class Builder)
-- [ ] **OOPS-20261030-0001-P3T04**: Relationship Connectors (Inheritance, Interface, Aggregation, Composition)
+- [x] **OOPS-20261030-0001-P3T01**: Class Model Schema & Java 21 Code Generator
+  - Authored schema in `src/types/classBuilder.ts` and automated code generator in `src/features/class-builder/javaCodeGenerator.ts`.
+- [x] **OOPS-20261030-0001-P3T02**: Interactive Class Diagram Canvas & Node Builder
+  - Built `classBuilderStore` supporting classes, interfaces, records, and UML relationships.
+- [x] **OOPS-20261030-0001-P3T03**: Bi-Directional Synchronizer UI (`VisualClassBuilder`)
+  - 3-column interactive workspace with live synchronized Java code preview and clipboard export.
+- [x] **OOPS-20261030-0001-P3T04**: Relationship Connectors (Inheritance, Implementation, Composition)
+  - Integrated into `/playground` workspace view switcher.
+
+### Pending Tasks (Phase 4: Backend Architecture & Sandboxed Execution Pipeline)
+- [ ] **OOPS-20261030-0001-P4T01**: Spring Boot 3.x API Scaffold (Java 21 LTS)
+- [ ] **OOPS-20261030-0001-P4T02**: JavaParser AST Security & Static Analysis Filter
+- [ ] **OOPS-20261030-0001-P4T03**: Execution Job Submission & Status Controller
+- [ ] **OOPS-20261030-0001-P4T04**: JDI Trace Capture Engine & Sandboxed Worker Prototype
 
 ### Blocked Tasks
 - None.

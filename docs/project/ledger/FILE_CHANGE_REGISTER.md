@@ -73,6 +73,12 @@
 | OOPS-20261030-0001 | P2-T03 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Synchronized 3-panel workspace with Monaco Editor & trace runner | Workspace requirement (Section 11) |
 | OOPS-20261030-0001 | P2-T04 | `frontend/src/features/visualizer/VisualizerPage.tsx` | MODIFIED | Full-view memory visualizer mounted with trace switcher & inspector | Visualizer hub requirement |
 | OOPS-20261030-0001 | P2-T01 | `docs/project/ledger/records/OOPS-20261030-0001-P2T01.md` | CREATED | Task record for Phase 2 simulation engine and 3-panel workspace | Audit requirement (Section 4.5) |
+| OOPS-20261030-0001 | P3-T01 | `frontend/src/types/classBuilder.ts` | CREATED | ClassEntity, ClassField, ClassMethod, RelationshipType schema | Class builder requirement |
+| OOPS-20261030-0001 | P3-T01 | `frontend/src/features/class-builder/javaCodeGenerator.ts` | CREATED | Automated compiler transforming diagram model into Java 21 code | Code generation requirement |
+| OOPS-20261030-0001 | P3-T02 | `frontend/src/features/class-builder/classBuilderStore.ts` | CREATED | Zustand store managing UML nodes, fields, methods, relationships | State requirement |
+| OOPS-20261030-0001 | P3-T02 | `frontend/src/features/class-builder/VisualClassBuilder.tsx` | CREATED | 3-column interactive Class Builder workspace | UI requirement |
+| OOPS-20261030-0001 | P3-T03 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Added Class Builder view switcher tab & rendering | Integration requirement |
+| OOPS-20261030-0001 | P3-T01 | `docs/project/ledger/records/OOPS-20261030-0001-P3T01.md` | CREATED | Task record for Visual Class Builder | Audit requirement (Section 4.5) |
 
 ---
 

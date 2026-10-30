@@ -10,12 +10,46 @@
 | Phase | Title | Primary Focus | Dependencies | Status |
 |---|---|---|---|---|
 | **Phase 0** | **Governance & Inception** | Environment inspection, audit trail, skills inventory, requirements, architecture, knowledge graph. | None | **COMPLETED** |
-| **Phase 1** | **Foundational Scaffolding & Design System** | Vite + React 19 setup, monochrome tokens, navigation shell, landing page, dashboard skeleton. | Phase 0 | **IN PROGRESS (Current)** |
-| **Phase 2** | **Interactive 3-Panel Playground & State Engine** | Monaco Editor integration, Zustand simulation state machine, playback controls, dummy event replay. | Phase 1 | **BACKLOG** |
-| **Phase 3** | **Visualizer Canvas & Class Builder** | React Flow heap/stack diagrams, visual class builder, JavaParser code generation & static validation. | Phase 2 | **BACKLOG** |
+| **Phase 1** | **Foundational Scaffolding & Design System** | Vite + React 19 setup, monochrome tokens, navigation shell, landing page, dashboard skeleton. | Phase 0 | **COMPLETED** |
+| **Phase 2** | **Interactive 3-Panel Playground & State Engine** | Monaco Editor integration, Zustand simulation state machine, playback controls, dummy event replay. | Phase 1 | **COMPLETED** |
+| **Phase 3** | **Visualizer Canvas & Class Builder** | React Flow heap/stack diagrams, visual class builder, JavaParser code generation & static validation. | Phase 2 | **ACTIVE (Current)** |
 | **Phase 4** | **Backend & Sandboxed Execution Pipeline** | Spring Boot REST API, Redis queue, JDI trace capture worker, isolated container sandbox. | Phase 3 | **BACKLOG** |
 | **Phase 5** | **Curriculum Modules & Practice Engine** | Java 21 core OOP topics, 14-step learning modules, practice challenges with auto-graders. | Phase 4 | **BACKLOG** |
 | **Phase 6** | **Hardening, Observability & Scaling** | Distributed rate limiting, Prometheus/Grafana metrics, automated worker scaling, audit freeze. | Phase 5 | **BACKLOG** |
+
+---
+
+## Detailed Task Breakdown: Phase 1 (Foundational Scaffolding & Design System) [COMPLETED]
+
+- [x] **P1-T01: Frontend Scaffolding & Toolchain Configuration** [COMPLETED]
+- [x] **P1-T02: Responsive Shell & Navigation Architecture** [COMPLETED]
+- [x] **P1-T03: Public Landing Page Implementation** [COMPLETED]
+- [x] **P1-T04: Learner Dashboard & Local-First Storage** [COMPLETED]
+
+---
+
+## Detailed Task Breakdown: Phase 2 (Simulation Engine & 3-Panel Workspace) [COMPLETED]
+
+- [x] **P2-T01: Execution Event Schema & Trace Parser** [COMPLETED]
+- [x] **P2-T02: Deterministic Simulation State Machine (`useSimulationStore`)** [COMPLETED]
+- [x] **P2-T03: 3-Panel Synchronized Playground Workspace** [COMPLETED]
+- [x] **P2-T04: Interactive Memory Visualizer Canvas (`MemoryCanvas`, `ExecutionInspector`)** [COMPLETED]
+
+---
+
+## Detailed Task Breakdown: Phase 3 (Visual Class Builder & Code Synchronization) [ACTIVE]
+
+- [ ] **P3-T01: Visual Class Builder Data Model & Java 21 Code Generator**
+  - Define class diagram model: classes, interfaces, records, fields, methods, constructors.
+  - Generate clean, idiomatic Java 21 source code from model nodes.
+- [ ] **P3-T02: Interactive Class Diagram Canvas with Node Builder**
+  - Add visual nodes for Class, Interface, and Record with interactive field/method adders.
+  - Support drag-and-drop repositioning and visual status indicators.
+- [ ] **P3-T03: Bi-Directional Code ⟷ Diagram Synchronizer**
+  - Synchronize edits in visual builder to Monaco Java Editor.
+  - Parse Java code into diagram nodes.
+- [ ] **P3-T04: OOP Relationship Connectors**
+  - Inheritance (`extends`), Interface Implementation (`implements`), Association, Aggregation, and Composition.
 
 ---
 
