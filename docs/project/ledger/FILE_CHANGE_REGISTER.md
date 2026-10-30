@@ -114,6 +114,12 @@
 | OOPS-20261030-0001 | P6-POST-01 | `frontend/src/features/practice/PracticePage.tsx` | MODIFIED | Bound practice Monaco editor options dynamically to useSettingsStore | UX consistency requirement |
 | OOPS-20261030-0001 | P6-POST-02 | `frontend/src/features/simulation/sampleTraces.ts` | MODIFIED | Added compositionTrace and recordPatternTrace deterministic JDI execution simulations | Simulation requirement (Section 6) |
 | OOPS-20261030-0001 | P6-POST-02 | `docs/project/ROADMAP.md` | MODIFIED | Cleaned up duplicate early draft checklist items to reflect 100% completion | Roadmap maintenance |
+| OOPS-20261031-0001 | TASK-02 | `frontend/package.json` | MODIFIED | Added three and @types/three dependencies | WebGL tooling requirement |
+| OOPS-20261031-0001 | TASK-03 | `frontend/src/features/landing/types.ts` | CREATED | TypeScript interfaces for particle coordinates, stages, and scroll progress | Type safety requirement |
+| OOPS-20261031-0001 | TASK-04 | `frontend/src/features/landing/components/particleFormations.ts` | CREATED | 7-stage deterministic mathematical particle coordinates (18,000 particles) | WebGL graphics requirement |
+| OOPS-20261031-0001 | TASK-05 | `frontend/src/features/landing/components/ParticleCanvas.tsx` | CREATED | Three.js WebGL canvas with custom GLSL vertex/fragment shaders and GPU morphing | WebGL shader requirement |
+| OOPS-20261031-0001 | TASK-08 | `frontend/src/features/landing/components/LandingScrollOverlay.tsx` | CREATED | Pinned DOM content overlay with responsive desktop 2-column & mobile stacked layout | UI choreography requirement |
+| OOPS-20261031-0001 | TASK-09 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Scroll driver host (700vh), HUD stage indicator, and reduced-motion fallback | Landing integration |
 
 ---
 
