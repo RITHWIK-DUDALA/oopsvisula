@@ -46,3 +46,4 @@ User requested the integration of the React Bits **CometDial** component specifi
 - Production build: `tsc -b && vite build` built in **11.60s** with **0 errors** (8,119 modules transformed).
 - Knowledge graph: Rebuilt via `.venv/Scripts/graphify.exe update .` to **662 nodes, 992 edges, 60 communities**.
 - Dev server: Hot-reloading on `http://localhost:5173/`.
+
