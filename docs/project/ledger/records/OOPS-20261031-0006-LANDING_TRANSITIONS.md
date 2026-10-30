@@ -49,3 +49,4 @@ Requirements:
 - Production build: `tsc -b && vite build` built in **21.34s** with **0 errors** (8,121 modules transformed).
 - Knowledge graph: Rebuilt to **692 nodes, 1040 edges, 65 communities**.
 - Live Dev Server: Hot reloaded cleanly.
+

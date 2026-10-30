@@ -1,5 +1,4 @@
 import React, { isValidElement, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { HugeiconsIcon } from '@hugeicons/react';
 import './BranchedMenu.css';
 
 export interface BranchedSubItem {
@@ -49,7 +48,24 @@ const renderIcon = (icon: any) => {
     return <IconComp className="w-4 h-4 stroke-[1.5]" />;
   }
   if (Array.isArray(icon)) {
-    return <HugeiconsIcon icon={icon} size={15} strokeWidth={1.8} />;
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width={15}
+        height={15}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.8}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {icon.map(([tag, attrs]: [string, any], idx: number) => {
+          const TagName = tag as any;
+          return <TagName key={attrs?.key ?? idx} {...attrs} stroke="currentColor" strokeWidth={1.8} />;
+        })}
+      </svg>
+    );
   }
   return null;
 };

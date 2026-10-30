@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { AuthModal } from '@/components/shared/AuthModal';
 import { WordReveal } from './components/WordReveal';
+import ElectricBorder from '@/components/ElectricBorder';
 
 interface PreviewConcept {
   id: string;
@@ -439,7 +440,22 @@ export const LandingPage: React.FC = () => {
           </div>
 
           {/* Interactive Simulation Preview Card with Smooth Concept Transition */}
-          <div className="bg-white border border-border rounded-2xl overflow-hidden shadow-xs">
+          <ElectricBorder
+            color="#18181b"
+            glowColor="#71717a"
+            theme="light"
+            borderRadius={16}
+            speed={0.8}
+            chaos={0.35}
+            spread={0.5}
+            thickness={1.5}
+            strands={3}
+            intensity={0.65}
+            glow={0.5}
+            arcs={1}
+            interactive={true}
+          >
+            <div className="bg-white border border-border rounded-2xl overflow-hidden shadow-xs">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeConcept.id}
@@ -556,6 +572,7 @@ export const LandingPage: React.FC = () => {
               </motion.button>
             </div>
           </div>
+          </ElectricBorder>
         </motion.section>
 
         {/* Section 3: Four Core Capabilities (Features Grid) */}
@@ -793,45 +810,62 @@ export const LandingPage: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className="text-center p-8 sm:p-12 bg-white border border-border rounded-2xl space-y-6 shadow-sm"
         >
-          <div className="space-y-2 max-w-2xl mx-auto">
-            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-surface border border-border text-[11px] font-mono text-muted-foreground">
-              <span>Ready to Get Started?</span>
+          <ElectricBorder
+            color="#18181b"
+            glowColor="#71717a"
+            theme="light"
+            borderRadius={16}
+            speed={0.65}
+            chaos={0.3}
+            spread={0.45}
+            thickness={1.5}
+            strands={3}
+            intensity={0.6}
+            glow={0.45}
+            arcs={1}
+            interactive={true}
+          >
+            <div className="text-center p-8 sm:p-12 bg-white border border-border rounded-2xl space-y-6 shadow-sm">
+              <div className="space-y-2 max-w-2xl mx-auto">
+                <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-surface border border-border text-[11px] font-mono text-muted-foreground">
+                  <span>Ready to Get Started?</span>
+                </div>
+                <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+                  <WordReveal
+                    text="Enter the Java 21 Laboratory Today"
+                    delay={0.1}
+                  />
+                </h2>
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  No mandatory sign-in required. Enter immediately as a guest to write code, inspect runtime memory, and master Object-Oriented Programming.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleEnterAsGuest}
+                  className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-xl bg-foreground text-background text-sm font-semibold hover:bg-black/90 transition-all shadow-sm group"
+                >
+                  <UserCheck className="w-4 h-4 stroke-[2]" />
+                  <span>Enter Laboratory as Guest</span>
+                  <ArrowRight className="w-4 h-4 stroke-[2] group-hover:translate-x-1 transition-transform" />
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => handleOpenAuth('signin')}
+                  className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-xl border border-border bg-white text-foreground text-sm font-semibold hover:border-foreground hover:bg-surface transition-all"
+                >
+                  <Lock className="w-4 h-4 stroke-[1.5]" />
+                  <span>Sign In / Create Account</span>
+                </motion.button>
+              </div>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
-              <WordReveal
-                text="Enter the Java 21 Laboratory Today"
-                delay={0.1}
-              />
-            </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-              No mandatory sign-in required. Enter immediately as a guest to write code, inspect runtime memory, and master Object-Oriented Programming.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleEnterAsGuest}
-              className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-xl bg-foreground text-background text-sm font-semibold hover:bg-black/90 transition-all shadow-sm group"
-            >
-              <UserCheck className="w-4 h-4 stroke-[2]" />
-              <span>Enter Laboratory as Guest</span>
-              <ArrowRight className="w-4 h-4 stroke-[2] group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => handleOpenAuth('signin')}
-              className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-xl border border-border bg-white text-foreground text-sm font-semibold hover:border-foreground hover:bg-surface transition-all"
-            >
-              <Lock className="w-4 h-4 stroke-[1.5]" />
-              <span>Sign In / Create Account</span>
-            </motion.button>
-          </div>
+          </ElectricBorder>
         </motion.section>
       </main>
 

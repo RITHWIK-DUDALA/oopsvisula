@@ -153,6 +153,11 @@
 | OOPS-20261031-0006 | LM-01 | `frontend/src/features/landing/components/WordReveal.tsx` | CREATED | Kinetic typography component with staggered blur and slide-up word reveals | Typography requirement |
 | OOPS-20261031-0006 | LM-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Integrated WordReveal, top scroll progress bar, smooth anchor scrolling, and AnimatePresence | User motion directive |
 | OOPS-20261031-0006 | LM-01 | `frontend/src/index.css` | MODIFIED | Added html scroll-behavior: smooth for browser-wide smooth anchor transitions | Styling requirement |
+| OOPS-20261031-0007 | EB-01 | `frontend/src/components/ElectricBorder.css` | CREATED | CSS isolation and absolute canvas layout for WebGL2 electric border | React Bits styling |
+| OOPS-20261031-0007 | EB-01 | `frontend/src/components/ElectricBorder.tsx` | CREATED | WebGL2 electric lightning shader component with light monochromatic theme and interactive cursor arcs | React Bits requirement |
+| OOPS-20261031-0007 | EB-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Integrated ElectricBorder on JVM simulation preview card and final CTA card | Landing page highlight requirement |
+| OOPS-20261031-0007 | BF-02 | `frontend/src/components/CallChip.tsx` | MODIFIED | Completely eliminated HugeiconsIcon import and rendered SVG paths directly to prevent TypeError crashes | Defect elimination requirement |
+| OOPS-20261031-0007 | BF-02 | `frontend/src/components/navigation/BranchedMenu.tsx` | MODIFIED | Completely eliminated HugeiconsIcon import and rendered SVG paths directly | Defect elimination requirement |
 
 ---
 

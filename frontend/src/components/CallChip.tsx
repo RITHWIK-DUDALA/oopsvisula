@@ -1,5 +1,4 @@
 import React, { isValidElement, useEffect, useLayoutEffect, useRef, useState, CSSProperties, ReactNode } from 'react';
-import { HugeiconsIcon } from '@hugeicons/react';
 import {
   CommandLineIcon,
   File02Icon,
@@ -56,7 +55,26 @@ const glyphOf = (s: string) => (s === 'done' ? 'check' : s === 'error' ? 'retry'
 const renderGlyph = (g: any, sz: number, sw = 1.8) => {
   if (!g) return null;
   if (isValidElement(g)) return g;
-  if (Array.isArray(g)) return <HugeiconsIcon icon={g} size={sz} strokeWidth={sw} />;
+  if (Array.isArray(g)) {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width={sz}
+        height={sz}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={sw}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {g.map(([tag, attrs]: [string, any], idx: number) => {
+          const TagName = tag as any;
+          return <TagName key={attrs?.key ?? idx} {...attrs} stroke="currentColor" strokeWidth={sw} />;
+        })}
+      </svg>
+    );
+  }
   if (
     typeof g === 'function' ||
     (typeof g === 'object' && g !== null && ('$$typeof' in g || 'render' in g))
