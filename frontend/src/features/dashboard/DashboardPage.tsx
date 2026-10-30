@@ -14,8 +14,10 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useLearnerStore } from '@/services/storage/localStore';
+import { useAuthStore } from '@/services/storage/authStore';
 
 export const DashboardPage: React.FC = () => {
+  const { user } = useAuthStore();
   const {
     guestName,
     masteredTopics,
@@ -25,6 +27,8 @@ export const DashboardPage: React.FC = () => {
     exportSessionJson,
     resetProgress,
   } = useLearnerStore();
+
+  const displayName = user?.name || guestName || 'Student';
 
   const [notification, setNotification] = useState<string | null>(null);
 
@@ -80,7 +84,7 @@ export const DashboardPage: React.FC = () => {
               Local-First
             </span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">Welcome back, {guestName}</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">Welcome back, {displayName}</h1>
           <p className="text-xs text-muted-foreground">
             Your learning progress is stored locally in your browser with zero telemetry.
           </p>

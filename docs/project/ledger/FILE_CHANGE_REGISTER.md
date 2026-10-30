@@ -118,6 +118,13 @@
 | OOPS-20261031-0001 | LANDING-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Replaced with standalone showcase without direct feature access; guest/auth gateway | User directive requirement |
 | OOPS-20261031-0001 | LANDING-01 | `frontend/src/components/shared/AuthModal.tsx` | MODIFIED | Added tabs, interactive inputs, and prominent 'Continue as Guest' entry | Auth gateway requirement |
 | OOPS-20261031-0001 | LANDING-01 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Changed top item to Dashboard and added Public Landing link | Navigation hierarchy |
+| OOPS-20261031-0001 | GUEST-01 | `frontend/src/services/storage/authStore.ts` | CREATED | Zustand persistent auth store for registered accounts vs guest sessions | Auth requirement |
+| OOPS-20261031-0001 | GUEST-01 | `frontend/src/app/routes.tsx` | MODIFIED | Added RequireAuth guard on /dashboard and /profile; redirects guests to /playground | Route protection |
+| OOPS-20261031-0001 | GUEST-01 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Excluded Dashboard and Profile dynamically when in Guest Mode | Guest navigation scoping |
+| OOPS-20261031-0001 | GUEST-01 | `frontend/src/components/navigation/TopHeader.tsx` | MODIFIED | Added user identity, Sign Out button, and Guest Mode indicator | Header auth state |
+| OOPS-20261031-0001 | GUEST-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Updated guest entry to route straight to /playground | User directive |
+| OOPS-20261031-0001 | GUEST-01 | `frontend/src/features/dashboard/DashboardPage.tsx` | MODIFIED | Display authenticated user name dynamically | Auth UX |
+| OOPS-20261031-0001 | GUEST-01 | `frontend/src/features/profile/ProfilePage.tsx` | MODIFIED | Display authenticated user name, email, and sign out control | Profile auth UX |
 
 ---
 

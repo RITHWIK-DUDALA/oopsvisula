@@ -1,10 +1,13 @@
 import React from 'react';
-import { User, ShieldCheck, Award, Clock, BookOpen, Cpu, Sparkles, CheckCircle2 } from 'lucide-react';
+import { User, Award, Clock, BookOpen, Cpu, Sparkles, CheckCircle2, LogOut } from 'lucide-react';
 import { useLearnerStore } from '@/services/storage/localStore';
+import { useAuthStore } from '@/services/storage/authStore';
+import { useNavigate } from 'react-router-dom';
 
 export const ProfilePage: React.FC = () => {
+  const { user, signOut } = useAuthStore();
+  const navigate = useNavigate();
   const {
-    guestId,
     guestName,
     createdAt,
     totalLabSeconds,
@@ -12,6 +15,14 @@ export const ProfilePage: React.FC = () => {
     solvedChallengeIds,
     simulationsRunCount,
   } = useLearnerStore();
+
+  const displayName = user?.name || guestName || 'Learner';
+  const displayEmail = user?.email || 'Registered Cloud Session';
+
+  const handleSignOut = () => {
+    signOut();
+    navigate('/');
+  };
 
   const formatTime = (secs: number) => {
     const hours = Math.floor(secs / 3600);
@@ -63,9 +74,9 @@ export const ProfilePage: React.FC = () => {
             Zero-Telemetry Local Session
           </span>
         </div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground mt-1">Guest Learner Profile</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground mt-1">Learner Account Profile</h1>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Local-first progress state, earned achievement badges, and storage diagnostics.
+          Account credentials, earned achievement badges, and storage diagnostics.
         </p>
       </div>
 
@@ -78,19 +89,24 @@ export const ProfilePage: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h2 className="text-base font-bold text-foreground">{guestName}</h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 bg-accent border border-border rounded text-foreground">
-                  Guest Mode
+                <h2 className="text-base font-bold text-foreground">{displayName}</h2>
+                <span className="text-[10px] font-mono px-2 py-0.5 bg-foreground text-background rounded font-semibold">
+                  Registered Account
                 </span>
               </div>
-              <p className="text-xs font-mono text-muted-foreground mt-0.5">ID: {guestId}</p>
+              <p className="text-xs font-mono text-muted-foreground mt-0.5">{displayEmail}</p>
               <p className="text-[11px] text-muted-foreground">Session created: {new Date(createdAt).toLocaleDateString()}</p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 text-xs font-mono text-muted-foreground bg-surface p-2.5 rounded-lg border border-border self-start sm:self-auto">
-            <ShieldCheck className="w-4 h-4 text-foreground stroke-[1.5]" />
-            <span>Encrypted in Browser (LocalStorage)</span>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={handleSignOut}
+              className="flex items-center space-x-1.5 px-3 py-2 text-xs font-medium border border-border bg-white text-muted-foreground hover:text-foreground hover:bg-surface rounded-lg transition-colors"
+            >
+              <LogOut className="w-3.5 h-3.5 stroke-[1.5]" />
+              <span>Sign Out</span>
+            </button>
           </div>
         </div>
 

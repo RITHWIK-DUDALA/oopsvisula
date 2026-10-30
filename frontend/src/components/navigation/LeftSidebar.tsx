@@ -19,30 +19,13 @@ import {
   X,
 } from 'lucide-react';
 import { useShellStore } from '@/app/store/shellStore';
+import { useAuthStore } from '@/services/storage/authStore';
 
 interface NavItem {
   name: string;
   path: string;
   icon: React.ComponentType<{ className?: string }>;
 }
-
-const mainNavItems: NavItem[] = [
-  { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-  { name: 'Concepts', path: '/concepts', icon: BookOpen },
-  { name: 'Visualizers', path: '/visualizers', icon: Eye },
-  { name: 'Playground', path: '/playground', icon: Terminal },
-  { name: 'Practice', path: '/practice', icon: Award },
-  { name: 'Roadmap', path: '/roadmap', icon: GitBranch },
-  { name: 'Progress', path: '/progress', icon: TrendingUp },
-  { name: 'Reference', path: '/reference', icon: Bookmark },
-];
-
-const secondaryNavItems: NavItem[] = [
-  { name: 'About', path: '/about', icon: Info },
-  { name: 'Settings', path: '/settings', icon: Settings },
-  { name: 'Profile', path: '/profile', icon: User },
-  { name: 'Public Landing', path: '/', icon: Home },
-];
 
 export const LeftSidebar: React.FC = () => {
   const {
@@ -51,6 +34,42 @@ export const LeftSidebar: React.FC = () => {
     toggleSidebarCollapse,
     setMobileDrawer,
   } = useShellStore();
+
+  const { isAuthenticated } = useAuthStore();
+
+  const mainNavItems: NavItem[] = isAuthenticated
+    ? [
+        { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+        { name: 'Playground', path: '/playground', icon: Terminal },
+        { name: 'Visualizers', path: '/visualizers', icon: Eye },
+        { name: 'Concepts', path: '/concepts', icon: BookOpen },
+        { name: 'Practice', path: '/practice', icon: Award },
+        { name: 'Roadmap', path: '/roadmap', icon: GitBranch },
+        { name: 'Progress', path: '/progress', icon: TrendingUp },
+        { name: 'Reference', path: '/reference', icon: Bookmark },
+      ]
+    : [
+        { name: 'Playground', path: '/playground', icon: Terminal },
+        { name: 'Visualizers', path: '/visualizers', icon: Eye },
+        { name: 'Concepts', path: '/concepts', icon: BookOpen },
+        { name: 'Practice', path: '/practice', icon: Award },
+        { name: 'Roadmap', path: '/roadmap', icon: GitBranch },
+        { name: 'Progress', path: '/progress', icon: TrendingUp },
+        { name: 'Reference', path: '/reference', icon: Bookmark },
+      ];
+
+  const secondaryNavItems: NavItem[] = isAuthenticated
+    ? [
+        { name: 'Profile', path: '/profile', icon: User },
+        { name: 'Settings', path: '/settings', icon: Settings },
+        { name: 'About', path: '/about', icon: Info },
+        { name: 'Public Landing', path: '/', icon: Home },
+      ]
+    : [
+        { name: 'Settings', path: '/settings', icon: Settings },
+        { name: 'About', path: '/about', icon: Info },
+        { name: 'Public Landing', path: '/', icon: Home },
+      ];
 
   const handleNavClick = () => {
     if (isMobileDrawerOpen) {

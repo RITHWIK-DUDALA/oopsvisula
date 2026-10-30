@@ -159,7 +159,7 @@ export const LandingPage: React.FC = () => {
   };
 
   const handleEnterAsGuest = () => {
-    navigate('/dashboard');
+    navigate('/playground');
   };
 
   return (

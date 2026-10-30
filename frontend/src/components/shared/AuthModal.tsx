@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Lock, ShieldCheck, ArrowRight, UserCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@/services/storage/authStore';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -21,27 +22,31 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showNotice, setShowNotice] = useState(false);
   const navigate = useNavigate();
+  const { signIn, enterAsGuest } = useAuthStore();
 
   if (!isOpen) return null;
 
   const handleGuestEntry = () => {
+    enterAsGuest();
     onClose();
     if (onContinueAsGuest) {
       onContinueAsGuest();
     } else {
-      navigate('/dashboard');
+      navigate('/playground');
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email) return;
     setIsSubmitting(true);
     setTimeout(() => {
       setIsSubmitting(false);
-      setShowNotice(true);
-    }, 600);
+      signIn(email);
+      onClose();
+      navigate('/dashboard');
+    }, 400);
   };
 
   return (
@@ -65,14 +70,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             {title}
           </h3>
           <p className="text-xs text-muted-foreground mt-1 max-w-xs">
-            Sign in to synchronize experiments across devices, or enter as a guest for full offline access.
+            Sign in to access your personal Learner Dashboard, cloud profile, and save persistent progress across devices.
           </p>
 
           {/* Mode Tabs */}
           <div className="w-full grid grid-cols-2 p-1 bg-surface border border-border rounded-lg mt-4 text-xs font-medium">
             <button
               type="button"
-              onClick={() => { setAuthMode('signin'); setShowNotice(false); }}
+              onClick={() => setAuthMode('signin')}
               className={`py-1.5 rounded-md transition-all ${
                 authMode === 'signin'
                   ? 'bg-white text-foreground shadow-xs font-semibold'
@@ -83,7 +88,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => { setAuthMode('signup'); setShowNotice(false); }}
+              onClick={() => setAuthMode('signup')}
               className={`py-1.5 rounded-md transition-all ${
                 authMode === 'signup'
                   ? 'bg-white text-foreground shadow-xs font-semibold'
@@ -125,34 +130,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             />
           </div>
 
-          {showNotice ? (
-            <div className="p-3 bg-surface border border-border rounded-lg text-xs space-y-2 animate-in fade-in duration-150">
-              <div className="flex items-center space-x-1.5 font-semibold text-foreground">
-                <span className="w-2 h-2 rounded-full bg-foreground inline-block" />
-                <span>Cloud Accounts Scheduled for V2</span>
-              </div>
-              <p className="text-[11px] text-muted-foreground leading-relaxed">
-                Cloud identity services are currently postponed per project directives. You can enter the complete laboratory immediately as a guest with 100% feature access.
-              </p>
-              <button
-                type="button"
-                onClick={handleGuestEntry}
-                className="w-full py-2 px-3 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 transition-all flex items-center justify-center space-x-1.5"
-              >
-                <span>Enter Laboratory as Guest</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          ) : (
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full py-2.5 px-4 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.99] transition-all flex items-center justify-center space-x-1.5 shadow-xs"
-            >
-              <span>{isSubmitting ? 'Authenticating...' : authMode === 'signin' ? 'Sign In' : 'Create Account'}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          )}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full py-2.5 px-4 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.99] transition-all flex items-center justify-center space-x-1.5 shadow-xs"
+          >
+            <span>{isSubmitting ? 'Signing in...' : authMode === 'signin' ? 'Sign In & Open Dashboard' : 'Create Account & Open Dashboard'}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
         </form>
 
         {/* Guest Alternative Divider */}
@@ -161,7 +146,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <div className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-[10px] uppercase font-mono tracking-wider">
-            <span className="bg-white px-2 text-muted-foreground">or guest access</span>
+            <span className="bg-white px-2 text-muted-foreground">or continue as guest</span>
           </div>
         </div>
 
@@ -172,13 +157,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           className="w-full py-2.5 px-4 border border-border bg-surface hover:bg-surface/80 text-foreground text-xs font-semibold rounded-lg transition-all flex items-center justify-center space-x-2"
         >
           <UserCheck className="w-4 h-4 stroke-[1.5]" />
-          <span>Continue as Guest (Full Laboratory Access)</span>
+          <span>Explore Laboratory as Guest (No Dashboard/Profile)</span>
         </button>
 
-        {/* Local Storage Indicator */}
+        {/* Note */}
         <div className="mt-4 pt-3 border-t border-border flex items-center space-x-2 text-[11px] text-muted-foreground">
           <ShieldCheck className="w-3.5 h-3.5 text-foreground shrink-0 stroke-[1.5]" />
-          <span>Guest mode stores your code, traces, and progress locally in your browser.</span>
+          <span>Guest mode grants immediate access to Playground, Visualizers, and Practice without an account.</span>
         </div>
       </div>
     </div>
