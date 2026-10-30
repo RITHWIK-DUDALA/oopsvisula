@@ -34,16 +34,16 @@ export const bankAccountTrace: ExecutionTrace = {
     {
       step: 1,
       type: 'STEP_ENTER',
-      line: 18,
+      line: 17,
       methodName: 'main',
       className: 'BankAccount',
-      description: 'Entering main(String[] args). Metaspace initialized.',
+      description: 'Entering main(String[] args). Metaspace initialized. Preparing local variable table.',
       stackFrames: [
         {
           frameId: 'frame-main-1',
           methodName: 'main(args)',
           className: 'BankAccount',
-          line: 18,
+          line: 17,
           localVariables: [
             { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
             { name: 'account', type: 'BankAccount', value: 'null', isReference: true },
@@ -61,16 +61,16 @@ export const bankAccountTrace: ExecutionTrace = {
     {
       step: 2,
       type: 'OBJECT_ALLOCATED',
-      line: 19,
+      line: 17,
       methodName: 'main',
       className: 'BankAccount',
-      description: 'new BankAccount(...) allocates 32 bytes in Eden Space.',
+      description: 'new BankAccount(...) allocates 32 bytes in Eden Space prior to constructor invocation.',
       stackFrames: [
         {
           frameId: 'frame-main-1',
           methodName: 'main(args)',
           className: 'BankAccount',
-          line: 19,
+          line: 17,
           localVariables: [
             { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
             { name: 'account', type: 'BankAccount', value: 'null', isReference: true },
@@ -99,13 +99,13 @@ export const bankAccountTrace: ExecutionTrace = {
       line: 6,
       methodName: '<init>',
       className: 'BankAccount',
-      description: 'Entering constructor BankAccount("Alice", 500.0).',
+      description: 'Entering constructor BankAccount("Alice", 500.0). Initializing instance fields.',
       stackFrames: [
         {
           frameId: 'frame-main-1',
           methodName: 'main(args)',
           className: 'BankAccount',
-          line: 19,
+          line: 17,
           localVariables: [
             { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
             { name: 'account', type: 'BankAccount', value: 'null', isReference: true },
@@ -142,7 +142,7 @@ export const bankAccountTrace: ExecutionTrace = {
     {
       step: 4,
       type: 'FRAME_POP',
-      line: 19,
+      line: 17,
       methodName: 'main',
       className: 'BankAccount',
       description: 'Constructor completed. Reference @0x2F1A assigned to local variable `account`.',
@@ -151,7 +151,7 @@ export const bankAccountTrace: ExecutionTrace = {
           frameId: 'frame-main-1',
           methodName: 'main(args)',
           className: 'BankAccount',
-          line: 19,
+          line: 17,
           localVariables: [
             { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
             { name: 'account', type: 'BankAccount', value: 'ref @0x2F1A', isReference: true, targetAddress: '@0x2F1A' },
@@ -177,16 +177,61 @@ export const bankAccountTrace: ExecutionTrace = {
     {
       step: 5,
       type: 'FRAME_PUSH',
-      line: 12,
+      line: 11,
       methodName: 'deposit',
       className: 'BankAccount',
-      description: 'Calling account.deposit(250.0). Pushing deposit() frame.',
+      description: 'Calling account.deposit(250.0). Pushing deposit() stack frame.',
       stackFrames: [
         {
           frameId: 'frame-main-1',
           methodName: 'main(args)',
           className: 'BankAccount',
-          line: 20,
+          line: 18,
+          localVariables: [
+            { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
+            { name: 'account', type: 'BankAccount', value: 'ref @0x2F1A', isReference: true, targetAddress: '@0x2F1A' },
+          ],
+        },
+        {
+          frameId: 'frame-deposit-3',
+          methodName: 'BankAccount.deposit(amount)',
+          className: 'BankAccount',
+          line: 11,
+          localVariables: [
+            { name: 'this', type: 'BankAccount', value: 'ref @0x2F1A', isReference: true, targetAddress: '@0x2F1A' },
+            { name: 'amount', type: 'double', value: 250.0, isReference: false },
+          ],
+        },
+      ],
+      heapObjects: [
+        {
+          address: '@0x0001',
+          className: 'String[0]',
+          fields: [{ name: 'length', type: 'int', value: 0, isReference: false }],
+        },
+        {
+          address: '@0x2F1A',
+          className: 'BankAccount',
+          fields: [
+            { name: 'owner', type: 'String', value: '"Alice"', isReference: false },
+            { name: 'balance', type: 'double', value: 500.0, isReference: false },
+          ],
+        },
+      ],
+    },
+    {
+      step: 6,
+      type: 'FIELD_MUTATED',
+      line: 12,
+      methodName: 'deposit',
+      className: 'BankAccount',
+      description: 'Heap state updated: @0x2F1A.balance mutated from 500.0 to 750.0.',
+      stackFrames: [
+        {
+          frameId: 'frame-main-1',
+          methodName: 'main(args)',
+          className: 'BankAccount',
+          line: 18,
           localVariables: [
             { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
             { name: 'account', type: 'BankAccount', value: 'ref @0x2F1A', isReference: true, targetAddress: '@0x2F1A' },
@@ -220,18 +265,18 @@ export const bankAccountTrace: ExecutionTrace = {
       ],
     },
     {
-      step: 6,
-      type: 'FIELD_MUTATED',
-      line: 21,
+      step: 7,
+      type: 'EXECUTION_COMPLETED',
+      line: 19,
       methodName: 'main',
       className: 'BankAccount',
-      description: 'Heap state updated: @0x2F1A.balance mutated from 500.0 to 750.0.',
+      description: 'Execution completed. JVM stdout flushed: "Balance: 750.0".',
       stackFrames: [
         {
           frameId: 'frame-main-1',
           methodName: 'main(args)',
           className: 'BankAccount',
-          line: 21,
+          line: 19,
           localVariables: [
             { name: 'args', type: 'String[]', value: 'ref @0x0001', isReference: true, targetAddress: '@0x0001' },
             { name: 'account', type: 'BankAccount', value: 'ref @0x2F1A', isReference: true, targetAddress: '@0x2F1A' },
@@ -255,35 +300,11 @@ export const bankAccountTrace: ExecutionTrace = {
       ],
       stdout: 'Balance: 750.0\n',
     },
-    {
-      step: 7,
-      type: 'EXECUTION_COMPLETED',
-      line: 22,
-      methodName: 'main',
-      className: 'BankAccount',
-      description: 'Program execution completed normally. JVM process exiting.',
-      stackFrames: [],
-      heapObjects: [
-        {
-          address: '@0x0001',
-          className: 'String[0]',
-          fields: [{ name: 'length', type: 'int', value: 0, isReference: false }],
-        },
-        {
-          address: '@0x2F1A',
-          className: 'BankAccount',
-          fields: [
-            { name: 'owner', type: 'String', value: '"Alice"', isReference: false },
-            { name: 'balance', type: 'double', value: 750.0, isReference: false },
-          ],
-        },
-      ],
-    },
   ],
 };
 
 /**
- * 2. Polymorphic Dynamic Method Dispatch Trace
+ * 2. Polymorphic Dynamic Dispatch Trace
  */
 export const shapeHierarchyTrace: ExecutionTrace = {
   id: 'trace-shape-polymorphism',

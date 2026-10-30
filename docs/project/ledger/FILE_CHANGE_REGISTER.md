@@ -158,6 +158,24 @@
 | OOPS-20261031-0007 | EB-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Integrated ElectricBorder on JVM simulation preview card and final CTA card | Landing page highlight requirement |
 | OOPS-20261031-0007 | BF-02 | `frontend/src/components/CallChip.tsx` | MODIFIED | Completely eliminated HugeiconsIcon import and rendered SVG paths directly to prevent TypeError crashes | Defect elimination requirement |
 | OOPS-20261031-0007 | BF-02 | `frontend/src/components/navigation/BranchedMenu.tsx` | MODIFIED | Completely eliminated HugeiconsIcon import and rendered SVG paths directly | Defect elimination requirement |
+| OOPS-20261031-0008 | AUDIT-01 | `docs/project/ledger/records/OOPS-20261031-0008-PLAYGROUND_AUDIT.md` | CREATED | Complete audit of existing Playground components, layout, state, tokens, and proposed files | Master prompt Task 01 requirement |
+| OOPS-20261031-0009 | T02 | `docs/project/ledger/records/OOPS-20261031-0009-PLAYGROUND_REDESIGN.md` | CREATED | Implementation ledger record covering all 12 tasks of Playground UI/UX redesign | Master prompt audit requirement |
+| OOPS-20261031-0009 | T03 | `frontend/src/index.css` | MODIFIED | Added design tokens for playground layout, surfaces, typography, and borders | Section 14 Design Token requirement |
+| OOPS-20261031-0009 | T04 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Refactored to 228px expanded / 64px collapsed with 4 clean navigation groups | Section 4 Sidebar requirement |
+| OOPS-20261031-0009 | T05 | `frontend/src/components/navigation/TopHeader.tsx` | MODIFIED | Standardized to 58px height with clean breadcrumbs and subdued guest pill | Section 5 Header requirement |
+| OOPS-20261031-0009 | T06 | `frontend/src/features/playground/components/WorkspaceToolbar.tsx` | CREATED | 54px workspace toolbar with searchable scenario picker and mode segmented control | Section 6 Toolbar requirement |
+| OOPS-20261031-0009 | T07 | `frontend/src/features/playground/components/ResizableWorkspace.tsx` | CREATED | 3-panel workspace with draggable splitters, min-widths, and local persistence | Section 7 Workspace requirement |
+| OOPS-20261031-0009 | T08 | `frontend/src/features/playground/components/SourceEditorPanel.tsx` | CREATED | Dedicated Monaco Java editor panel with active line highlighting, copy, format | Section 8 Editor requirement |
+| OOPS-20261031-0009 | T09 | `frontend/src/features/playground/components/UnifiedRuntimeVisualizer.tsx` | CREATED | Unified JVM Runtime Visualizer shell with 3 sub-view switcher | Section 9 Visualizer requirement |
+| OOPS-20261031-0009 | T09 | `frontend/src/features/playground/components/StackHeapView.tsx` | CREATED | Stack + Heap view with dynamic SVG reference connector lines and mutation diffs | Section 9 & 10 Visualizer requirement |
+| OOPS-20261031-0009 | T09 | `frontend/src/features/playground/components/ObjectGraphView.tsx` | CREATED | Interactive node-edge graph view with pan/zoom and reference topology | Section 9 Visualizer requirement |
+| OOPS-20261031-0009 | T09 | `frontend/src/features/playground/components/MemoryMapView.tsx` | CREATED | High-level JVM memory map (Metaspace, Stack Frames, Eden Heap) | Section 9 Visualizer requirement |
+| OOPS-20261031-0009 | T10 | `frontend/src/features/playground/components/ExecutionInspectorPanel.tsx` | CREATED | Context-sensitive inspector with scope tables, selected objects, and console | Section 11 Inspector requirement |
+| OOPS-20261031-0009 | T11 | `frontend/src/features/playground/components/ExecutionControlBar.tsx` | CREATED | Stepping bar with 0.5x-2x speed selector, CometDial, progress bar, step scrubber | Section 12 Controls requirement |
+| OOPS-20261031-0009 | T12 | `frontend/src/features/playground/components/PlaygroundStatusBar.tsx` | CREATED | 30px compact status bar with engine status, execution time, and deterministic state | Section 13 Status bar requirement |
+| OOPS-20261031-0009 | T12 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Rebuilt page integrating resizable workspace, toolbar, visualizer, inspector, controls | Master integration requirement |
+| OOPS-20261031-0009 | T12 | `frontend/src/features/simulation/sampleTraces.ts` | MODIFIED | Standardized BankAccount code to 21 lines and aligned all event step lines | Section 19 Runtime state correctness |
+| OOPS-20261031-0009 | T12 | `frontend/src/features/simulation/simulationStore.ts` | MODIFIED | Added selection state, runtime view mode, and workspace mode | Simulation store requirement |
 
 ---
 

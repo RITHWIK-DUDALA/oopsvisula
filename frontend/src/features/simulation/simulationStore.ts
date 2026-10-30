@@ -19,7 +19,17 @@ interface SimulationState {
   autoPlayTimer: NodeJS.Timeout | null;
   activeCall: VisualizerCall | null;
 
+  // Visualizer & Selection State
+  selectedObjectId: string | null;
+  selectedVariableName: string | null;
+  runtimeView: 'stack-heap' | 'object-graph' | 'memory-map';
+  workspaceMode: 'split' | 'editor' | 'visualizer' | 'class-builder';
+
   // Actions
+  setSelectedObjectId: (id: string | null) => void;
+  setSelectedVariableName: (name: string | null) => void;
+  setRuntimeView: (view: 'stack-heap' | 'object-graph' | 'memory-map') => void;
+  setWorkspaceMode: (mode: 'split' | 'editor' | 'visualizer' | 'class-builder') => void;
   triggerCall: (
     name: string,
     argument: string,
@@ -49,6 +59,16 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
   playbackSpeed: 1,
   autoPlayTimer: null,
   activeCall: null,
+
+  selectedObjectId: null,
+  selectedVariableName: null,
+  runtimeView: 'stack-heap',
+  workspaceMode: 'split',
+
+  setSelectedObjectId: (id) => set({ selectedObjectId: id }),
+  setSelectedVariableName: (name) => set({ selectedVariableName: name }),
+  setRuntimeView: (view) => set({ runtimeView: view }),
+  setWorkspaceMode: (mode) => set({ workspaceMode: mode }),
 
   triggerCall: (name, argument, icon = 'terminal', status = 'running') => {
     const id = `${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
@@ -84,6 +104,8 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
     set({
       currentTrace: trace,
       currentStepIndex: 0,
+      selectedObjectId: null,
+      selectedVariableName: null,
     });
   },
 
@@ -161,7 +183,7 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
   reset: () => {
     get().pause();
     get().triggerCall('jdi-reset', 'trace.rewind(0)', 'terminal');
-    set({ currentStepIndex: 0 });
+    set({ currentStepIndex: 0, selectedObjectId: null, selectedVariableName: null });
   },
 
   setPlaybackSpeed: (speed: number) => {

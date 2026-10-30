@@ -1,31 +1,35 @@
 import React from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import {
-  Home,
-  LayoutDashboard,
-  BookOpen,
-  Eye,
-  Terminal,
-  Award,
-  GitBranch,
-  TrendingUp,
-  Bookmark,
-  Info,
-  Settings,
-  User,
   Box,
   PanelLeftClose,
   PanelLeft,
   X,
+  Terminal,
+  Eye,
+  BookOpen,
+  Award,
+  GitBranch,
+  Bookmark,
+  TrendingUp,
+  Settings,
+  Info,
+  Home,
+  LayoutDashboard,
+  User,
 } from 'lucide-react';
 import { useShellStore } from '@/app/store/shellStore';
 import { useAuthStore } from '@/services/storage/authStore';
-import BranchedMenu, { BranchedMenuItem } from './BranchedMenu';
 
 interface NavItem {
   name: string;
   path: string;
   icon: React.ComponentType<{ className?: string }>;
+}
+
+interface NavGroup {
+  label: string;
+  items: NavItem[];
 }
 
 export const LeftSidebar: React.FC = () => {
@@ -38,81 +42,42 @@ export const LeftSidebar: React.FC = () => {
 
   const { isAuthenticated } = useAuthStore();
   const location = useLocation();
-  const navigate = useNavigate();
 
-  const mainNavItems: NavItem[] = isAuthenticated
-    ? [
-        { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-        { name: 'Playground', path: '/playground', icon: Terminal },
-        { name: 'Visualizers', path: '/visualizers', icon: Eye },
-        { name: 'Concepts', path: '/concepts', icon: BookOpen },
-        { name: 'Practice', path: '/practice', icon: Award },
-        { name: 'Roadmap', path: '/roadmap', icon: GitBranch },
-        { name: 'Progress', path: '/progress', icon: TrendingUp },
-        { name: 'Reference', path: '/reference', icon: Bookmark },
-      ]
-    : [
-        { name: 'Playground', path: '/playground', icon: Terminal },
-        { name: 'Visualizers', path: '/visualizers', icon: Eye },
-        { name: 'Concepts', path: '/concepts', icon: BookOpen },
-        { name: 'Practice', path: '/practice', icon: Award },
-        { name: 'Roadmap', path: '/roadmap', icon: GitBranch },
-        { name: 'Progress', path: '/progress', icon: TrendingUp },
-        { name: 'Reference', path: '/reference', icon: Bookmark },
-      ];
-
-  const secondaryNavItems: NavItem[] = isAuthenticated
-    ? [
-        { name: 'Profile', path: '/profile', icon: User },
-        { name: 'Settings', path: '/settings', icon: Settings },
-        { name: 'About', path: '/about', icon: Info },
-        { name: 'Public Landing', path: '/', icon: Home },
-      ]
-    : [
-        { name: 'Settings', path: '/settings', icon: Settings },
-        { name: 'About', path: '/about', icon: Info },
-        { name: 'Public Landing', path: '/', icon: Home },
-      ];
-
-  const menuItems: BranchedMenuItem[] = [
+  // Navigation Group Architecture per Section 4 specification
+  const groups: NavGroup[] = [
     {
       label: 'Laboratory',
-      children: mainNavItems.map((item) => {
-        const Icon = item.icon;
-        return {
-          value: item.path,
-          label: item.name,
-          icon: <Icon className="w-4 h-4 shrink-0 stroke-[1.5]" />,
-        };
-      }),
+      items: [
+        ...(isAuthenticated ? [{ name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard }] : []),
+        { name: 'Playground', path: '/playground', icon: Terminal },
+        { name: 'Visualizers', path: '/visualizers', icon: Eye },
+      ],
+    },
+    {
+      label: 'Learning',
+      items: [
+        { name: 'Concepts', path: '/concepts', icon: BookOpen },
+        { name: 'Practice', path: '/practice', icon: Award },
+        { name: 'Roadmap', path: '/roadmap', icon: GitBranch },
+        { name: 'Reference', path: '/reference', icon: Bookmark },
+      ],
+    },
+    {
+      label: 'Personal',
+      items: [
+        { name: 'Progress', path: '/progress', icon: TrendingUp },
+        ...(isAuthenticated ? [{ name: 'Profile', path: '/profile', icon: User }] : []),
+      ],
     },
     {
       label: 'Preferences',
-      children: secondaryNavItems.map((item) => {
-        const Icon = item.icon;
-        return {
-          value: item.path,
-          label: item.name,
-          icon: <Icon className="w-4 h-4 shrink-0 stroke-[1.5]" />,
-        };
-      }),
+      items: [
+        { name: 'Settings', path: '/settings', icon: Settings },
+        { name: 'About', path: '/about', icon: Info },
+        { name: 'Public Landing', path: '/', icon: Home },
+      ],
     },
   ];
-
-  const allNavItems = [...mainNavItems, ...secondaryNavItems];
-  const matchedItem = allNavItems.find(
-    (item) =>
-      item.path === location.pathname ||
-      (item.path !== '/' && location.pathname.startsWith(item.path))
-  );
-  const currentActivePath = matchedItem?.path ?? location.pathname;
-
-  const handleSelect = (path: string) => {
-    navigate(path);
-    if (isMobileDrawerOpen) {
-      setMobileDrawer(false);
-    }
-  };
 
   const handleNavClick = () => {
     if (isMobileDrawerOpen) {
@@ -134,26 +99,26 @@ export const LeftSidebar: React.FC = () => {
         />
       )}
 
-      {/* Sidebar Container */}
+      {/* Sidebar Container: Exactly 228px expanded, 64px collapsed */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-50 bg-surface border-r border-border flex flex-col shrink-0 select-none transition-all duration-200 ease-in-out ${
+        className={`fixed md:static inset-y-0 left-0 z-50 bg-[#FAFAFA] border-r border-[#E8E8E8] flex flex-col shrink-0 select-none transition-all duration-200 ease-in-out ${
           isMobileDrawerOpen
-            ? 'translate-x-0 w-64'
+            ? 'translate-x-0 w-[228px]'
             : '-translate-x-full md:translate-x-0'
-        } ${isSidebarCollapsed ? 'md:w-16' : 'md:w-64'}`}
+        } ${isSidebarCollapsed ? 'md:w-16' : 'md:w-[228px]'}`}
       >
-        {/* Brand Header */}
-        <div className="h-14 px-3.5 border-b border-border flex items-center justify-between">
+        {/* Brand Header (58px to match header height) */}
+        <div className="h-[58px] px-3.5 border-b border-[#E8E8E8] flex items-center justify-between shrink-0 bg-[#FAFAFA]">
           <NavLink
             to="/"
             onClick={handleNavClick}
-            className="flex items-center space-x-2.5 overflow-hidden"
+            className="flex items-center space-x-2.5 overflow-hidden group"
           >
-            <div className="w-7 h-7 rounded-md bg-foreground flex items-center justify-center text-background shrink-0">
+            <div className="w-7 h-7 rounded-md bg-[#171717] flex items-center justify-center text-white shrink-0 shadow-xs">
               <Box className="w-4 h-4 stroke-[2]" />
             </div>
             {!isSidebarCollapsed && (
-              <span className="font-semibold text-sm tracking-tight text-foreground truncate">
+              <span className="font-bold text-[13px] tracking-tight text-[#171717] truncate">
                 OOPS LAB
               </span>
             )}
@@ -164,7 +129,7 @@ export const LeftSidebar: React.FC = () => {
             type="button"
             onClick={toggleSidebarCollapse}
             aria-label={isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            className="hidden md:flex p-1.5 text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+            className="hidden md:flex p-1.5 text-[#777777] hover:text-[#171717] hover:bg-[#EEEEEE] rounded-md transition-colors"
           >
             {isSidebarCollapsed ? (
               <PanelLeft className="w-4 h-4 stroke-[1.5]" />
@@ -178,97 +143,87 @@ export const LeftSidebar: React.FC = () => {
             type="button"
             onClick={() => setMobileDrawer(false)}
             aria-label="Close mobile navigation"
-            className="md:hidden p-1.5 text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+            className="md:hidden p-1.5 text-[#777777] hover:text-[#171717] hover:bg-[#EEEEEE] rounded-md transition-colors"
           >
             <X className="w-4 h-4 stroke-[1.5]" />
           </button>
         </div>
 
-        {/* Main Navigation */}
-        <div className="flex-1 overflow-y-auto px-2 py-3">
-          {isSidebarCollapsed ? (
-            <nav className="space-y-4">
-              <div className="space-y-1">
-                {mainNavItems.map((item) => {
+        {/* Main Navigation with 4 Discrete Groups */}
+        <div className="flex-1 overflow-y-auto px-2.5 py-4 space-y-5">
+          {groups.map((group) => (
+            <div key={group.label} className="space-y-1">
+              {!isSidebarCollapsed && (
+                <div className="text-[10px] font-mono uppercase tracking-wider text-[#999999] px-2.5 mb-1.5 font-semibold">
+                  {group.label}
+                </div>
+              )}
+              <nav className="space-y-0.5">
+                {group.items.map((item) => {
                   const Icon = item.icon;
+                  const isItemActive =
+                    item.path === '/'
+                      ? location.pathname === '/'
+                      : location.pathname === item.path ||
+                        location.pathname.startsWith(`${item.path}/`);
+
                   return (
                     <NavLink
                       key={item.path}
                       to={item.path}
                       onClick={handleNavClick}
                       title={item.name}
-                      className={({ isActive }) =>
-                        `flex items-center justify-center px-2 py-2.5 rounded-lg text-sm transition-colors ${
-                          isActive
-                            ? 'bg-foreground text-background font-medium'
-                            : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-                        }`
-                      }
+                      className={`relative flex items-center h-[38px] px-2.5 rounded-md text-[13px] transition-colors ${
+                        isSidebarCollapsed ? 'justify-center' : 'space-x-2.5'
+                      } ${
+                        isItemActive
+                          ? 'bg-[#EEEEEE] text-[#171717] font-semibold'
+                          : 'text-[#777777] hover:text-[#171717] hover:bg-[#F2F2F2] font-normal'
+                      }`}
                     >
+                      {/* Thin left active indicator line */}
+                      {isItemActive && (
+                        <span
+                          className="absolute left-0 top-1.5 bottom-1.5 w-[3px] bg-[#171717] rounded-r-full"
+                          aria-hidden="true"
+                        />
+                      )}
                       <Icon className="w-4 h-4 shrink-0 stroke-[1.5]" />
+                      {!isSidebarCollapsed && (
+                        <span className="truncate">{item.name}</span>
+                      )}
                     </NavLink>
                   );
                 })}
-              </div>
-              <div className="pt-2 border-t border-border space-y-1">
-                {secondaryNavItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <NavLink
-                      key={item.path}
-                      to={item.path}
-                      onClick={handleNavClick}
-                      title={item.name}
-                      className={({ isActive }) =>
-                        `flex items-center justify-center px-2 py-2.5 rounded-lg text-sm transition-colors ${
-                          isActive
-                            ? 'bg-foreground text-background font-medium'
-                            : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-                        }`
-                      }
-                    >
-                      <Icon className="w-4 h-4 shrink-0 stroke-[1.5]" />
-                    </NavLink>
-                  );
-                })}
-              </div>
-            </nav>
-          ) : (
-            <BranchedMenu
-              items={menuItems}
-              defaultOpen={[0, 1]}
-              defaultActive={currentActivePath}
-              onSelect={handleSelect}
-              color="#18181b"
-              accentColor="#18181b"
-              lineColor="#e4e4e7"
-              width={240}
-              rowHeight={34}
-              indent={36}
-              trunk={14}
-              radius={10}
-              lineWidth={1.5}
-              fontSize={13}
-              drawDuration={400}
-              foldDuration={300}
-            />
-          )}
+              </nav>
+            </div>
+          ))}
         </div>
 
-        {/* Footer Info */}
-        {!isSidebarCollapsed && (
-          <div className="p-3 border-t border-border">
-            <div className="bg-white border border-border rounded-lg p-2.5 text-xs text-muted-foreground">
-              <div className="flex items-center justify-between mb-1">
-                <span className="font-medium text-foreground">Target Engine</span>
-                <span className="font-mono text-[10px] bg-accent px-1.5 py-0.5 rounded border border-border text-foreground">
-                  Java 21
+        {/* Compact Java Engine Status Component per Section 4 */}
+        {!isSidebarCollapsed ? (
+          <div className="p-3 border-t border-[#E8E8E8] bg-[#FAFAFA] shrink-0">
+            <div className="px-3 py-2 bg-white border border-[#E8E8E8] rounded-md text-xs">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#999999] font-semibold">
+                  Java Engine
+                </span>
+                <span className="flex items-center space-x-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#287a4b] inline-block animate-pulse" />
+                  <span className="text-[10px] font-mono text-[#287a4b] font-medium">Ready</span>
                 </span>
               </div>
-              <p className="text-[11px] leading-snug">
-                Deterministic AST & JDI visualization pipeline.
-              </p>
+              <div className="text-xs font-mono font-bold text-[#171717] mt-0.5">
+                Java 21 LTS
+              </div>
             </div>
+          </div>
+        ) : (
+          <div className="p-3 border-t border-[#E8E8E8] flex justify-center shrink-0">
+            <span
+              className="w-2 h-2 rounded-full bg-[#287a4b] inline-block"
+              title="Java 21 LTS Ready"
+            />
           </div>
         )}
       </aside>
