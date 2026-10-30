@@ -9,25 +9,21 @@
 ## Dependency-Aware Task Breakdown
 
 ```text
-OOPS-20261030-0001 (Parent Request)
+OOPS-20261030-0001 (Parent Request: Inception & Preparation)
     │
     ├── T01: Environment & Workspace Inspection [COMPLETED]
-    │       └── Acceptance: Clean empty workspace verified, toolchain discovered, Git repo initialized.
-    │
     ├── T02: Read Uploaded Skills & Build Skill Inventory [COMPLETED]
-    │       └── Acceptance: All available skills discovered, read, mapped to tasks, recorded in SKILL_INVENTORY.md.
+    ├── T03: Complete Project Governance & Policy Files [COMPLETED]
+    ├── T04: Document Requirements in MASTER_SPECIFICATION.md [COMPLETED]
+    ├── T05: Inspect & Propose Architecture [COMPLETED]
+    └── T06: Create Optimized Implementation Roadmap [COMPLETED]
+
+PHASE 1: FOUNDATIONAL SCAFFOLDING & DESIGN SYSTEM [ACTIVE]
     │
-    ├── T03: Complete Project Governance & Policy Files [READY - Next]
-    │       └── Acceptance: DECISIONS.md, AGENTS.md, README.md, complete ledger synchronization.
-    │
-    ├── T04: Document Requirements in MASTER_SPECIFICATION.md [BACKLOG]
-    │       └── Acceptance: Confirmed, Proposed, Pending requirements categorized without speculation.
-    │
-    ├── T05: Inspect & Propose Architecture [BACKLOG]
-    │       └── Acceptance: High-level and component architecture documented with diagrams & trade-off analysis.
-    │
-    └── T06: Create Optimized Implementation Roadmap [BACKLOG]
-            └── Acceptance: Phased roadmap with clear milestones, acceptance criteria, and rollback targets.
+    ├── P1-T01: Frontend Scaffolding & Toolchain Configuration [IN PROGRESS - Current]
+    ├── P1-T02: Responsive Shell & Navigation Architecture [READY]
+    ├── P1-T03: Public Landing Page Implementation [BACKLOG]
+    └── P1-T04: Learner Dashboard & Local-First Storage [BACKLOG]
 ```
 
 ---
@@ -53,12 +49,28 @@ OOPS-20261030-0001 (Parent Request)
   - All available skills evaluated and mapped to OOPS LAB tasks.
 
 ### OOPS-20261030-0001-T03: Complete Project Governance
-- **Status:** READY (Awaiting user authorization)
+- **Status:** COMPLETED
 - **Dependencies:** T02
-- **Scope:** Create `docs/project/DECISIONS.md`, core repository guidelines (`AGENTS.md`, `README.md`).
+- **Scope:** Create `docs/project/DECISIONS.md`, core repository guidelines (`AGENTS.md`, `README.md`, `LICENSE`), incorporate user logging directives.
 - **Acceptance Criteria:**
-  - Architectural decisions framework in place.
-  - Governance policies codified.
+  - Architectural decisions framework in place (ADR-001 to ADR-005).
+  - Governance policies and streamlined logging workflow codified.
+
+### OOPS-20261030-0001-T04: Document Requirements in MASTER_SPECIFICATION.md
+- **Status:** COMPLETED
+- **Dependencies:** T03
+- **Scope:** Create `docs/project/MASTER_SPECIFICATION.md` strictly categorizing CONFIRMED, PROPOSED, PENDING, and IMPLEMENTED requirements across product, curriculum, visualizer, execution, and infrastructure.
+- **Acceptance Criteria:**
+  - Clear requirement categorization.
+  - No speculative or invented requirements.
+
+### OOPS-20261030-0001-T05: Architecture & Systems Design
+- **Status:** READY (Awaiting user authorization)
+- **Dependencies:** T04
+- **Scope:** Produce architecture documents covering frontend, backend, execution engine, rate limiter, queue, worker autoscaling, and observability in `docs/architecture/`.
+- **Acceptance Criteria:**
+  - Comprehensive architecture documents in `docs/architecture/`.
+  - Component boundary definitions and tech compatibility analysis.
 
 ### OOPS-20261030-0001-T04: Document Existing Requirements
 - **Status:** BACKLOG

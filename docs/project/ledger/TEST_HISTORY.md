@@ -15,6 +15,9 @@
 | TR-0006 | OOPS-20261030-0001 | T01 | 2026-10-30 23:18:00 | VCS | `git config --list` | 0 | PASS | Verified git user.name and user.email |
 | TR-0007 | OOPS-20261030-0001 | T01 | 2026-10-30 23:20:18 | VCS | `git init -b main` | 0 | PASS | Initialized git repository on main branch |
 | TR-0008 | OOPS-20261030-0001 | T02 | 2026-10-30 23:35:45 | Documentation | Verification of `SKILL_INVENTORY.md` completeness & skill file reading | 0 | PASS | Read 7 skills in full; confirmed required table schema & task alignment |
+| TR-0009 | OOPS-20261030-0001 | P1-T01 | 2026-10-31 00:26:14 | Dependency Install | `pnpm install` | 0 | PASS | Successfully installed 173 packages, esbuild postinstall executed |
+| TR-0010 | OOPS-20261030-0001 | P1-T01 | 2026-10-31 00:26:23 | TypeScript Check | `tsc -b` | 1 | FAIL | Caught 11 files with unused import statements |
+| TR-0011 | OOPS-20261030-0001 | P1-T01 | 2026-10-31 00:36:39 | Production Build | `tsc -b && vite build` | 0 | PASS | 1631 modules transformed, zero type errors, output dist/ confirmed |
 
 ---
 

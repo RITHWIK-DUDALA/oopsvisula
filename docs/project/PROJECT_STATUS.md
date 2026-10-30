@@ -1,10 +1,10 @@
 # PROJECT STATUS — OOPS LAB
 
-- **Overall Project Status:** INITIALIZING / GOVERNANCE SETUP
-- **Current Phase:** Phase 0 — Inception, Environment Inspection & Governance
+- **Overall Project Status:** ACTIVE IMPLEMENTATION (PHASE 1)
+- **Current Phase:** Phase 1 — Foundational Scaffolding & Design System
 - **Current Central ID:** OOPS-20261030-0001
-- **Current Task ID:** OOPS-20261030-0001-T02
-- **Last Verified Git Checkpoint:** fdf8bef
+- **Current Task ID:** P1-T02 (Responsive Shell & Navigation)
+- **Last Verified Git Checkpoint:** 34e7634 (Git commits batched per user directive)
 
 ---
 
@@ -20,12 +20,33 @@
   - Read all 7 Antigravity skills in full (`generative_ui`, `antigravity-guide`, `agy-customizations`, `automation`, `plugin`, `ui-plugin-navigation`, `migrate-workflows`).
   - Created [`docs/project/SKILL_INVENTORY.md`](file:///c:/Users/LENOVO/OneDrive/Desktop/java%20oops/docs/project/SKILL_INVENTORY.md) conforming to Section 3.1.
   - Mapped skills to frontend visualization, governance, and architecture responsibilities.
+- [x] **OOPS-20261030-0001-T03**: Establish Complete Project Governance Files
+  - Created [`AGENTS.md`](file:///c:/Users/LENOVO/OneDrive/Desktop/java%20oops/AGENTS.md), [`README.md`](file:///c:/Users/LENOVO/OneDrive/Desktop/java%20oops/README.md), [`LICENSE`](file:///c:/Users/LENOVO/OneDrive/Desktop/java%20oops/LICENSE), and [`docs/project/DECISIONS.md`](file:///c:/Users/LENOVO/OneDrive/Desktop/java%20oops/docs/project/DECISIONS.md).
+  - Codified ADR-001 through ADR-005.
+  - Applied user's operational directive: maintain accurate audit logs, batch Git commits at major milestones, bypass skills for now.
+- [x] **OOPS-20261030-0002-T01**: Project-Scoped Knowledge Graph (Graphify Setup & Audit)
+  - Pre-installation audit executed strictly within project root.
+  - Project-local `.venv` provisioned with `graphifyy-0.9.97`. Zero global/system modifications.
+  - Deterministic AST knowledge graph compiled in `.graphify/` (92 nodes, 80 edges, 16 communities).
+  - Configured 10-step AI Agent Knowledge Graph protocol in `AGENTS.md`.
+- [x] **OOPS-20261030-0001-T04**: Document Existing Requirements in Master Specification
+  - Authored [`docs/project/MASTER_SPECIFICATION.md`](file:///c:/Users/LENOVO/OneDrive/Desktop/java%20oops/docs/project/MASTER_SPECIFICATION.md) across 10 architectural domains.
+  - Categorized requirements strictly: CONFIRMED (12 pages, Java 21, 14-step framework, 3-panel workspace, class builder sync, sandboxed workers, rate limiting, autoscaling), PROPOSED (diff modal, panel drag splits), PENDING (university syllabus upload), and IMPLEMENTED (ledger, governance, Graphify).
 
-### Pending Tasks (Startup Sequence)
-- [ ] **OOPS-20261030-0001-T03**: Establish Complete Project Governance Files (`AGENTS.md`, `README.md`, `DECISIONS.md`)
-- [ ] **OOPS-20261030-0001-T04**: Document Existing Requirements (`MASTER_SPECIFICATION.md`)
-- [ ] **OOPS-20261030-0001-T05**: Technical Architecture Specification (`docs/architecture/...`)
-- [ ] **OOPS-20261030-0001-T06**: Optimized Implementation Roadmap
+- [x] **OOPS-20261030-0001-T05**: Technical Architecture Specification (`docs/architecture/...`)
+  - Formulated 5 comprehensive system architecture specifications: `ARCHITECTURE.md`, `FRONTEND_ARCHITECTURE.md`, `BACKEND_ARCHITECTURE.md`, `EXECUTION_ENGINE.md`, and `SECURITY_ARCHITECTURE.md`.
+- [x] **OOPS-20261030-0001-T06**: Optimized Implementation Roadmap
+  - Authored `docs/project/ROADMAP.md` covering Phases 0 to 6 with milestone checkpoints and verifiable criteria.
+- [x] **OOPS-20261030-0001-P1T01**: Frontend Scaffolding, Toolchain & Design System
+  - Vite + React 19 + TypeScript + Tailwind CSS 3 frontend initialized in `frontend/`.
+  - Monochromatic light design tokens, 12 feature routes, persistent AppLayout, LeftSidebar, TopHeader, and AuthModal ("Coming Soon").
+  - Fixed pnpm 11 build approvals via `pnpm-workspace.yaml`.
+  - Verified production build clean: `tsc -b && vite build` passed (1631 modules transformed, 0 errors).
+
+### Pending Tasks (Phase 1)
+- [ ] **OOPS-20261030-0001-P1T02**: Responsive Shell & Mobile Viewport Navigation
+- [ ] **OOPS-20261030-0001-P1T03**: Public Landing Page Deep Polish
+- [ ] **OOPS-20261030-0001-P1T04**: LocalStorage/IndexedDB Guest Session Persistence
 
 ### Blocked Tasks
 - None.
@@ -36,7 +57,22 @@
 1. **Repository Structure:** Clean root with `docs/`, `frontend/`, `backend/`, `execution-worker/`, `infrastructure/`, `shared/` modular layout.
 2. **Audit System:** Unique central ID tracking (`OOPS-YYYYMMDD-0001`), append-only ledger (`MASTER_ACTIVITY_LOG.md`, `FILE_CHANGE_REGISTER.md`, `ROLLBACK_INDEX.md`, `TEST_HISTORY.md`).
 3. **Execution Safety:** Strict one-task-at-a-time execution with required user authorization gates.
-4. **Skill Utilization:** `generative_ui` designated for interactive chat/auxiliary previews and simulation cards; `agy-customizations` and `antigravity-guide` designated for rules, IDE lens, and governance.
+4. **Local-First Storage (ADR-002):** LocalStorage/IndexedDB for guest sessions, postponed authentication.
+5. **Sandboxed Java Execution (ADR-003):** Redis queue + stateless execution workers with strict CPU/memory/timeout bounds.
+6. **Monochromatic Light Theme (ADR-004):** Minimalist high-contrast light UI, outline icons, zero colorful emojis.
+7. **Streamlined Logging Workflow (ADR-005):** Log every task accurately; batch Git commits at major milestones per user directive; bypass skills for current core development.
+8. **Project Knowledge Graph (Graphify):** Machine-readable AST knowledge layer in `.graphify/` for zero-token project-wide agent context.
+
+---
+
+## Open Questions & Observations
+1. **University Syllabus Upload:** Awaiting syllabus materials to finalize syllabus-to-concept mapping in `docs/curriculum/SYLLABUS_MAPPING.md`.
+2. **Supplied UI Components:** User will provide actual UI components; no components exist in the workspace yet.
+
+---
+
+## Next Authorized Task
+- Waiting for user authorization to proceed to: **OOPS-20261030-0001-T05** (Inspect & Propose Technical Architecture).
 
 ---
 
@@ -48,4 +84,4 @@
 ---
 
 ## Next Authorized Task
-- Waiting for user authorization to proceed to: **OOPS-20261030-0001-T03** (Establish Complete Project Governance Files).
+- Waiting for user authorization to proceed to: **OOPS-20261030-0001-T04** (Document Requirements in `MASTER_SPECIFICATION.md`).
