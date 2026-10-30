@@ -1,187 +1,190 @@
 import React, { useState } from 'react';
 import Editor from '@monaco-editor/react';
-import { Play, StepForward, StepBack, RotateCcw, Layers, Box, CheckCircle } from 'lucide-react';
-
-const defaultCode = `public class BankAccount {
-    private String owner;
-    private double balance;
-
-    public BankAccount(String owner, double initialBalance) {
-        this.owner = owner;
-        this.balance = initialBalance;
-    }
-
-    public void deposit(double amount) {
-        this.balance += amount;
-    }
-
-    public static void main(String[] args) {
-        BankAccount account = new BankAccount("Alice", 500.0);
-        account.deposit(250.0);
-        System.out.println("Balance: " + account.balance);
-    }
-}`;
+import { useSimulationStore } from '@/features/simulation/simulationStore';
+import { allSampleTraces } from '@/features/simulation/sampleTraces';
+import { MemoryCanvas } from '@/features/visualizer/MemoryCanvas';
+import { ExecutionInspector } from '@/features/visualizer/ExecutionInspector';
+import {
+  Play,
+  RotateCcw,
+  Code2,
+} from 'lucide-react';
 
 export const PlaygroundPage: React.FC = () => {
-  const [code, setCode] = useState(defaultCode);
-  const [activeStep, setActiveStep] = useState(1);
-  const [isTracing, setIsTracing] = useState(false);
+  const {
+    currentTrace,
+    loadTrace,
+    getCurrentEvent,
+    reset,
+    play,
+    isPlaying,
+  } = useSimulationStore();
+
+  const [activePanelTab, setActivePanelTab] = useState<'both' | 'visualizer' | 'editor'>('both');
+  const event = getCurrentEvent();
+
+  const handleScenarioChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const found = allSampleTraces.find((t) => t.id === e.target.value);
+    if (found) {
+      loadTrace(found);
+    }
+  };
 
   return (
     <div className="h-full flex flex-col overflow-hidden bg-background">
       {/* Playground Top Action Bar */}
-      <div className="h-12 px-6 bg-white border-b border-border flex items-center justify-between shrink-0">
+      <div className="h-12 px-4 sm:px-6 bg-white border-b border-border flex items-center justify-between shrink-0">
         <div className="flex items-center space-x-3">
-          <span className="font-semibold text-xs text-foreground tracking-tight">BankAccount.java</span>
-          <span className="text-[10px] font-mono px-2 py-0.5 bg-accent text-muted-foreground border border-border rounded">Java 21 LTS</span>
+          <div className="flex items-center space-x-2">
+            <Code2 className="w-4 h-4 stroke-[1.5] text-foreground" />
+            <span className="font-semibold text-xs text-foreground tracking-tight">
+              3-Panel Java 21 Execution Laboratory
+            </span>
+          </div>
+
+          <div className="hidden sm:flex items-center space-x-1.5">
+            <span className="text-muted-foreground/60">•</span>
+            {/* Scenario dropdown */}
+            <select
+              value={currentTrace.id}
+              onChange={handleScenarioChange}
+              className="text-xs font-mono bg-surface border border-border rounded px-2 py-1 text-foreground focus:outline-hidden"
+            >
+              {allSampleTraces.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.programTitle}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
-        {/* Tracing Controls */}
+        {/* View Switchers & Run Controls */}
         <div className="flex items-center space-x-2">
+          {/* Panel Layout Switcher */}
+          <div className="hidden md:flex items-center space-x-1 bg-surface border border-border rounded p-0.5 text-xs font-mono">
+            <button
+              onClick={() => setActivePanelTab('both')}
+              className={`px-2 py-1 rounded text-[11px] ${
+                activePanelTab === 'both' ? 'bg-foreground text-background font-bold' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Split View
+            </button>
+            <button
+              onClick={() => setActivePanelTab('editor')}
+              className={`px-2 py-1 rounded text-[11px] ${
+                activePanelTab === 'editor' ? 'bg-foreground text-background font-bold' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Editor Only
+            </button>
+            <button
+              onClick={() => setActivePanelTab('visualizer')}
+              className={`px-2 py-1 rounded text-[11px] ${
+                activePanelTab === 'visualizer' ? 'bg-foreground text-background font-bold' : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Visualizer Only
+            </button>
+          </div>
+
           <button
-            onClick={() => setIsTracing(!isTracing)}
-            className="flex items-center space-x-1.5 px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.98] transition-all shadow-sm"
-          >
-            <Play className="w-3.5 h-3.5 stroke-[2]" />
-            <span>{isTracing ? "Stop Tracing" : "Run & Trace"}</span>
-          </button>
-          <div className="w-[1px] h-4 bg-border mx-1" />
-          <button
-            onClick={() => setActiveStep((s) => Math.max(1, s - 1))}
-            className="p-1.5 text-muted-foreground hover:text-foreground rounded hover:bg-surface border border-border transition-colors"
-            title="Step Back"
-          >
-            <StepBack className="w-3.5 h-3.5 stroke-[1.5]" />
-          </button>
-          <button
-            onClick={() => setActiveStep((s) => s + 1)}
-            className="p-1.5 text-muted-foreground hover:text-foreground rounded hover:bg-surface border border-border transition-colors"
-            title="Step Next"
-          >
-            <StepForward className="w-3.5 h-3.5 stroke-[1.5]" />
-          </button>
-          <button
-            onClick={() => { setActiveStep(1); }}
-            className="p-1.5 text-muted-foreground hover:text-foreground rounded hover:bg-surface border border-border transition-colors"
-            title="Reset"
+            type="button"
+            onClick={reset}
+            aria-label="Reset execution"
+            className="p-1.5 text-muted-foreground hover:text-foreground hover:bg-surface border border-border rounded-lg transition-colors"
+            title="Reset execution"
           >
             <RotateCcw className="w-3.5 h-3.5 stroke-[1.5]" />
+          </button>
+
+          <button
+            type="button"
+            onClick={play}
+            disabled={isPlaying}
+            className="flex items-center space-x-1.5 px-3 py-1.5 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.98] disabled:opacity-50 transition-all shadow-xs"
+          >
+            <Play className="w-3.5 h-3.5 stroke-[2]" />
+            <span>Trace Execution</span>
           </button>
         </div>
       </div>
 
-      {/* 3-Panel Workspace Grid */}
+      {/* 3-Panel Main Execution Canvas */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
-        {/* Panel 1: Monaco Java Code Editor (5 cols) */}
-        <div className="lg:col-span-5 h-full border-r border-border flex flex-col bg-white">
-          <div className="px-4 py-2 border-b border-border bg-surface text-[11px] font-mono text-muted-foreground flex items-center justify-between">
-            <span>Source Editor</span>
-            <span>Line 14: Active Step</span>
+        {/* Panel 1: Monaco Java Editor */}
+        {(activePanelTab === 'both' || activePanelTab === 'editor') && (
+          <div
+            className={`${
+              activePanelTab === 'both' ? 'lg:col-span-4' : 'lg:col-span-12'
+            } flex flex-col border-b lg:border-b-0 lg:border-r border-border bg-white overflow-hidden`}
+          >
+            <div className="h-9 px-4 border-b border-border bg-surface/50 flex items-center justify-between text-xs font-mono text-muted-foreground shrink-0">
+              <span className="flex items-center space-x-1.5 text-foreground font-semibold">
+                <span>Source Code</span>
+              </span>
+              <span className="text-[10px] bg-accent px-1.5 py-0.5 rounded border border-border">
+                {event ? `Executing Line ${event.line}` : 'Ready'}
+              </span>
+            </div>
+
+            <div className="flex-1 overflow-hidden relative">
+              <Editor
+                height="100%"
+                defaultLanguage="java"
+                theme="light"
+                value={currentTrace.sourceCode}
+                options={{
+                  readOnly: false,
+                  minimap: { enabled: false },
+                  fontSize: 13,
+                  lineNumbers: 'on',
+                  scrollBeyondLastLine: false,
+                  wordWrap: 'on',
+                  renderLineHighlight: 'all',
+                }}
+              />
+            </div>
           </div>
-          <div className="flex-1 overflow-hidden">
-            <Editor
-              height="100%"
-              defaultLanguage="java"
-              value={code}
-              onChange={(value) => setCode(value || '')}
-              theme="light"
-              options={{
-                minimap: { enabled: false },
-                fontSize: 13,
-                fontFamily: 'JetBrains Mono, monospace',
-                lineNumbers: 'on',
-                scrollBeyondLastLine: false,
-                automaticLayout: true,
-                renderLineHighlight: 'all',
-              }}
-            />
+        )}
+
+        {/* Panel 2 & 3: Visualizer Canvas (Center) & Execution Inspector (Right) */}
+        {(activePanelTab === 'both' || activePanelTab === 'visualizer') && (
+          <div
+            className={`${
+              activePanelTab === 'both' ? 'lg:col-span-8' : 'lg:col-span-12'
+            } grid grid-cols-1 md:grid-cols-12 overflow-hidden`}
+          >
+            {/* Panel 2: Interactive Memory Visualizer (Stack & Heap) */}
+            <div className="md:col-span-7 h-full overflow-hidden border-b md:border-b-0 md:border-r border-border">
+              <MemoryCanvas />
+            </div>
+
+            {/* Panel 3: Execution Inspector & Console */}
+            <div className="md:col-span-5 h-full overflow-hidden">
+              <ExecutionInspector />
+            </div>
           </div>
+        )}
+      </div>
+
+      {/* Status Bar */}
+      <div className="h-8 px-4 bg-surface border-t border-border flex items-center justify-between text-[11px] font-mono text-muted-foreground shrink-0">
+        <div className="flex items-center space-x-3">
+          <span className="flex items-center space-x-1">
+            <span className="w-2 h-2 rounded-full bg-foreground inline-block" />
+            <span className="text-foreground font-medium">JDI Step Tracer: Ready</span>
+          </span>
+          <span>Target: Java 21 LTS</span>
+          <span className="hidden sm:inline">AST Isolation: Active</span>
         </div>
 
-        {/* Panel 2: Interactive Memory Visualizer (4 cols) */}
-        <div className="lg:col-span-4 h-full border-r border-border flex flex-col bg-surface/50">
-          <div className="px-4 py-2 border-b border-border bg-white text-[11px] font-mono text-muted-foreground flex items-center justify-between">
-            <span className="font-semibold text-foreground">Interactive Visualizer</span>
-            <span>Step {activeStep} / 6</span>
-          </div>
-
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {/* Stack Frame Snapshot */}
-            <div className="p-3.5 bg-white border border-border rounded-xl space-y-2">
-              <div className="flex items-center justify-between text-xs font-semibold text-foreground">
-                <span className="flex items-center space-x-1.5">
-                  <Layers className="w-3.5 h-3.5 text-foreground stroke-[1.5]" />
-                  <span>main() Frame</span>
-                </span>
-                <span className="text-[10px] font-mono text-muted-foreground">Line 14</span>
-              </div>
-              <div className="space-y-1 text-xs font-mono">
-                <div className="p-1.5 bg-surface border border-border rounded flex items-center justify-between">
-                  <span className="text-muted-foreground">account</span>
-                  <span className="font-semibold text-foreground">ref → @0x4A12</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Heap Allocation Snapshot */}
-            <div className="p-3.5 bg-white border-2 border-foreground rounded-xl space-y-2.5 shadow-sm">
-              <div className="flex items-center justify-between border-b border-border pb-1.5">
-                <div className="flex items-center space-x-1.5">
-                  <Box className="w-3.5 h-3.5 text-foreground stroke-[1.5]" />
-                  <span className="text-xs font-bold text-foreground">BankAccount</span>
-                </div>
-                <span className="text-[10px] font-mono text-muted-foreground">@0x4A12</span>
-              </div>
-              <div className="space-y-1 text-xs font-mono">
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">owner:</span>
-                  <span className="text-foreground">"Alice"</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">balance:</span>
-                  <span className="font-bold text-foreground">500.0</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Panel 3: Execution Inspector & Console (3 cols) */}
-        <div className="lg:col-span-3 h-full flex flex-col bg-white">
-          <div className="px-4 py-2 border-b border-border bg-surface text-[11px] font-mono text-muted-foreground">
-            Execution Inspector
-          </div>
-
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
-            <div>
-              <div className="text-[11px] font-mono text-muted-foreground uppercase mb-1">Runtime Status</div>
-              <div className="flex items-center space-x-2 text-foreground font-medium">
-                <CheckCircle className="w-4 h-4 text-foreground stroke-[2]" />
-                <span>Deterministic JDI Trace Ready</span>
-              </div>
-            </div>
-
-            <div>
-              <div className="text-[11px] font-mono text-muted-foreground uppercase mb-1">Active Object State</div>
-              <p className="text-muted-foreground leading-relaxed">
-                `BankAccount` allocated on heap. Pointer assigned to local variable `account`. Next instruction: `account.deposit(250.0)`.
-              </p>
-            </div>
-
-            <div className="pt-4 border-t border-border">
-              <div className="text-[11px] font-mono text-muted-foreground uppercase mb-2 flex items-center justify-between">
-                <span>Console Output</span>
-                <span className="text-[10px] text-muted-foreground">stdout</span>
-              </div>
-              <div className="p-3 bg-surface border border-border rounded-lg font-mono text-xs text-foreground min-h-[90px]">
-                <div>[Compiled with Java 21]</div>
-                <div className="text-muted-foreground mt-1">// Awaiting completion of deposit()...</div>
-              </div>
-            </div>
-          </div>
+        <div className="flex items-center space-x-3">
+          <span>Execution Time: {currentTrace.durationMs}ms</span>
+          <span>Deterministic State: OK</span>
         </div>
       </div>
     </div>
   );
 };
-

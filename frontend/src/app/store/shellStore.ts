@@ -17,3 +17,4 @@ export const useShellStore = create<ShellState>((set) => ({
   toggleMobileDrawer: () => set((state) => ({ isMobileDrawerOpen: !state.isMobileDrawerOpen })),
   setMobileDrawer: (open) => set({ isMobileDrawerOpen: open }),
 }));
+

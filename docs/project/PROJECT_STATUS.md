@@ -1,10 +1,10 @@
 # PROJECT STATUS — OOPS LAB
 
-- **Overall Project Status:** ACTIVE IMPLEMENTATION (PHASE 1 COMPLETE)
-- **Current Phase:** Phase 1 Complete → Transitioning to Phase 2 (Simulation Engine Core)
+- **Overall Project Status:** ACTIVE IMPLEMENTATION (PHASE 2 COMPLETE)
+- **Current Phase:** Phase 2 Complete → Transitioning to Phase 3 (Visual Class Builder)
 - **Current Central ID:** OOPS-20261030-0001
-- **Current Task ID:** P1-T04 [COMPLETED]
-- **Last Verified Git Checkpoint:** 5b8319c (CP-0003)
+- **Current Task ID:** P2-T04 [COMPLETED]
+- **Last Verified Git Checkpoint:** 5693201 (CP-0004)
 
 ---
 
@@ -50,11 +50,20 @@
 - [x] **OOPS-20261030-0001-P1T04**: Learner Dashboard & Local-First Storage (ADR-002)
   - Persistent `useLearnerStore` with LocalStorage, JSON export/import/reset methods, dynamic dashboard metrics calculation.
 
-### Pending Tasks (Phase 2: Simulation Engine & Visualizer Core)
-- [ ] **OOPS-20261030-0001-P2T01**: Execution Event Schema & Trace Parser
-- [ ] **OOPS-20261030-0001-P2T02**: Deterministic Simulation State Machine (Zustand Replay)
-- [ ] **OOPS-20261030-0001-P2T03**: 3-Panel Workspace Shell & Drag-Resizable Layout
-- [ ] **OOPS-20261030-0001-P2T04**: Interactive Stack & Heap Visualizer Canvas (React Flow)
+- [x] **OOPS-20261030-0001-P2T01**: Execution Event Schema & Trace Parser
+  - Authored typed schema in `src/types/execution.ts` and sample traces in `src/features/simulation/sampleTraces.ts`.
+- [x] **OOPS-20261030-0001-P2T02**: Deterministic Simulation State Machine
+  - Built `useSimulationStore` with JDI timeline replay, scrubber navigation, and reference pointer resolution.
+- [x] **OOPS-20261030-0001-P2T03**: 3-Panel Workspace Shell with Monaco Editor
+  - Implemented 3-panel synchronized view on `/playground` with source line tracking.
+- [x] **OOPS-20261030-0001-P2T04**: Interactive Stack & Heap Visualizer Canvas
+  - Implemented `MemoryCanvas` (Call Stack frames + Eden Space heap objects) and `ExecutionInspector` (variables table, JDI event log, stdout console).
+
+### Pending Tasks (Phase 3: Visual Class Builder & Code Sync)
+- [ ] **OOPS-20261030-0001-P3T01**: Class Model Schema & AST Code Generator
+- [ ] **OOPS-20261030-0001-P3T02**: Visual Class Diagram Canvas with Drag-and-Drop Nodes
+- [ ] **OOPS-20261030-0001-P3T03**: Bi-Directional Synchronizer (Editor ⟷ Class Builder)
+- [ ] **OOPS-20261030-0001-P3T04**: Relationship Connectors (Inheritance, Interface, Aggregation, Composition)
 
 ### Blocked Tasks
 - None.

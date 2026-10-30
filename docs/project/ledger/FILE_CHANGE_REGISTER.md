@@ -65,6 +65,14 @@
 | OOPS-20261030-0001 | P1-T04 | `frontend/src/services/storage/localStore.ts` | CREATED | Persistent Zustand store for guest metrics, progress, JSON export/import | ADR-002 Local-First Storage requirement |
 | OOPS-20261030-0001 | P1-T04 | `frontend/src/features/dashboard/DashboardPage.tsx` | MODIFIED | Wired dynamic learner metrics, JSON backup export, reset controls | UX state requirement |
 | OOPS-20261030-0001 | P1-T04 | `docs/project/ledger/records/OOPS-20261030-0001-P1T04.md` | CREATED | Task record for local storage persistence and dashboard | Audit requirement (Section 4.5) |
+| OOPS-20261030-0001 | P2-T01 | `frontend/src/types/execution.ts` | CREATED | ExecutionEvent schema, StackFrame, HeapObject, ReferencePointer | JDI Event requirement (Section 8.3) |
+| OOPS-20261030-0001 | P2-T01 | `frontend/src/features/simulation/sampleTraces.ts` | CREATED | Deterministic traces: BankAccount encapsulation, Shape polymorphism | Simulation dataset requirement |
+| OOPS-20261030-0001 | P2-T02 | `frontend/src/features/simulation/simulationStore.ts` | CREATED | Zustand simulation replay store with timeline controls & pointer resolution | State machine requirement |
+| OOPS-20261030-0001 | P2-T03 | `frontend/src/features/visualizer/MemoryCanvas.tsx` | CREATED | Stack & Heap split projection with pointer badges & field mutations | Visualizer canvas requirement |
+| OOPS-20261030-0001 | P2-T03 | `frontend/src/features/visualizer/ExecutionInspector.tsx` | CREATED | Variable scope table, JDI event log, stdout stream, step scrubber | Inspector requirement |
+| OOPS-20261030-0001 | P2-T03 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Synchronized 3-panel workspace with Monaco Editor & trace runner | Workspace requirement (Section 11) |
+| OOPS-20261030-0001 | P2-T04 | `frontend/src/features/visualizer/VisualizerPage.tsx` | MODIFIED | Full-view memory visualizer mounted with trace switcher & inspector | Visualizer hub requirement |
+| OOPS-20261030-0001 | P2-T01 | `docs/project/ledger/records/OOPS-20261030-0001-P2T01.md` | CREATED | Task record for Phase 2 simulation engine and 3-panel workspace | Audit requirement (Section 4.5) |
 
 ---
 
