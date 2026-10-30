@@ -98,6 +98,14 @@
 | OOPS-20261030-0001 | P5-T04 | `frontend/src/features/roadmap/RoadmapPage.tsx` | MODIFIED | Live prerequisite progression stages connected to localStore | Curriculum requirement |
 | OOPS-20261030-0001 | P5-T04 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Dynamic learner completion metrics and JSON backup export/import | Persistence requirement |
 | OOPS-20261030-0001 | P5-T01 | `docs/project/ledger/records/OOPS-20261030-0001-P5T01.md` | CREATED | Task record for Phase 5 curriculum and practice engine | Audit requirement (Section 4.5) |
+| OOPS-20261030-0001 | P6-T01 | `frontend/Dockerfile` | CREATED | Multi-stage Dockerfile: Node 22 pnpm builder + Nginx Alpine runtime | Containerization requirement (Section 13) |
+| OOPS-20261030-0001 | P6-T01 | `frontend/nginx.conf` | CREATED | Nginx reverse proxy routing /api/ to backend, security headers, gzip | Proxy requirement (Section 13) |
+| OOPS-20261030-0001 | P6-T01 | `backend/Dockerfile` | CREATED | Multi-stage Dockerfile: Maven builder + Eclipse Temurin 21 JRE runtime | Backend container requirement (Section 13) |
+| OOPS-20261030-0001 | P6-T03 | `infrastructure/docker/worker.Dockerfile` | CREATED | Hardened sandbox runner with non-root student user | Sandbox security requirement (Section 8.4) |
+| OOPS-20261030-0001 | P6-T01 | `docker-compose.yml` | CREATED | Production multi-service stack: frontend, backend, redis, networks | Deployment requirement (Section 13) |
+| OOPS-20261030-0001 | P6-T04 | `docs/architecture/RATE_LIMITING.md` | CREATED | Token-bucket rate limiting matrix and worker autoscaling thresholds | Scaling requirement (Section 12) |
+| OOPS-20261030-0001 | P6-T01 | `docs/project/ROADMAP.md` | MODIFIED | Marked all 6 implementation phases completed with full breakdowns | Roadmap tracking requirement (Section 9) |
+| OOPS-20261030-0001 | P6-T01 | `docs/project/ledger/records/OOPS-20261030-0001-P6T01.md` | CREATED | Task record for Phase 6 infrastructure and hardening | Audit requirement (Section 4.5) |
 
 ---
 

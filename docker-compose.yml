@@ -1,0 +1,51 @@
+services:
+  # 1. Frontend Nginx Web Server
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: oops-lab-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - oops-lab-net
+
+  # 2. Spring Boot 3.x Backend API (Java 21 LTS)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: oops-lab-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - oops-lab-net
+
+  # 3. Redis Queue & Rate Limiter
+  redis:
+    image: redis:7.4-alpine
+    container_name: oops-lab-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - oops-lab-net
+
+networks:
+  oops-lab-net:
+    driver: bridge
+
+volumes:
+  redis-data:
