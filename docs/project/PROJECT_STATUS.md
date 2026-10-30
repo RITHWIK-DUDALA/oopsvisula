@@ -1,10 +1,10 @@
 # PROJECT STATUS — OOPS LAB
 
-- **Overall Project Status:** ACTIVE IMPLEMENTATION (PHASE 4 COMPLETE)
-- **Current Phase:** Phase 4 Complete → Transitioning to Phase 5 (Curriculum & Practice Engine)
+- **Overall Project Status:** ACTIVE IMPLEMENTATION (PHASE 5 COMPLETE)
+- **Current Phase:** Phase 5 Complete → Transitioning to Phase 6 (Hardening & Infrastructure Readiness)
 - **Current Central ID:** OOPS-20261030-0001
-- **Current Task ID:** P4-T04 [COMPLETED]
-- **Last Verified Git Checkpoint:** 8e1c767 (CP-0006)
+- **Current Task ID:** P5-T04 [COMPLETED]
+- **Last Verified Git Checkpoint:** 2306656 (CP-0007)
 
 ---
 
@@ -77,11 +77,20 @@
 - [x] **OOPS-20261030-0001-P4T04**: Local & Sandboxed Worker Pipeline with Browser AST Pre-Filter
   - Created `astSecurityFilter.ts` and wired real-time security pre-filtering into `/playground`.
 
-### Pending Tasks (Phase 5: Curriculum Modules & Practice Engine)
-- [ ] **OOPS-20261030-0001-P5T01**: 14 OOP Curriculum Modules Content Schema & Structured Lessons
-- [ ] **OOPS-20261030-0001-P5T02**: Interactive Concept Topic Detail View with Step-by-Step Walkthrough
-- [ ] **OOPS-20261030-0001-P5T03**: Practice Challenges Auto-Evaluation Engine
-- [ ] **OOPS-20261030-0001-P5T04**: Learner Progress & Achievement Badges Synchronization
+- [x] **OOPS-20261030-0001-P5T01**: 14 OOP Curriculum Modules Content Schema & Structured Lessons
+  - Authored `curriculumData.ts` with comprehensive JVM memory mechanics and theory for 14 lessons.
+- [x] **OOPS-20261030-0001-P5T02**: Interactive Concept Topic Detail View with Step-by-Step Walkthrough
+  - Upgraded `ConceptsPage.tsx` with search, category filtering, and modal lesson walkthroughs.
+- [x] **OOPS-20261030-0001-P5T03**: Practice Challenges Auto-Evaluation Engine
+  - Upgraded `PracticePage.tsx` with Monaco editor and structural AST auto-grader.
+- [x] **OOPS-20261030-0001-P5T04**: Learner Progress & Achievement Badges Synchronization
+  - Upgraded `RoadmapPage.tsx` and `ProgressPage.tsx` with dynamic local completion metrics and JSON backup export/import.
+
+### Pending Tasks (Phase 6: Hardening, Observability & Deployment Readiness)
+- [ ] **OOPS-20261030-0001-P6T01**: Docker Compose Multi-Service Production Stack (Nginx + Frontend + Spring Boot Backend)
+- [ ] **OOPS-20261030-0001-P6T02**: Nginx Reverse Proxy Configuration & Security Headers
+- [ ] **OOPS-20261030-0001-P6T03**: Distributed Token-Bucket Rate Limiter Specification
+- [ ] **OOPS-20261030-0001-P6T04**: Prometheus & Health Observability Endpoints
 
 ### Blocked Tasks
 - None.

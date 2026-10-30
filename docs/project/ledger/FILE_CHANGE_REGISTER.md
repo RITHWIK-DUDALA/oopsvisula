@@ -92,6 +92,12 @@
 | OOPS-20261030-0001 | P4-T02 | `frontend/src/services/ast/astSecurityFilter.ts` | CREATED | Browser-side AST security pre-filter for instant validation | ADR-002 Local-First requirement |
 | OOPS-20261030-0001 | P4-T03 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Integrated pre-execution security scan and alert banner | UX security integration |
 | OOPS-20261030-0001 | P4-T01 | `docs/project/ledger/records/OOPS-20261030-0001-P4T01.md` | CREATED | Task record for Phase 4 backend and security pipeline | Audit requirement (Section 4.5) |
+| OOPS-20261030-0001 | P5-T01 | `frontend/src/data/curriculumData.ts` | CREATED | 14-step Java 21 OOP curriculum dataset with JVM memory mechanics | Curriculum requirement (Section 10) |
+| OOPS-20261030-0001 | P5-T02 | `frontend/src/features/concepts/ConceptsPage.tsx` | MODIFIED | Interactive concept modal, category filter pills, search bar | UX requirement |
+| OOPS-20261030-0001 | P5-T03 | `frontend/src/features/practice/PracticePage.tsx` | MODIFIED | Monaco editor challenge workbench with real-time AST auto-grader | Auto-grader requirement |
+| OOPS-20261030-0001 | P5-T04 | `frontend/src/features/roadmap/RoadmapPage.tsx` | MODIFIED | Live prerequisite progression stages connected to localStore | Curriculum requirement |
+| OOPS-20261030-0001 | P5-T04 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Dynamic learner completion metrics and JSON backup export/import | Persistence requirement |
+| OOPS-20261030-0001 | P5-T01 | `docs/project/ledger/records/OOPS-20261030-0001-P5T01.md` | CREATED | Task record for Phase 5 curriculum and practice engine | Audit requirement (Section 4.5) |
 
 ---
 
