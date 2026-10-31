@@ -33,6 +33,7 @@
 | CP-0024 | OOPS-20261031-0012-HYPERSPEED_BG | b685302 | 2026-10-31 10:11:00 | feat(landing): Replace landing background completely with React Bits Hyperspeed 3D warp highway | 9 | `git checkout b685302` / `GO TO OOPS-20261031-0012-HYPERSPEED_BG` | VERIFIED |
 | CP-0025 | OOPS-20261031-0013-ELECTRIC_RED | 5c5c674 | 2026-10-31 10:18:00 | feat(landing): Wrap 4 Core Capability cards in ElectricBorder in electric red (#ff003c / #ff1744) | 6 | `git checkout 5c5c674` / `GO TO OOPS-20261031-0013-ELECTRIC_RED` | VERIFIED |
 | CP-0026 | OOPS-20261031-0014-MUSTARD_YELLOW | f5c885b | 2026-10-31 10:35:00 | feat(landing): Wrap Pipeline and Privacy sections in ElectricBorder with mustard yellow (#eab308 / #ca8a04) | 4 | `git checkout f5c885b` / `GO TO OOPS-20261031-0014-MUSTARD_YELLOW` | VERIFIED |
+| CP-0027 | OOPS-20261031-0016-ICON_AND_CHROMA | 5ca2b97 | 2026-10-31 10:58:39 | fix(landing): Eliminate Hugeicons currentIcon is not iterable error, restore vibrant ElectricBorder chroma on white cards, and recreate pixel-accurate landing hero | 14 | `git checkout 5ca2b97` / `GO TO OOPS-20261031-0016-ICON_AND_CHROMA` | VERIFIED |
 
 
 
