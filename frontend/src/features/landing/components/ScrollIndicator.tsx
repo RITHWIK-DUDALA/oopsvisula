@@ -33,3 +33,4 @@ export const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({ onScrollToExpl
     </div>
   );
 };
+

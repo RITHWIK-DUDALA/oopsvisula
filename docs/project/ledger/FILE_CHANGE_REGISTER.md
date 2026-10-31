@@ -208,5 +208,6 @@
 | OOPS-20261031-0016 | BF-03 | `frontend/src/components/ElectricBorder.tsx` | MODIFIED | Set premultipliedAlpha: false on WebGL context; rewritten fragment shader to output 100% vibrant color on white cards | Styling & visual vibrancy |
 | OOPS-20261031-0016 | BF-03 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Calibrated Section 4 & Section 5 ElectricBorder to exact mustard yellow #F5BD24 / #D97706 | Color consistency |
 
----
+| OOPS-20261031-0017 | SC-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Removed ScrollIndicator component, import, and handler from Hero section | User directive requirement |
 
+---

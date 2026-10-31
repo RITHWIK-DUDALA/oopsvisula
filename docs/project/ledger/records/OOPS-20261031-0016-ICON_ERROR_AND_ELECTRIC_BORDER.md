@@ -48,3 +48,4 @@
 - `tsc -b && vite build`: Exited with code 0 in 16.00s (2074 modules transformed).
 - `graphify update .`: Code knowledge graph rebuilt (812 nodes, 1291 edges, 69 communities).
 - Vite development server restarted cleanly on `http://localhost:5173/`.
+

@@ -304,3 +304,4 @@ export const HeroPreviewCard: React.FC = () => {
     </div>
   );
 };
+

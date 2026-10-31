@@ -25,7 +25,6 @@ import ElectricBorder from '@/components/ElectricBorder';
 import { LandingHeader } from './components/LandingHeader';
 import { DecorativeOrbits } from './components/DecorativeOrbits';
 import { HeroPreviewCard } from './components/HeroPreviewCard';
-import { ScrollIndicator } from './components/ScrollIndicator';
 import { DemoModal } from './components/DemoModal';
 
 interface PreviewConcept {
@@ -192,13 +191,6 @@ export const LandingPage: React.FC = () => {
     }
   };
 
-  const handleScrollToExplore = () => {
-    const el = document.getElementById('what-we-do');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   const sectionVariants = {
     hidden: { opacity: 0, y: 28 },
     visible: {
@@ -334,11 +326,6 @@ export const LandingPage: React.FC = () => {
               <HeroPreviewCard />
             </motion.div>
           </div>
-        </div>
-
-        {/* Bottom Centered Scroll Indicator */}
-        <div className="w-full flex justify-center pb-3 relative z-20">
-          <ScrollIndicator onScrollToExplore={handleScrollToExplore} />
         </div>
       </section>
 
