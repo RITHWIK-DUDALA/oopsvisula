@@ -406,6 +406,7 @@ export interface ElectricBorderProps {
   interactive?: boolean;
   cursorRadius?: number;
   theme?: 'dark' | 'light';
+  hoverOnly?: boolean;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -446,6 +447,7 @@ const ElectricBorder: React.FC<ElectricBorderProps> = ({
   interactive = true,
   cursorRadius = 90,
   theme = 'dark',
+  hoverOnly = false,
   className = '',
   style
 }) => {
@@ -453,6 +455,8 @@ const ElectricBorder: React.FC<ElectricBorderProps> = ({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const wakeRef = useRef<(() => void) | null>(null);
   const [generation, setGeneration] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const effectiveActive = hoverOnly ? isHovered : active;
 
   const base = parseColor(color);
   const settings = {
@@ -469,8 +473,8 @@ const ElectricBorder: React.FC<ElectricBorderProps> = ({
     flicker: clamp(flicker, 0, 1),
     borderRadius: Math.max(0, borderRadius),
     offset,
-    active,
-    intro,
+    active: effectiveActive,
+    intro: hoverOnly ? false : intro,
     interactive,
     cursorRadius: Math.max(1, cursorRadius),
     light: theme === 'light'
@@ -792,6 +796,18 @@ const ElectricBorder: React.FC<ElectricBorderProps> = ({
   return (
     <div
       ref={containerRef}
+      onPointerEnter={() => {
+        if (hoverOnly) {
+          setIsHovered(true);
+          wakeRef.current?.();
+        }
+      }}
+      onPointerLeave={() => {
+        if (hoverOnly) {
+          setIsHovered(false);
+          wakeRef.current?.();
+        }
+      }}
       className={`electric-border${className ? ` ${className}` : ''}`}
       style={{ borderRadius, ...style }}
     >
@@ -799,7 +815,12 @@ const ElectricBorder: React.FC<ElectricBorderProps> = ({
       <canvas
         ref={canvasRef}
         className="electric-border__canvas"
-        style={{ top: -MARGIN, left: -MARGIN }}
+        style={{
+          top: -MARGIN,
+          left: -MARGIN,
+          opacity: hoverOnly && !isHovered ? 0 : 1,
+          transition: 'opacity 0.25s ease-out'
+        }}
         aria-hidden="true"
       />
     </div>

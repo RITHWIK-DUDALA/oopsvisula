@@ -214,4 +214,6 @@
 | OOPS-20261031-0018 | CP-01 | `frontend/src/features/concepts/ConceptDetailPage.tsx` | CREATED | Dedicated full-page progressive concept reader with code copy, visualizer launch, and linear progression | User curriculum requirement |
 | OOPS-20261031-0018 | CP-01 | `frontend/src/features/concepts/ConceptsPage.tsx` | MODIFIED | Replaced popup modal with direct page navigation to /concepts/:conceptId | User curriculum requirement |
 | OOPS-20261031-0018 | CP-01 | `frontend/src/app/routes.tsx` | MODIFIED | Registered concepts/:conceptId route in application shell | Routing requirement |
+| OOPS-20261031-0019 | HE-01 | `frontend/src/components/ElectricBorder.tsx` | MODIFIED | Added hoverOnly prop, pointer event listeners, effective active state, and smooth opacity transition | User interaction directive |
+| OOPS-20261031-0019 | HE-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Configured hoverOnly={true} across capability and focal landing cards | User interaction directive |
 ---

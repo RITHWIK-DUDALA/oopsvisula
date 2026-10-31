@@ -385,6 +385,7 @@ export const LandingPage: React.FC = () => {
 
           {/* Interactive Simulation Preview Card */}
           <ElectricBorder
+            hoverOnly={true}
             color="#00e5ff"
             glowColor="#0066ff"
             borderRadius={16}
@@ -543,6 +544,7 @@ export const LandingPage: React.FC = () => {
               className="h-full"
             >
               <ElectricBorder
+            hoverOnly={true}
                 color="#ff003c"
                 glowColor="#ff1744"
                 borderRadius={16}
@@ -575,6 +577,7 @@ export const LandingPage: React.FC = () => {
               className="h-full"
             >
               <ElectricBorder
+            hoverOnly={true}
                 color="#ff003c"
                 glowColor="#ff1744"
                 borderRadius={16}
@@ -607,6 +610,7 @@ export const LandingPage: React.FC = () => {
               className="h-full"
             >
               <ElectricBorder
+            hoverOnly={true}
                 color="#ff003c"
                 glowColor="#ff1744"
                 borderRadius={16}
@@ -639,6 +643,7 @@ export const LandingPage: React.FC = () => {
               className="h-full"
             >
               <ElectricBorder
+            hoverOnly={true}
                 color="#ff003c"
                 glowColor="#ff1744"
                 borderRadius={16}
@@ -677,6 +682,7 @@ export const LandingPage: React.FC = () => {
           className="scroll-mt-24"
         >
           <ElectricBorder
+            hoverOnly={true}
             color="#F5BD24"
             glowColor="#D97706"
             borderRadius={16}
@@ -768,6 +774,7 @@ export const LandingPage: React.FC = () => {
           className="scroll-mt-24"
         >
           <ElectricBorder
+            hoverOnly={true}
             color="#F5BD24"
             glowColor="#D97706"
             borderRadius={16}
@@ -849,6 +856,7 @@ export const LandingPage: React.FC = () => {
           viewport={{ once: true, margin: '-60px' }}
         >
           <ElectricBorder
+            hoverOnly={true}
             color="#00e5ff"
             glowColor="#0066ff"
             borderRadius={16}
