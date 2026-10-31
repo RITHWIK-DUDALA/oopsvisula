@@ -49,4 +49,6 @@
 
 | CP-0028 | OOPS-20261031-0017-REMOVE_SCROLL_INDICATOR | 2ac8f48 | 2026-10-31 11:05:21 | feat(landing): Remove SCROLL TO EXPLORE indicator from landing hero per user directive | 9 | `git checkout 2ac8f48` / `GO TO OOPS-20261031-0017-REMOVE_SCROLL_INDICATOR` | VERIFIED |
 
+| CP-0029 | OOPS-20261031-0018-CONCEPT_PAGES | 52a89b6 | 2026-10-31 11:17:52 | feat(concepts): Dedicated progressive concept detail pages from basic to advance for all 14 curriculum steps | 8 | `git checkout 52a89b6` / `GO TO OOPS-20261031-0018-CONCEPT_PAGES` | VERIFIED |
+
 ---
