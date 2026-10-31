@@ -51,4 +51,6 @@
 
 | CP-0029 | OOPS-20261031-0018-CONCEPT_PAGES | 52a89b6 | 2026-10-31 11:17:52 | feat(concepts): Dedicated progressive concept detail pages from basic to advance for all 14 curriculum steps | 8 | `git checkout 52a89b6` / `GO TO OOPS-20261031-0018-CONCEPT_PAGES` | VERIFIED |
 
+| CP-0030 | OOPS-20261031-0019-HOVER_ELECTRIC_BORDER | ff6a229 | 2026-10-31 11:24:32 | feat(landing): Activate ElectricBorder effect exclusively upon mouse hover | 7 | `git checkout ff6a229` / `GO TO OOPS-20261031-0019-HOVER_ELECTRIC_BORDER` | VERIFIED |
+
 ---
