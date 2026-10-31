@@ -773,71 +773,88 @@ export const LandingPage: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className="p-8 bg-white border border-border rounded-2xl space-y-6 shadow-xs scroll-mt-24"
+          className="scroll-mt-24"
         >
-          <div className="space-y-1">
-            <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
-              Simulation Pipeline
-            </div>
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-              <WordReveal
-                text="How the Execution Visualizer Works"
-                delay={0.1}
-              />
-            </h2>
-          </div>
-
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs font-mono"
+          <ElectricBorder
+            color="#eab308"
+            glowColor="#ca8a04"
+            borderRadius={16}
+            speed={0.75}
+            chaos={0.35}
+            spread={0.5}
+            thickness={1.5}
+            strands={3}
+            intensity={0.85}
+            glow={0.7}
+            arcs={1}
+            interactive={true}
           >
-            <motion.div
-              variants={cardItem}
-              className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
-            >
-              <span className="text-[10px] text-muted-foreground block">STEP 01</span>
-              <span className="font-bold text-foreground block">Author Java 21 Code</span>
-              <p className="text-[11px] font-sans text-muted-foreground leading-normal">
-                Type directly in Monaco or visually model classes with the diagram builder.
-              </p>
-            </motion.div>
+            <div className="p-8 bg-white border border-border rounded-2xl space-y-6 shadow-xs">
+              <div className="space-y-1">
+                <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                  Simulation Pipeline
+                </div>
+                <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+                  <WordReveal
+                    text="How the Execution Visualizer Works"
+                    delay={0.1}
+                  />
+                </h2>
+              </div>
 
-            <motion.div
-              variants={cardItem}
-              className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
-            >
-              <span className="text-[10px] text-muted-foreground block">STEP 02</span>
-              <span className="font-bold text-foreground block">AST Security Scan</span>
-              <p className="text-[11px] font-sans text-muted-foreground leading-normal">
-                JavaParser validates syntax and enforces security boundaries before queuing.
-              </p>
-            </motion.div>
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-60px' }}
+                className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs font-mono"
+              >
+                <motion.div
+                  variants={cardItem}
+                  className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
+                >
+                  <span className="text-[10px] text-muted-foreground block">STEP 01</span>
+                  <span className="font-bold text-foreground block">Author Java 21 Code</span>
+                  <p className="text-[11px] font-sans text-muted-foreground leading-normal">
+                    Type directly in Monaco or visually model classes with the diagram builder.
+                  </p>
+                </motion.div>
 
-            <motion.div
-              variants={cardItem}
-              className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
-            >
-              <span className="text-[10px] text-muted-foreground block">STEP 03</span>
-              <span className="font-bold text-foreground block">JDI Trace Capture</span>
-              <p className="text-[11px] font-sans text-muted-foreground leading-normal">
-                Isolated workers execute code and record microsecond heap/stack events.
-              </p>
-            </motion.div>
+                <motion.div
+                  variants={cardItem}
+                  className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
+                >
+                  <span className="text-[10px] text-muted-foreground block">STEP 02</span>
+                  <span className="font-bold text-foreground block">AST Security Scan</span>
+                  <p className="text-[11px] font-sans text-muted-foreground leading-normal">
+                    JavaParser validates syntax and enforces security boundaries before queuing.
+                  </p>
+                </motion.div>
 
-            <motion.div
-              variants={cardItem}
-              className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
-            >
-              <span className="text-[10px] text-muted-foreground block">STEP 04</span>
-              <span className="font-bold text-foreground block">Interactive Replay</span>
-              <p className="text-[11px] font-sans text-muted-foreground leading-normal">
-                Replay forwards and backwards with pointer resolution and scope tracking.
-              </p>
-            </motion.div>
-          </motion.div>
+                <motion.div
+                  variants={cardItem}
+                  className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
+                >
+                  <span className="text-[10px] text-muted-foreground block">STEP 03</span>
+                  <span className="font-bold text-foreground block">JDI Trace Capture</span>
+                  <p className="text-[11px] font-sans text-muted-foreground leading-normal">
+                    Isolated workers execute code and record microsecond heap/stack events.
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  variants={cardItem}
+                  className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
+                >
+                  <span className="text-[10px] text-muted-foreground block">STEP 04</span>
+                  <span className="font-bold text-foreground block">Interactive Replay</span>
+                  <p className="text-[11px] font-sans text-muted-foreground leading-normal">
+                    Replay forwards and backwards with pointer resolution and scope tracking.
+                  </p>
+                </motion.div>
+              </motion.div>
+            </div>
+          </ElectricBorder>
         </motion.section>
 
         {/* Section 5: Architecture & Privacy */}
@@ -847,63 +864,80 @@ export const LandingPage: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className="p-8 bg-surface/50 border border-border rounded-2xl space-y-6 scroll-mt-24"
+          className="scroll-mt-24"
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
-                Privacy & Governance
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-0.5">
-                <WordReveal
-                  text="Local-First & Zero Tracking Architecture"
-                  delay={0.1}
-                />
-              </h2>
-            </div>
-            <div className="flex items-center space-x-2 text-xs font-mono text-muted-foreground">
-              <Database className="w-4 h-4 text-foreground stroke-[1.5]" />
-              <span>LocalStorage Driver Active</span>
-            </div>
-          </div>
-
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs"
+          <ElectricBorder
+            color="#eab308"
+            glowColor="#ca8a04"
+            borderRadius={16}
+            speed={0.75}
+            chaos={0.35}
+            spread={0.5}
+            thickness={1.5}
+            strands={3}
+            intensity={0.85}
+            glow={0.7}
+            arcs={1}
+            interactive={true}
           >
-            <motion.div
-              variants={cardItem}
-              className="p-4 bg-white border border-border rounded-xl space-y-1.5 shadow-2xs"
-            >
-              <span className="font-bold text-foreground block">Guest Session Security</span>
-              <p className="text-muted-foreground leading-relaxed">
-                Guest users have full access to all features. All progress, code snippets, and challenges are stored locally in your browser.
-              </p>
-            </motion.div>
+            <div className="p-8 bg-surface/50 border border-border rounded-2xl space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                    Privacy & Governance
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-0.5">
+                    <WordReveal
+                      text="Local-First & Zero Tracking Architecture"
+                      delay={0.1}
+                    />
+                  </h2>
+                </div>
+                <div className="flex items-center space-x-2 text-xs font-mono text-muted-foreground">
+                  <Database className="w-4 h-4 text-foreground stroke-[1.5]" />
+                  <span>LocalStorage Driver Active</span>
+                </div>
+              </div>
 
-            <motion.div
-              variants={cardItem}
-              className="p-4 bg-white border border-border rounded-xl space-y-1.5 shadow-2xs"
-            >
-              <span className="font-bold text-foreground block">Full JSON Export</span>
-              <p className="text-muted-foreground leading-relaxed">
-                Export and import your entire learning session at any time with one click from the Progress and Profile pages.
-              </p>
-            </motion.div>
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-60px' }}
+                className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs"
+              >
+                <motion.div
+                  variants={cardItem}
+                  className="p-4 bg-white border border-border rounded-xl space-y-1.5 shadow-2xs"
+                >
+                  <span className="font-bold text-foreground block">Guest Session Security</span>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Guest users have full access to all features. All progress, code snippets, and challenges are stored locally in your browser.
+                  </p>
+                </motion.div>
 
-            <motion.div
-              variants={cardItem}
-              className="p-4 bg-white border border-border rounded-xl space-y-1.5 shadow-2xs"
-            >
-              <span className="font-bold text-foreground block">Isolated Container Runner</span>
-              <p className="text-muted-foreground leading-relaxed">
-                All Java code execution passes through disposable, network-isolated Docker sandbox containers with 256MB RAM caps.
-              </p>
-            </motion.div>
-          </motion.div>
+                <motion.div
+                  variants={cardItem}
+                  className="p-4 bg-white border border-border rounded-xl space-y-1.5 shadow-2xs"
+                >
+                  <span className="font-bold text-foreground block">Full JSON Export</span>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Export and import your entire learning session at any time with one click from the Progress and Profile pages.
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  variants={cardItem}
+                  className="p-4 bg-white border border-border rounded-xl space-y-1.5 shadow-2xs"
+                >
+                  <span className="font-bold text-foreground block">Isolated Container Runner</span>
+                  <p className="text-muted-foreground leading-relaxed">
+                    All Java code execution passes through disposable, network-isolated Docker sandbox containers with 256MB RAM caps.
+                  </p>
+                </motion.div>
+              </motion.div>
+            </div>
+          </ElectricBorder>
         </motion.section>
 
         {/* Section 6: Final Call to Action Gateway */}

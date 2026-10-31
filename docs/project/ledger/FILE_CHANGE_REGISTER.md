@@ -184,6 +184,7 @@
 | OOPS-20261031-0012 | HS-01 | `frontend/src/components/Hyperspeed.css` | CREATED | CSS styling and canvas absolute placement for Hyperspeed component | Styling requirement |
 | OOPS-20261031-0012 | HS-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Replaced background completely with Hyperspeed 3D light trail warp | User request requirement |
 | OOPS-20261031-0013 | ER-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Wrapped 4 Core Capability cards in ElectricBorder in electric red (#ff003c / #ff1744) | User directive requirement |
+| OOPS-20261031-0014 | EY-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Wrapped Section 4 (Pipeline) and Section 5 (Privacy) in ElectricBorder with mustard yellow (#eab308 / #ca8a04) | User directive requirement |
 
 ---
 
