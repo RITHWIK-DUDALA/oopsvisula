@@ -23,6 +23,7 @@ import {
 import { AuthModal } from '@/components/shared/AuthModal';
 import { WordReveal } from './components/WordReveal';
 import ElectricBorder from '@/components/ElectricBorder';
+import Antigravity from '@/components/Antigravity';
 
 interface PreviewConcept {
   id: string;
@@ -222,12 +223,29 @@ export const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-foreground selection:text-background scroll-smooth">
+    <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-foreground selection:text-background scroll-smooth relative overflow-x-hidden">
       {/* Real-time Smooth Scroll Indicator Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[2.5px] bg-foreground origin-left z-50 pointer-events-none"
         style={{ scaleX }}
       />
+
+      {/* Interactive Antigravity Particle Field Background */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-50">
+        <Antigravity
+          colors={['#00e5ff', '#0066ff', '#38bdf8', '#18181b']}
+          count={1200}
+          magnetRadius={10}
+          ringRadius={7.5}
+          particleSize={0.85}
+          autoAnimate={true}
+          lightMode={true}
+          waveAmplitude={0.8}
+          waveSpeed={0.35}
+          interactive={true}
+          clickBurst={true}
+        />
+      </div>
 
       {/* Standalone Public Header */}
       <header className="sticky top-0 z-40 h-16 border-b border-border bg-white/90 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between transition-colors">
@@ -298,7 +316,7 @@ export const LandingPage: React.FC = () => {
       </header>
 
       {/* Main Public Marketing Body */}
-      <main className="flex-1 space-y-24 py-12 px-4 sm:px-8 max-w-6xl mx-auto w-full">
+      <main className="relative z-10 flex-1 space-y-24 py-12 px-4 sm:px-8 max-w-6xl mx-auto w-full">
         {/* Section 1: Hero Banner */}
         <motion.section
           variants={sectionVariants}
@@ -868,7 +886,7 @@ export const LandingPage: React.FC = () => {
       </main>
 
       {/* Standalone Public Footer */}
-      <footer className="border-t border-border bg-white py-8 px-4 sm:px-8 text-xs text-muted-foreground">
+      <footer className="relative z-10 border-t border-border bg-white/90 backdrop-blur-sm py-8 px-4 sm:px-8 text-xs text-muted-foreground">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2 font-mono">
             <Code2 className="w-4 h-4 text-foreground stroke-[1.5]" />
