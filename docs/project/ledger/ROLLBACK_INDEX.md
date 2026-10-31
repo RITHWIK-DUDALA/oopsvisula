@@ -47,4 +47,6 @@
 
 
 
+| CP-0028 | OOPS-20261031-0017-REMOVE_SCROLL_INDICATOR | 2ac8f48 | 2026-10-31 11:05:21 | feat(landing): Remove SCROLL TO EXPLORE indicator from landing hero per user directive | 9 | `git checkout 2ac8f48` / `GO TO OOPS-20261031-0017-REMOVE_SCROLL_INDICATOR` | VERIFIED |
+
 ---
