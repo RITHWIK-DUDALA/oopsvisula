@@ -210,4 +210,8 @@
 
 | OOPS-20261031-0017 | SC-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Removed ScrollIndicator component, import, and handler from Hero section | User directive requirement |
 
+| OOPS-20261031-0018 | CP-01 | `frontend/src/data/conceptDetailsData.ts` | CREATED | 4-tier progressive educational data layer (Basic, Intermediate, Advanced, Modern Java 21) for all 14 curriculum concepts | User curriculum requirement |
+| OOPS-20261031-0018 | CP-01 | `frontend/src/features/concepts/ConceptDetailPage.tsx` | CREATED | Dedicated full-page progressive concept reader with code copy, visualizer launch, and linear progression | User curriculum requirement |
+| OOPS-20261031-0018 | CP-01 | `frontend/src/features/concepts/ConceptsPage.tsx` | MODIFIED | Replaced popup modal with direct page navigation to /concepts/:conceptId | User curriculum requirement |
+| OOPS-20261031-0018 | CP-01 | `frontend/src/app/routes.tsx` | MODIFIED | Registered concepts/:conceptId route in application shell | Routing requirement |
 ---

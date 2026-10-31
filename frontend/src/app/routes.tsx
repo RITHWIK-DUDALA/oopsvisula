@@ -4,6 +4,7 @@ import { AppLayout } from '@/app/layouts/AppLayout';
 import { LandingPage } from '@/features/landing/LandingPage';
 import { DashboardPage } from '@/features/dashboard/DashboardPage';
 import { ConceptsPage } from '@/features/concepts/ConceptsPage';
+import { ConceptDetailPage } from '@/features/concepts/ConceptDetailPage';
 import { VisualizerPage } from '@/features/visualizer/VisualizerPage';
 import { PlaygroundPage } from '@/features/playground/PlaygroundPage';
 import { PracticePage } from '@/features/practice/PracticePage';
@@ -92,6 +93,7 @@ export const router = createBrowserRouter([
       { path: 'playground', element: <PlaygroundPage /> },
       { path: 'visualizers', element: <VisualizerPage /> },
       { path: 'concepts', element: <ConceptsPage /> },
+      { path: 'concepts/:conceptId', element: <ConceptDetailPage /> },
       { path: 'practice', element: <PracticePage /> },
       { path: 'roadmap', element: <RoadmapPage /> },
       { path: 'progress', element: <ProgressPage /> },
