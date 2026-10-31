@@ -183,6 +183,7 @@
 | OOPS-20261031-0012 | HS-01 | `frontend/src/components/Hyperspeed.tsx` | CREATED | React Bits Hyperspeed 3D warp highway component using Three.js with full TypeScript typing | React Bits component requirement |
 | OOPS-20261031-0012 | HS-01 | `frontend/src/components/Hyperspeed.css` | CREATED | CSS styling and canvas absolute placement for Hyperspeed component | Styling requirement |
 | OOPS-20261031-0012 | HS-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Replaced background completely with Hyperspeed 3D light trail warp | User request requirement |
+| OOPS-20261031-0013 | ER-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Wrapped 4 Core Capability cards in ElectricBorder in electric red (#ff003c / #ff1744) | User directive requirement |
 
 ---
 

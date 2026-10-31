@@ -634,62 +634,134 @@ export const LandingPage: React.FC = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-60px' }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-5"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             <motion.div
               variants={cardItem}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs hover:border-foreground/40 transition-colors"
+              className="h-full"
             >
-              <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
-                <Terminal className="w-5 h-5 text-foreground stroke-[1.5]" />
-              </div>
-              <h3 className="text-base font-bold text-foreground">3-Panel Execution Workspace</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Seamlessly integrated Monaco Java 21 editor, interactive Memory Canvas, and runtime Execution Inspector with variable scopes, timeline scrubber, and console output.
-              </p>
+              <ElectricBorder
+                color="#ff003c"
+                glowColor="#ff1744"
+                borderRadius={16}
+                speed={0.75}
+                chaos={0.35}
+                spread={0.5}
+                thickness={1.5}
+                strands={3}
+                intensity={0.85}
+                glow={0.7}
+                arcs={1}
+                interactive={true}
+                className="h-full"
+              >
+                <div className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
+                  <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
+                    <Terminal className="w-5 h-5 text-foreground stroke-[1.5]" />
+                  </div>
+                  <h3 className="text-base font-bold text-foreground">3-Panel Execution Workspace</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Seamlessly integrated Monaco Java 21 editor, interactive Memory Canvas, and runtime Execution Inspector with variable scopes, timeline scrubber, and console output.
+                  </p>
+                </div>
+              </ElectricBorder>
             </motion.div>
 
             <motion.div
               variants={cardItem}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs hover:border-foreground/40 transition-colors"
+              className="h-full"
             >
-              <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
-                <Boxes className="w-5 h-5 text-foreground stroke-[1.5]" />
-              </div>
-              <h3 className="text-base font-bold text-foreground">Visual UML Class Builder</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Design classes, records, and interfaces with visual drag-and-drop connectors for inheritance, interface realization, composition, and aggregation. Generates idiomatic Java 21 code in real time.
-              </p>
+              <ElectricBorder
+                color="#ff003c"
+                glowColor="#ff1744"
+                borderRadius={16}
+                speed={0.75}
+                chaos={0.35}
+                spread={0.5}
+                thickness={1.5}
+                strands={3}
+                intensity={0.85}
+                glow={0.7}
+                arcs={1}
+                interactive={true}
+                className="h-full"
+              >
+                <div className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
+                  <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
+                    <Boxes className="w-5 h-5 text-foreground stroke-[1.5]" />
+                  </div>
+                  <h3 className="text-base font-bold text-foreground">Visual UML Class Builder</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Design classes, records, and interfaces with visual drag-and-drop connectors for inheritance, interface realization, composition, and aggregation. Generates idiomatic Java 21 code in real time.
+                  </p>
+                </div>
+              </ElectricBorder>
             </motion.div>
 
             <motion.div
               variants={cardItem}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs hover:border-foreground/40 transition-colors"
+              className="h-full"
             >
-              <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
-                <Shield className="w-5 h-5 text-foreground stroke-[1.5]" />
-              </div>
-              <h3 className="text-base font-bold text-foreground">AST Security Sandbox</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Multi-layered JavaParser static analysis blocks dangerous system calls, reflection, file I/O, and networking before code is executed inside resource-capped container workers.
-              </p>
+              <ElectricBorder
+                color="#ff003c"
+                glowColor="#ff1744"
+                borderRadius={16}
+                speed={0.75}
+                chaos={0.35}
+                spread={0.5}
+                thickness={1.5}
+                strands={3}
+                intensity={0.85}
+                glow={0.7}
+                arcs={1}
+                interactive={true}
+                className="h-full"
+              >
+                <div className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
+                  <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-foreground stroke-[1.5]" />
+                  </div>
+                  <h3 className="text-base font-bold text-foreground">AST Security Sandbox</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Multi-layered JavaParser static analysis blocks dangerous system calls, reflection, file I/O, and networking before code is executed inside resource-capped container workers.
+                  </p>
+                </div>
+              </ElectricBorder>
             </motion.div>
 
             <motion.div
               variants={cardItem}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs hover:border-foreground/40 transition-colors"
+              className="h-full"
             >
-              <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
-                <BookOpen className="w-5 h-5 text-foreground stroke-[1.5]" />
-              </div>
-              <h3 className="text-base font-bold text-foreground">14-Step Curriculum & Auto-Grading</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Structured pedagogical framework covering foundations, OOP principles, UML relationships, and modern Java 21 features with real-time AST assertion challenges.
-              </p>
+              <ElectricBorder
+                color="#ff003c"
+                glowColor="#ff1744"
+                borderRadius={16}
+                speed={0.75}
+                chaos={0.35}
+                spread={0.5}
+                thickness={1.5}
+                strands={3}
+                intensity={0.85}
+                glow={0.7}
+                arcs={1}
+                interactive={true}
+                className="h-full"
+              >
+                <div className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
+                  <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
+                    <BookOpen className="w-5 h-5 text-foreground stroke-[1.5]" />
+                  </div>
+                  <h3 className="text-base font-bold text-foreground">14-Step Curriculum & Auto-Grading</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Structured pedagogical framework covering foundations, OOP principles, UML relationships, and modern Java 21 features with real-time AST assertion challenges.
+                  </p>
+                </div>
+              </ElectricBorder>
             </motion.div>
           </motion.div>
         </motion.section>
