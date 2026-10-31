@@ -245,12 +245,12 @@ void main() {
   light *= frameFade;
   energy *= frameFade;
   hot *= frameFade;
-  float alpha = 1.0 - exp(-energy * gain);
-  vec3 color = mix(1.0 - exp(-light * gain), alpha * light / max(energy, 1e-4), uInk);
-  color = mix(color, vec3(alpha), clamp(hot, 0.0, 1.0) * uInk * 0.85);
+  float alpha = clamp(1.0 - exp(-energy * gain), 0.0, 1.0);
+  vec3 strandColor = energy > 1e-4 ? light / energy : uCore;
+  vec3 coreHot = mix(strandColor, uCore, 0.4);
+  vec3 color = mix(coreHot, vec3(1.0), clamp(hot * 0.25, 0.0, 1.0));
   float grain = (fract(52.9829189 * fract(dot(gl_FragCoord.xy, vec2(0.06711056, 0.00583715)))) - 0.5) / 255.0;
-  alpha = clamp(alpha + grain, 0.0, 1.0);
-  fragColor = vec4(clamp(color + grain, 0.0, alpha), alpha);
+  fragColor = vec4(clamp(color + grain, 0.0, 1.0), alpha);
 }`;
 
 const clamp = (value: number, min: number, max: number): number => Math.min(max, Math.max(min, value));
@@ -456,7 +456,7 @@ const ElectricBorder: React.FC<ElectricBorderProps> = ({
 
   const base = parseColor(color);
   const settings = {
-    core: base.map(channel => channel + (1 - channel) * 0.55),
+    core: base.map(channel => channel + (1 - channel) * 0.25),
     glowColor: glowColor ? parseColor(glowColor) : base,
     speed: Math.max(0, speed),
     chaos: clamp(chaos, 0, 2),
@@ -489,7 +489,7 @@ const ElectricBorder: React.FC<ElectricBorderProps> = ({
 
     const gl = canvas.getContext('webgl2', {
       alpha: true,
-      premultipliedAlpha: true,
+      premultipliedAlpha: false,
       antialias: false,
       depth: false,
       stencil: false,

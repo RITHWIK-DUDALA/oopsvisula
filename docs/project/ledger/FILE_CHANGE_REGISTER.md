@@ -3,6 +3,17 @@
 **Permanent Record of File Modifications**  
 *Rule: Every file modification must be recorded with exact details.*
 
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/components/LandingHeader.tsx` | CREATED | 90px transparent header with logo mark, center navigation links, search, and black Enter as Guest button | Reference hero recreation |
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/components/HeroPreviewCard.tsx` | CREATED | 903x509px floating Java lab preview card with Code/Stack/Heap columns, active line 17 gutter decoration, and curved cobalt reference connector | Reference hero recreation |
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/components/DecorativeOrbits.tsx` | CREATED | 3D gradient spheres and SVG orbital arcs matching reference composition | Reference hero recreation |
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/components/ScrollIndicator.tsx` | CREATED | Animated bouncing cobalt scroll line with glowing terminal node and 'SCROLL TO EXPLORE' label | Reference hero recreation |
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/components/DemoModal.tsx` | CREATED | Modal dialog for 'Watch Demo' action | Hero interaction |
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Rebuilt landing hero to exact 1671x941 viewport calibration with warm mustard-yellow radial gradient | Reference hero recreation |
+| OOPS-20261031-0016 | BF-03 | `frontend/package.json` | MODIFIED | Uninstalled @hugeicons/react and @hugeicons/core-free-icons | Defect elimination requirement |
+| OOPS-20261031-0016 | BF-03 | `frontend/src/components/CallChip.tsx` | MODIFIED | Migrated to standard lucide-react icons (Terminal, FileCode2, Search, Pencil, Check, RotateCw) | Defect elimination requirement |
+| OOPS-20261031-0016 | BF-03 | `frontend/src/components/ElectricBorder.tsx` | MODIFIED | Set premultipliedAlpha: false on WebGL context; rewritten fragment shader to output 100% vibrant color on white cards | Styling & visual vibrancy |
+| OOPS-20261031-0016 | BF-03 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Calibrated Section 4 & Section 5 ElectricBorder to exact mustard yellow #F5BD24 / #D97706 | Color consistency |
+
 ---
 
 | Central ID | Task ID | Exact File Path | Change Type | Exact Change | Reason |
@@ -185,6 +196,17 @@
 | OOPS-20261031-0012 | HS-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Replaced background completely with Hyperspeed 3D light trail warp | User request requirement |
 | OOPS-20261031-0013 | ER-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Wrapped 4 Core Capability cards in ElectricBorder in electric red (#ff003c / #ff1744) | User directive requirement |
 | OOPS-20261031-0014 | EY-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Wrapped Section 4 (Pipeline) and Section 5 (Privacy) in ElectricBorder with mustard yellow (#eab308 / #ca8a04) | User directive requirement |
+
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/components/LandingHeader.tsx` | CREATED | 90px transparent header with logo mark, center navigation links, search, and black Enter as Guest button | Reference hero recreation |
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/components/HeroPreviewCard.tsx` | CREATED | 903x509px floating Java lab preview card with Code/Stack/Heap columns, active line 17 gutter decoration, and curved cobalt reference connector | Reference hero recreation |
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/components/DecorativeOrbits.tsx` | CREATED | 3D gradient spheres and SVG orbital arcs matching reference composition | Reference hero recreation |
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/components/ScrollIndicator.tsx` | CREATED | Animated bouncing cobalt scroll line with glowing terminal node and 'SCROLL TO EXPLORE' label | Reference hero recreation |
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/components/DemoModal.tsx` | CREATED | Modal dialog for 'Watch Demo' action | Hero interaction |
+| OOPS-20261031-0015 | LR-01 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Rebuilt landing hero to exact 1671x941 viewport calibration with warm mustard-yellow radial gradient | Reference hero recreation |
+| OOPS-20261031-0016 | BF-03 | `frontend/package.json` | MODIFIED | Uninstalled @hugeicons/react and @hugeicons/core-free-icons | Defect elimination requirement |
+| OOPS-20261031-0016 | BF-03 | `frontend/src/components/CallChip.tsx` | MODIFIED | Migrated to standard lucide-react icons (Terminal, FileCode2, Search, Pencil, Check, RotateCw) | Defect elimination requirement |
+| OOPS-20261031-0016 | BF-03 | `frontend/src/components/ElectricBorder.tsx` | MODIFIED | Set premultipliedAlpha: false on WebGL context; rewritten fragment shader to output 100% vibrant color on white cards | Styling & visual vibrancy |
+| OOPS-20261031-0016 | BF-03 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Calibrated Section 4 & Section 5 ElectricBorder to exact mustard yellow #F5BD24 / #D97706 | Color consistency |
 
 ---
 

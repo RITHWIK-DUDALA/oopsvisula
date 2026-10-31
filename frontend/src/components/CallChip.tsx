@@ -1,12 +1,12 @@
 import React, { isValidElement, useEffect, useLayoutEffect, useRef, useState, CSSProperties, ReactNode } from 'react';
 import {
-  CommandLineIcon,
-  File02Icon,
-  PencilEdit01Icon,
-  RefreshIcon,
-  Search01Icon,
-  Tick02Icon,
-} from '@hugeicons/core-free-icons';
+  Terminal,
+  FileCode2,
+  Search,
+  Pencil,
+  Check,
+  RotateCw,
+} from 'lucide-react';
 
 import './CallChip.css';
 
@@ -35,10 +35,10 @@ export interface CallChipProps {
 const HOLD_AT = 0.9;
 const SHAKE = [0, -1, 1, -0.66, 0.66, -0.33, 0];
 const ICONS: Record<string, any> = {
-  terminal: CommandLineIcon,
-  file: File02Icon,
-  search: Search01Icon,
-  edit: PencilEdit01Icon,
+  terminal: Terminal,
+  file: FileCode2,
+  search: Search,
+  edit: Pencil,
 };
 const WORDS: Record<string, string> = {
   running: 'running',
@@ -52,35 +52,15 @@ const reduceMotion = () =>
   typeof window !== 'undefined' && (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false);
 const glyphOf = (s: string) => (s === 'done' ? 'check' : s === 'error' ? 'retry' : 'tool');
 
-const renderGlyph = (g: any, sz: number, sw = 1.8) => {
+const renderGlyph = (g: any, sz: number) => {
   if (!g) return null;
   if (isValidElement(g)) return g;
-  if (Array.isArray(g)) {
-    return (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        width={sz}
-        height={sz}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={sw}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        {g.map(([tag, attrs]: [string, any], idx: number) => {
-          const TagName = tag as any;
-          return <TagName key={attrs?.key ?? idx} {...attrs} stroke="currentColor" strokeWidth={sw} />;
-        })}
-      </svg>
-    );
-  }
   if (
     typeof g === 'function' ||
     (typeof g === 'object' && g !== null && ('$$typeof' in g || 'render' in g))
   ) {
     const Comp = g;
-    return <Comp className="w-3.5 h-3.5" />;
+    return <Comp style={{ width: sz, height: sz }} className="stroke-[1.75]" />;
   }
   return null;
 };
@@ -244,13 +224,13 @@ export default function CallChip({
       <span ref={fillRef} className="call-chip__fill" aria-hidden="true" />
       <span className="call-chip__slot" aria-hidden="true">
         <span className="call-chip__glyph" data-state={glyphState('tool')}>
-          {toolIcon ? renderGlyph(toolIcon, iconSize, 1.8) : renderGlyph(icon, iconSize, 1.8)}
+          {toolIcon ? renderGlyph(toolIcon, iconSize) : renderGlyph(icon, iconSize)}
         </span>
         <span className="call-chip__glyph" data-state={glyphState('check')}>
-          {renderGlyph(Tick02Icon, iconSize, 2.2)}
+          {renderGlyph(Check, iconSize)}
         </span>
         <span className="call-chip__glyph" data-state={glyphState('retry')}>
-          {renderGlyph(RefreshIcon, iconSize, 2)}
+          {renderGlyph(RotateCw, iconSize)}
         </span>
       </span>
       <span className="call-chip__name" aria-hidden="true">

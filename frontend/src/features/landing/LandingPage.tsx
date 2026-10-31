@@ -7,23 +7,26 @@ import {
   useSpring,
 } from 'motion/react';
 import {
-  Code2,
+  Play,
   ArrowRight,
-  Sparkles,
+  Video,
+  Code2,
+  Terminal,
+  Boxes,
   Shield,
   BookOpen,
-  UserCheck,
-  Lock,
-  Boxes,
-  Terminal,
-  CheckCircle2,
-  ChevronRight,
   Database,
+  ChevronRight,
+  Lock,
 } from 'lucide-react';
 import { AuthModal } from '@/components/shared/AuthModal';
 import { WordReveal } from './components/WordReveal';
 import ElectricBorder from '@/components/ElectricBorder';
-import Hyperspeed from '@/components/Hyperspeed';
+import { LandingHeader } from './components/LandingHeader';
+import { DecorativeOrbits } from './components/DecorativeOrbits';
+import { HeroPreviewCard } from './components/HeroPreviewCard';
+import { ScrollIndicator } from './components/ScrollIndicator';
+import { DemoModal } from './components/DemoModal';
 
 interface PreviewConcept {
   id: string;
@@ -158,6 +161,7 @@ export const LandingPage: React.FC = () => {
   const [activeConceptIndex, setActiveConceptIndex] = useState(0);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'signin' | 'signup'>('signin');
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
   const navigate = useNavigate();
 
   // Scroll Progress Tracker for Landing Page Header
@@ -185,6 +189,13 @@ export const LandingPage: React.FC = () => {
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       window.history.pushState(null, '', `#${targetId}`);
+    }
+  };
+
+  const handleScrollToExplore = () => {
+    const el = document.getElementById('what-we-do');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -223,245 +234,160 @@ export const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-foreground selection:text-background scroll-smooth relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#FFFBEA] text-[#111111] flex flex-col selection:bg-[#111111] selection:text-white scroll-smooth relative overflow-x-hidden font-sans">
       {/* Real-time Smooth Scroll Indicator Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[2.5px] bg-foreground origin-left z-50 pointer-events-none"
+        className="fixed top-0 left-0 right-0 h-[2.5px] bg-[#2463EB] origin-left z-50 pointer-events-none"
         style={{ scaleX }}
       />
 
-      {/* Interactive Hyperspeed Warp Light Trail Background */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-60">
-        <Hyperspeed
-          curve="winding"
-          curvature={0.8}
-          speed={1.1}
-          boost={2.5}
-          fov={85}
-          boostFov={125}
-          lanes={3}
-          roadWidth={12}
-          medianWidth={2}
-          density={35}
-          trailLength={1.2}
-          lightSize={1.1}
-          poles={24}
-          dust={120}
-          glow={0.7}
-          reflections={0.35}
-          roadOpacity={0.06}
-          steer={0.35}
-          tailColors={['#00e5ff', '#0066ff', '#0284c7']}
-          headColors={['#00d2ff', '#0070f3', '#38bdf8']}
-          poleColors={['#00e5ff', '#0066ff']}
-          theme="light"
-          background="transparent"
-          interactive={true}
+      {/* ========================================================================= */}
+      {/* SECTION 1: EXACT REFERENCE HERO VIEWPORT (1671 × 941 TARGET CALIBRATION)  */}
+      {/* ========================================================================= */}
+      <section className="relative w-full min-h-screen flex flex-col justify-between overflow-hidden">
+        {/* Full-Viewport Warm Mustard-Yellow & Orange Radiant Background */}
+        <div
+          className="absolute inset-0 pointer-events-none z-0"
+          style={{
+            background: `
+              radial-gradient(circle at 4% 100%, rgba(255, 132, 36, 0.92) 0%, rgba(255, 155, 58, 0.58) 22%, transparent 48%),
+              radial-gradient(circle at 87% 16%, rgba(255, 132, 27, 0.68) 0%, rgba(255, 184, 63, 0.45) 24%, transparent 49%),
+              radial-gradient(circle at 91% 76%, rgba(255, 196, 29, 0.88) 0%, rgba(255, 215, 94, 0.5) 24%, transparent 47%),
+              radial-gradient(circle at 50% 45%, rgba(255, 243, 181, 0.85) 0%, transparent 55%),
+              linear-gradient(120deg, #FFE9A0 0%, #FFF0B4 42%, #FFE39A 70%, #FFD16B 100%)
+            `,
+          }}
         />
-      </div>
 
-      {/* Standalone Public Header */}
-      <header className="sticky top-0 z-40 h-16 border-b border-border bg-white/90 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between transition-colors">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-lg bg-foreground text-background flex items-center justify-center font-bold shadow-xs">
-            <Code2 className="w-4 h-4 stroke-[2]" />
-          </div>
-          <div>
-            <span className="font-bold text-sm tracking-tight text-foreground block">
-              OOPS LAB
-            </span>
-            <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider block">
-              Java 21 OOP Laboratory
-            </span>
+        {/* Decorative 3D Spheres & SVG Orbital Paths */}
+        <DecorativeOrbits />
+
+        {/* 90px Standardized Landing Header */}
+        <LandingHeader
+          onEnterAsGuest={handleEnterAsGuest}
+          onSmoothScroll={handleSmoothScroll}
+          onOpenSearch={() => handleOpenAuth('signin')}
+        />
+
+        {/* Main Hero Content: Two-Column Composition */}
+        <div className="flex-1 w-full max-w-[1520px] mx-auto px-6 sm:px-12 lg:px-16 flex items-center justify-between py-6 relative z-10">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Left Hero Column (~5 cols) */}
+            <motion.div
+              initial={{ opacity: 0, x: -24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, ease: 'easeOut' }}
+              className="lg:col-span-5 space-y-6 max-w-[530px]"
+            >
+              {/* Eyebrow Badge */}
+              <div className="inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-xs border border-[#3C3219]/15 text-[11px] font-mono tracking-[1px] text-[#555D70] uppercase shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-[#F47B20] shrink-0" />
+                <span>OPEN SOURCE · INTERACTIVE · JAVA 21</span>
+              </div>
+
+              {/* Exact 3-Line Heading with Selected Color Treatment */}
+              <h1 className="text-[44px] sm:text-[54px] lg:text-[64px] font-[800] tracking-[-2.4px] leading-[1.05] text-[#111111]">
+                Learn OOP by<br />
+                <span className="text-[#2463EB]">Seeing</span> the{' '}
+                <span className="text-[#F47B20]">JVM</span><br />
+                in Action<span className="text-[#F5BD24]">.</span>
+              </h1>
+
+              {/* Description Paragraph */}
+              <p className="text-[17px] sm:text-[18.5px] leading-[1.5] text-[#50566A] max-w-[500px]">
+                Write real Java code, run it step by step, and visualize how the JVM manages objects, memory and references — all in a clean, interactive environment.
+              </p>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-4 pt-1">
+                <button
+                  onClick={handleEnterAsGuest}
+                  className="h-[61px] min-w-[260px] px-7 rounded-[12px] bg-[#111111] hover:bg-[#222222] text-white font-semibold text-[15.5px] flex items-center justify-center space-x-3 transition-all group shadow-sm cursor-pointer active:scale-98"
+                >
+                  <Play className="w-4 h-4 fill-current stroke-[1.5]" />
+                  <span>Enter the Laboratory</span>
+                  <ArrowRight className="w-4 h-4 stroke-[2.2] group-hover:translate-x-1 transition-transform" />
+                </button>
+
+                <button
+                  onClick={() => setIsDemoOpen(true)}
+                  className="h-[61px] min-w-[172px] px-6 rounded-[12px] bg-white hover:bg-[#F9FAFB] border border-[#E7E7E7] text-[#111111] font-semibold text-[15.5px] flex items-center justify-center space-x-2.5 transition-all shadow-xs cursor-pointer active:scale-98"
+                >
+                  <Video className="w-4 h-4 stroke-[2] text-[#111111]" />
+                  <span>Watch Demo</span>
+                </button>
+              </div>
+
+              {/* Supporting Line */}
+              <p className="text-[13.5px] text-[#50566A]">
+                No installation required. Runs in your browser.
+              </p>
+            </motion.div>
+
+            {/* Right Hero Column: Interactive Laboratory Preview Card (~7 cols) */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15, ease: 'easeOut' }}
+              className="lg:col-span-7 flex justify-end w-full"
+            >
+              <HeroPreviewCard />
+            </motion.div>
           </div>
         </div>
 
-        {/* Public Navigation Anchor Links with Smooth Scrolling */}
-        <nav className="hidden md:flex items-center space-x-6 text-xs font-medium text-muted-foreground">
-          <a
-            href="#what-we-do"
-            onClick={(e) => handleSmoothScroll(e, 'what-we-do')}
-            className="hover:text-foreground transition-colors"
-          >
-            What We Do
-          </a>
-          <a
-            href="#features"
-            onClick={(e) => handleSmoothScroll(e, 'features')}
-            className="hover:text-foreground transition-colors"
-          >
-            Features
-          </a>
-          <a
-            href="#how-it-works"
-            onClick={(e) => handleSmoothScroll(e, 'how-it-works')}
-            className="hover:text-foreground transition-colors"
-          >
-            How It Works
-          </a>
-          <a
-            href="#architecture"
-            onClick={(e) => handleSmoothScroll(e, 'architecture')}
-            className="hover:text-foreground transition-colors"
-          >
-            Architecture
-          </a>
-        </nav>
-
-        {/* Authentication & Guest Entry Gateway */}
-        <div className="flex items-center space-x-2.5">
-          <button
-            onClick={() => handleOpenAuth('signin')}
-            className="px-3 py-1.5 text-xs font-medium text-foreground hover:bg-surface rounded-lg transition-colors"
-          >
-            Sign In
-          </button>
-
-          <motion.button
-            whileTap={{ scale: 0.97 }}
-            onClick={handleEnterAsGuest}
-            className="flex items-center space-x-1.5 px-3.5 py-1.5 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.98] transition-all shadow-xs"
-          >
-            <UserCheck className="w-3.5 h-3.5 stroke-[2]" />
-            <span>Enter as Guest</span>
-          </motion.button>
+        {/* Bottom Centered Scroll Indicator */}
+        <div className="w-full flex justify-center pb-3 relative z-20">
+          <ScrollIndicator onScrollToExplore={handleScrollToExplore} />
         </div>
-      </header>
+      </section>
 
-      {/* Main Public Marketing Body */}
-      <main className="relative z-10 flex-1 space-y-24 py-12 px-4 sm:px-8 max-w-6xl mx-auto w-full">
-        {/* Section 1: Hero Banner */}
-        <motion.section
-          variants={sectionVariants}
-          initial="hidden"
-          animate="visible"
-          className="text-center space-y-6 pt-6 sm:pt-10"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-border bg-white text-xs text-muted-foreground font-medium shadow-2xs"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-foreground stroke-[1.5]" />
-            <span>Open-Source Interactive Java 21 Visualization Platform</span>
-          </motion.div>
-
-          {/* Word-by-Word Hero Title Appearance */}
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground max-w-4xl mx-auto leading-tight sm:leading-tight">
-            <WordReveal
-              text="Learn Object-Oriented Programming by Seeing How the JVM Actually Runs."
-              delay={0.15}
-              wordDelay={0.045}
-            />
-          </h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.45 }}
-            className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-          >
-            Traditional textbooks explain classes and inheritance with abstract metaphors. OOPS LAB pairs real Java 21 compilation with deterministic JDI execution tracing — rendering Stack Frames, Heap allocations, and reference pointers in real time.
-          </motion.p>
-
-          {/* Core Entry Actions with Micro-Interactions */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4"
-          >
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleEnterAsGuest}
-              className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-xl bg-foreground text-background text-sm font-semibold hover:bg-black/90 transition-all shadow-sm group"
-            >
-              <UserCheck className="w-4 h-4 stroke-[2]" />
-              <span>Enter Laboratory as Guest</span>
-              <ArrowRight className="w-4 h-4 stroke-[2] group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => handleOpenAuth('signup')}
-              className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-xl border border-border bg-white text-foreground text-sm font-semibold hover:border-foreground hover:bg-surface transition-all"
-            >
-              <Lock className="w-4 h-4 stroke-[1.5]" />
-              <span>Sign In / Create Account</span>
-            </motion.button>
-          </motion.div>
-
-          {/* Trust Value Badges */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.75 }}
-            className="pt-6 flex flex-wrap items-center justify-center gap-6 text-xs text-muted-foreground font-mono"
-          >
-            <div className="flex items-center space-x-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
-              <span>Zero Installation Required</span>
-            </div>
-            <div className="flex items-center space-x-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
-              <span>Java 21 LTS Platform</span>
-            </div>
-            <div className="flex items-center space-x-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
-              <span>Private Local Storage</span>
-            </div>
-            <div className="flex items-center space-x-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
-              <span>100% Free & Open-Source</span>
-            </div>
-          </motion.div>
-        </motion.section>
-
-        {/* Section 2: What We Do (Interactive Visualizer Showcase) */}
+      {/* ========================================================================= */}
+      {/* SECTIONS BELOW THE FOLD (EXPLORATION & DEEP ARCHITECTURE)                 */}
+      {/* ========================================================================= */}
+      <main className="relative z-10 flex-1 space-y-24 py-16 px-4 sm:px-8 max-w-6xl mx-auto w-full bg-white/60 backdrop-blur-md rounded-t-3xl mt-6 border-t border-[#E5E7EB]/80 shadow-xs">
+        {/* Section 2: Interactive Concept Explorer ("What We Do") */}
         <motion.section
           id="what-we-do"
           variants={sectionVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className="space-y-6 scroll-mt-24"
+          className="space-y-8 scroll-mt-24 pt-4"
         >
-          <div className="text-center space-y-2">
-            <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
-              Real-Time Execution Preview
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="space-y-2">
+              <div className="text-xs font-mono text-[#F47B20] font-semibold uppercase tracking-wider">
+                What We Do
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#111111]">
+                <WordReveal
+                  text="Interactive Java 21 Memory Projections"
+                  delay={0.1}
+                />
+              </h2>
+              <p className="text-xs sm:text-sm text-[#50566A] max-w-xl">
+                Select an object-oriented paradigm below to observe how the JVM allocates heap instances, frames method invocations, and maps reference pointers.
+              </p>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-              <WordReveal
-                text="What OOPS LAB Does: Deterministic Memory Projection"
-                delay={0.1}
-              />
-            </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto">
-              Select an OOP concept below to see how our simulation engine visualizes memory allocation and runtime stack frames.
-            </p>
-          </div>
 
-          {/* Concept Tabs with Smooth Active Indicator */}
-          <div className="flex items-center justify-center">
-            <div className="p-1 bg-surface border border-border rounded-xl flex flex-wrap gap-1">
+            {/* Concept Selector Pill Tabs */}
+            <div className="flex items-center space-x-1.5 p-1 bg-white border border-[#E5E7EB] rounded-xl self-start overflow-x-auto max-w-full shadow-2xs">
               {previewConcepts.map((concept, index) => (
                 <button
                   key={concept.id}
                   onClick={() => setActiveConceptIndex(index)}
-                  className={`relative px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                    index === activeConceptIndex
-                      ? 'text-foreground font-semibold'
-                      : 'text-muted-foreground hover:text-foreground'
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer whitespace-nowrap relative ${
+                    activeConceptIndex === index
+                      ? 'text-white'
+                      : 'text-[#50566A] hover:text-[#111111]'
                   }`}
                 >
-                  {index === activeConceptIndex && (
+                  {activeConceptIndex === index && (
                     <motion.div
                       layoutId="activeConceptPill"
-                      className="absolute inset-0 bg-white rounded-lg shadow-xs border border-border/80"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      className="absolute inset-0 bg-[#111111] rounded-lg shadow-xs"
+                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                     />
                   )}
                   <span className="relative z-10">{concept.name}</span>
@@ -470,7 +396,7 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Interactive Simulation Preview Card with Smooth Concept Transition */}
+          {/* Interactive Simulation Preview Card */}
           <ElectricBorder
             color="#00e5ff"
             glowColor="#0066ff"
@@ -485,123 +411,111 @@ export const LandingPage: React.FC = () => {
             arcs={1}
             interactive={true}
           >
-            <div className="bg-white border border-border rounded-2xl overflow-hidden shadow-xs">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeConcept.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.28, ease: 'easeOut' }}
-              >
-                {/* Preview Card Header */}
-                <div className="p-4 sm:p-5 border-b border-border bg-surface/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div className="space-y-0.5">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
-                      {activeConcept.category}
-                    </span>
-                    <h3 className="text-sm sm:text-base font-bold text-foreground">
-                      {activeConcept.name}
-                    </h3>
-                  </div>
-                  <p className="text-xs text-muted-foreground sm:max-w-md">
-                    {activeConcept.summary}
-                  </p>
-                </div>
-
-                {/* 3-Column Visual Layout (Code -> Stack -> Heap) */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-border">
-                  {/* Column 1: Java Source Code */}
-                  <div className="lg:col-span-5 p-5 bg-white space-y-3">
-                    <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
-                      <span className="font-semibold text-foreground">Java 21 Source</span>
-                      <span className="text-[10px] bg-surface px-2 py-0.5 rounded border border-border">
-                        Executing Line {activeConcept.stackFrame.line}
+            <div className="bg-white border border-[#E5E7EB] rounded-2xl overflow-hidden shadow-xs">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeConcept.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.28, ease: 'easeOut' }}
+                  className="p-6 sm:p-8 space-y-6"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#F3F4F6] pb-4">
+                    <div>
+                      <span className="text-[10px] font-mono uppercase text-[#F47B20] font-bold tracking-wider">
+                        {activeConcept.category}
                       </span>
+                      <h3 className="text-lg sm:text-xl font-bold text-[#111111]">
+                        {activeConcept.name}
+                      </h3>
                     </div>
-                    <pre className="p-4 bg-surface/60 border border-border rounded-xl font-mono text-xs text-foreground leading-relaxed overflow-x-auto">
-                      {activeConcept.codeSnippet}
-                    </pre>
+                    <p className="text-xs text-[#50566A] max-w-md font-sans">
+                      {activeConcept.summary}
+                    </p>
                   </div>
 
-                  {/* Column 2: Call Stack Frame */}
-                  <div className="lg:col-span-4 p-5 bg-surface/20 space-y-3">
-                    <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
-                      <span className="font-semibold text-foreground">Call Stack (LIFO)</span>
-                      <span className="text-[10px] bg-accent px-1.5 py-0.5 rounded border border-border text-foreground">
-                        1 Active Frame
-                      </span>
-                    </div>
-
-                    <div className="p-4 bg-white border border-border rounded-xl space-y-2.5">
-                      <div className="font-mono text-xs font-bold text-foreground pb-2 border-b border-border flex items-center justify-between">
-                        <span>{activeConcept.stackFrame.method}</span>
-                        <span className="text-[10px] text-muted-foreground font-normal">Line {activeConcept.stackFrame.line}</span>
-                      </div>
-
-                      <div className="space-y-1.5 text-xs font-mono">
-                        <span className="text-[10px] text-muted-foreground uppercase tracking-wider block">
-                          Local Variables
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    {/* Left: Java 21 Code Snippet */}
+                    <div className="lg:col-span-5 space-y-2">
+                      <div className="flex items-center justify-between text-xs font-mono text-[#50566A]">
+                        <span>Java 21 Source</span>
+                        <span className="px-2 py-0.5 rounded bg-[#EFF6FF] text-[#2463EB] font-bold text-[10px]">
+                          Executing Line {activeConcept.stackFrame.line}
                         </span>
-                        {activeConcept.stackFrame.vars.map((v) => (
-                          <div key={v.name} className="flex items-center justify-between p-1.5 bg-surface rounded border border-border/60">
-                            <span className="text-foreground font-medium">{v.name}</span>
-                            <span className="text-muted-foreground">{v.val}</span>
+                      </div>
+                      <div className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl font-mono text-xs text-[#1F2937] overflow-x-auto leading-relaxed shadow-inner">
+                        <pre className="text-xs">{activeConcept.codeSnippet}</pre>
+                      </div>
+                    </div>
+
+                    {/* Middle: Call Stack LIFO Projection */}
+                    <div className="lg:col-span-4 space-y-2">
+                      <div className="flex items-center justify-between text-xs font-mono text-[#50566A]">
+                        <span>Call Stack (LIFO)</span>
+                        <span className="px-1.5 py-0.5 rounded bg-gray-100 text-[10px]">1 Active Frame</span>
+                      </div>
+                      <div className="p-4 bg-white border border-[#E5E7EB] rounded-xl space-y-3 shadow-2xs">
+                        <div className="flex items-center justify-between font-mono text-xs border-b border-[#F3F4F6] pb-2">
+                          <span className="font-bold text-[#111111]">{activeConcept.stackFrame.method}</span>
+                          <span className="text-[10px] text-[#6B7280]">Line {activeConcept.stackFrame.line}</span>
+                        </div>
+                        <div className="space-y-1.5 text-xs font-mono">
+                          <span className="text-[10px] text-[#6B7280] uppercase tracking-wider block">Local Variables</span>
+                          {activeConcept.stackFrame.vars.map((v) => (
+                            <div key={v.name} className="flex items-center justify-between p-1.5 bg-[#F9FAFB] rounded border border-[#F3F4F6]">
+                              <span className="text-[#374151] font-medium">{v.name}</span>
+                              <span className="text-[#2463EB] font-bold">{v.val}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right: Eden Heap Object Instance */}
+                    <div className="lg:col-span-3 space-y-2">
+                      <div className="flex items-center justify-between text-xs font-mono text-[#50566A]">
+                        <span>JVM Eden Heap</span>
+                        <span className="px-1.5 py-0.5 rounded bg-[#ECFDF5] text-[#059669] text-[10px] font-bold">Allocated</span>
+                      </div>
+                      <div className="p-4 bg-white border-2 border-[#111111] rounded-xl space-y-3 shadow-sm">
+                        <div className="border-b border-[#F3F4F6] pb-2">
+                          <div className="flex items-center justify-between font-mono">
+                            <span className="font-bold text-xs text-[#111111]">{activeConcept.heapObject.className}</span>
+                            <span className="text-[10px] text-[#6B7280]">{activeConcept.heapObject.address}</span>
                           </div>
-                        ))}
+                        </div>
+
+                        <div className="space-y-1 text-xs font-mono">
+                          <span className="text-[10px] text-[#6B7280] uppercase tracking-wider block">Instance Fields</span>
+                          {activeConcept.heapObject.fields.map((f) => (
+                            <div key={f.name} className="flex items-center justify-between p-1 bg-[#F9FAFB] rounded">
+                              <span className="text-[#4B5563]">{f.name}:</span>
+                              <span className="text-[#111111] font-semibold">{f.val}</span>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
+                </motion.div>
+              </AnimatePresence>
 
-                  {/* Column 3: JVM Heap Object */}
-                  <div className="lg:col-span-3 p-5 bg-surface/40 space-y-3">
-                    <div className="flex items-center justify-between text-xs font-mono text-muted-foreground">
-                      <span className="font-semibold text-foreground">JVM Eden Heap</span>
-                      <span className="text-[10px] bg-accent px-1.5 py-0.5 rounded border border-border text-foreground">
-                        Allocated
-                      </span>
-                    </div>
-
-                    <div className="p-4 bg-white border-2 border-foreground rounded-xl space-y-2.5">
-                      <div className="font-mono text-xs font-bold text-foreground pb-2 border-b border-border flex items-center justify-between">
-                        <span>{activeConcept.heapObject.className}</span>
-                        <span className="text-[10px] text-muted-foreground">{activeConcept.heapObject.address}</span>
-                      </div>
-
-                      <div className="space-y-1 text-xs font-mono">
-                        <span className="text-[10px] text-muted-foreground uppercase tracking-wider block">
-                          Instance Fields
-                        </span>
-                        {activeConcept.heapObject.fields.map((f) => (
-                          <div key={f.name} className="flex items-center justify-between p-1 bg-surface rounded">
-                            <span className="text-foreground">{f.name}:</span>
-                            <span className="text-foreground font-semibold">{f.val}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+              {/* Gateway Banner Inside Preview */}
+              <div className="p-4 bg-[#F9FAFB] border-t border-[#E5E7EB] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div className="flex items-center space-x-2 text-[#50566A]">
+                  <span className="w-2 h-2 rounded-full bg-[#10B981] inline-block" />
+                  <span>Preview Mode — Enter as guest to edit code, trace execution, and design custom class diagrams.</span>
                 </div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Gateway Banner Inside Preview */}
-            <div className="p-4 bg-surface border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-              <div className="flex items-center space-x-2 text-muted-foreground">
-                <span className="w-2 h-2 rounded-full bg-foreground inline-block" />
-                <span>Preview Mode — Enter as guest to edit code, trace execution, and design custom class diagrams.</span>
+                <button
+                  onClick={handleEnterAsGuest}
+                  className="px-4 py-2 bg-[#111111] text-white font-medium rounded-lg hover:bg-black transition-all flex items-center justify-center space-x-1.5 shrink-0 shadow-2xs cursor-pointer"
+                >
+                  <span>Launch Full Visualizer</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
               </div>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={handleEnterAsGuest}
-                className="px-4 py-2 bg-foreground text-background font-medium rounded-lg hover:bg-black/90 transition-all flex items-center justify-center space-x-1.5 shrink-0 shadow-2xs"
-              >
-                <span>Launch Full Visualizer</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </motion.button>
             </div>
-          </div>
           </ElectricBorder>
         </motion.section>
 
@@ -615,16 +529,16 @@ export const LandingPage: React.FC = () => {
           className="space-y-8 scroll-mt-24"
         >
           <div className="text-center space-y-2">
-            <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
+            <div className="text-xs font-mono text-[#F47B20] font-semibold uppercase tracking-wider">
               Core Capabilities
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#111111]">
               <WordReveal
                 text="Everything You Need to Master Object-Oriented Design"
                 delay={0.1}
               />
             </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground max-w-xl mx-auto">
+            <p className="text-xs sm:text-sm text-[#50566A] max-w-xl mx-auto">
               Engineered as a comprehensive, end-to-end laboratory with zero distractions.
             </p>
           </div>
@@ -656,12 +570,12 @@ export const LandingPage: React.FC = () => {
                 interactive={true}
                 className="h-full"
               >
-                <div className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
-                  <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
-                    <Terminal className="w-5 h-5 text-foreground stroke-[1.5]" />
+                <div className="p-6 bg-white border border-[#E5E7EB] rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
+                  <div className="w-10 h-10 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center justify-center">
+                    <Terminal className="w-5 h-5 text-[#111111] stroke-[1.5]" />
                   </div>
-                  <h3 className="text-base font-bold text-foreground">3-Panel Execution Workspace</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <h3 className="text-base font-bold text-[#111111]">3-Panel Execution Workspace</h3>
+                  <p className="text-xs text-[#50566A] leading-relaxed">
                     Seamlessly integrated Monaco Java 21 editor, interactive Memory Canvas, and runtime Execution Inspector with variable scopes, timeline scrubber, and console output.
                   </p>
                 </div>
@@ -688,12 +602,12 @@ export const LandingPage: React.FC = () => {
                 interactive={true}
                 className="h-full"
               >
-                <div className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
-                  <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
-                    <Boxes className="w-5 h-5 text-foreground stroke-[1.5]" />
+                <div className="p-6 bg-white border border-[#E5E7EB] rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
+                  <div className="w-10 h-10 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center justify-center">
+                    <Boxes className="w-5 h-5 text-[#111111] stroke-[1.5]" />
                   </div>
-                  <h3 className="text-base font-bold text-foreground">Visual UML Class Builder</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <h3 className="text-base font-bold text-[#111111]">Visual UML Class Builder</h3>
+                  <p className="text-xs text-[#50566A] leading-relaxed">
                     Design classes, records, and interfaces with visual drag-and-drop connectors for inheritance, interface realization, composition, and aggregation. Generates idiomatic Java 21 code in real time.
                   </p>
                 </div>
@@ -720,12 +634,12 @@ export const LandingPage: React.FC = () => {
                 interactive={true}
                 className="h-full"
               >
-                <div className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
-                  <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
-                    <Shield className="w-5 h-5 text-foreground stroke-[1.5]" />
+                <div className="p-6 bg-white border border-[#E5E7EB] rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
+                  <div className="w-10 h-10 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-[#111111] stroke-[1.5]" />
                   </div>
-                  <h3 className="text-base font-bold text-foreground">AST Security Sandbox</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <h3 className="text-base font-bold text-[#111111]">AST Security Sandbox</h3>
+                  <p className="text-xs text-[#50566A] leading-relaxed">
                     Multi-layered JavaParser static analysis blocks dangerous system calls, reflection, file I/O, and networking before code is executed inside resource-capped container workers.
                   </p>
                 </div>
@@ -752,12 +666,12 @@ export const LandingPage: React.FC = () => {
                 interactive={true}
                 className="h-full"
               >
-                <div className="p-6 bg-white border border-border rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
-                  <div className="w-10 h-10 rounded-xl bg-surface border border-border flex items-center justify-center">
-                    <BookOpen className="w-5 h-5 text-foreground stroke-[1.5]" />
+                <div className="p-6 bg-white border border-[#E5E7EB] rounded-2xl space-y-3 shadow-2xs h-full flex flex-col justify-start">
+                  <div className="w-10 h-10 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center justify-center">
+                    <BookOpen className="w-5 h-5 text-[#111111] stroke-[1.5]" />
                   </div>
-                  <h3 className="text-base font-bold text-foreground">14-Step Curriculum & Auto-Grading</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
+                  <h3 className="text-base font-bold text-[#111111]">14-Step Curriculum & Auto-Grading</h3>
+                  <p className="text-xs text-[#50566A] leading-relaxed">
                     Structured pedagogical framework covering foundations, OOP principles, UML relationships, and modern Java 21 features with real-time AST assertion challenges.
                   </p>
                 </div>
@@ -766,7 +680,7 @@ export const LandingPage: React.FC = () => {
           </motion.div>
         </motion.section>
 
-        {/* Section 4: How It Works */}
+        {/* Section 4: How It Works (Simulation Pipeline) */}
         <motion.section
           id="how-it-works"
           variants={sectionVariants}
@@ -776,25 +690,25 @@ export const LandingPage: React.FC = () => {
           className="scroll-mt-24"
         >
           <ElectricBorder
-            color="#eab308"
-            glowColor="#ca8a04"
+            color="#F5BD24"
+            glowColor="#D97706"
             borderRadius={16}
             speed={0.75}
             chaos={0.35}
             spread={0.5}
             thickness={1.5}
             strands={3}
-            intensity={0.85}
-            glow={0.7}
+            intensity={0.9}
+            glow={0.8}
             arcs={1}
             interactive={true}
           >
-            <div className="p-8 bg-white border border-border rounded-2xl space-y-6 shadow-xs">
+            <div className="p-8 bg-white border border-[#E5E7EB] rounded-2xl space-y-6 shadow-xs">
               <div className="space-y-1">
-                <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                <div className="text-xs font-mono text-[#CA8A04] font-bold uppercase tracking-wider">
                   Simulation Pipeline
                 </div>
-                <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+                <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#111111]">
                   <WordReveal
                     text="How the Execution Visualizer Works"
                     delay={0.1}
@@ -811,44 +725,44 @@ export const LandingPage: React.FC = () => {
               >
                 <motion.div
                   variants={cardItem}
-                  className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
+                  className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl space-y-2 hover:bg-[#F3F4F6] transition-colors"
                 >
-                  <span className="text-[10px] text-muted-foreground block">STEP 01</span>
-                  <span className="font-bold text-foreground block">Author Java 21 Code</span>
-                  <p className="text-[11px] font-sans text-muted-foreground leading-normal">
+                  <span className="text-[10px] text-[#6B7280] block">STEP 01</span>
+                  <span className="font-bold text-[#111111] block">Author Java 21 Code</span>
+                  <p className="text-[11px] font-sans text-[#50566A] leading-normal">
                     Type directly in Monaco or visually model classes with the diagram builder.
                   </p>
                 </motion.div>
 
                 <motion.div
                   variants={cardItem}
-                  className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
+                  className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl space-y-2 hover:bg-[#F3F4F6] transition-colors"
                 >
-                  <span className="text-[10px] text-muted-foreground block">STEP 02</span>
-                  <span className="font-bold text-foreground block">AST Security Scan</span>
-                  <p className="text-[11px] font-sans text-muted-foreground leading-normal">
+                  <span className="text-[10px] text-[#6B7280] block">STEP 02</span>
+                  <span className="font-bold text-[#111111] block">AST Security Scan</span>
+                  <p className="text-[11px] font-sans text-[#50566A] leading-normal">
                     JavaParser validates syntax and enforces security boundaries before queuing.
                   </p>
                 </motion.div>
 
                 <motion.div
                   variants={cardItem}
-                  className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
+                  className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl space-y-2 hover:bg-[#F3F4F6] transition-colors"
                 >
-                  <span className="text-[10px] text-muted-foreground block">STEP 03</span>
-                  <span className="font-bold text-foreground block">JDI Trace Capture</span>
-                  <p className="text-[11px] font-sans text-muted-foreground leading-normal">
+                  <span className="text-[10px] text-[#6B7280] block">STEP 03</span>
+                  <span className="font-bold text-[#111111] block">JDI Trace Capture</span>
+                  <p className="text-[11px] font-sans text-[#50566A] leading-normal">
                     Isolated workers execute code and record microsecond heap/stack events.
                   </p>
                 </motion.div>
 
                 <motion.div
                   variants={cardItem}
-                  className="p-4 bg-surface/50 border border-border rounded-xl space-y-2 hover:bg-surface transition-colors"
+                  className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl space-y-2 hover:bg-[#F3F4F6] transition-colors"
                 >
-                  <span className="text-[10px] text-muted-foreground block">STEP 04</span>
-                  <span className="font-bold text-foreground block">Interactive Replay</span>
-                  <p className="text-[11px] font-sans text-muted-foreground leading-normal">
+                  <span className="text-[10px] text-[#6B7280] block">STEP 04</span>
+                  <span className="font-bold text-[#111111] block">Interactive Replay</span>
+                  <p className="text-[11px] font-sans text-[#50566A] leading-normal">
                     Replay forwards and backwards with pointer resolution and scope tracking.
                   </p>
                 </motion.div>
@@ -867,34 +781,34 @@ export const LandingPage: React.FC = () => {
           className="scroll-mt-24"
         >
           <ElectricBorder
-            color="#eab308"
-            glowColor="#ca8a04"
+            color="#F5BD24"
+            glowColor="#D97706"
             borderRadius={16}
             speed={0.75}
             chaos={0.35}
             spread={0.5}
             thickness={1.5}
             strands={3}
-            intensity={0.85}
-            glow={0.7}
+            intensity={0.9}
+            glow={0.8}
             arcs={1}
             interactive={true}
           >
-            <div className="p-8 bg-surface/50 border border-border rounded-2xl space-y-6">
+            <div className="p-8 bg-white border border-[#E5E7EB] rounded-2xl space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
+                  <div className="text-xs font-mono text-[#CA8A04] font-bold uppercase tracking-wider">
                     Privacy & Governance
                   </div>
-                  <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-0.5">
+                  <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#111111] mt-0.5">
                     <WordReveal
                       text="Local-First & Zero Tracking Architecture"
                       delay={0.1}
                     />
                   </h2>
                 </div>
-                <div className="flex items-center space-x-2 text-xs font-mono text-muted-foreground">
-                  <Database className="w-4 h-4 text-foreground stroke-[1.5]" />
+                <div className="flex items-center space-x-2 text-xs font-mono text-[#50566A]">
+                  <Database className="w-4 h-4 text-[#111111] stroke-[1.5]" />
                   <span>LocalStorage Driver Active</span>
                 </div>
               </div>
@@ -908,30 +822,30 @@ export const LandingPage: React.FC = () => {
               >
                 <motion.div
                   variants={cardItem}
-                  className="p-4 bg-white border border-border rounded-xl space-y-1.5 shadow-2xs"
+                  className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl space-y-1.5 shadow-2xs"
                 >
-                  <span className="font-bold text-foreground block">Guest Session Security</span>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <span className="font-bold text-[#111111] block">Guest Session Security</span>
+                  <p className="text-[#50566A] leading-relaxed">
                     Guest users have full access to all features. All progress, code snippets, and challenges are stored locally in your browser.
                   </p>
                 </motion.div>
 
                 <motion.div
                   variants={cardItem}
-                  className="p-4 bg-white border border-border rounded-xl space-y-1.5 shadow-2xs"
+                  className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl space-y-1.5 shadow-2xs"
                 >
-                  <span className="font-bold text-foreground block">Full JSON Export</span>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <span className="font-bold text-[#111111] block">Full JSON Export</span>
+                  <p className="text-[#50566A] leading-relaxed">
                     Export and import your entire learning session at any time with one click from the Progress and Profile pages.
                   </p>
                 </motion.div>
 
                 <motion.div
                   variants={cardItem}
-                  className="p-4 bg-white border border-border rounded-xl space-y-1.5 shadow-2xs"
+                  className="p-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl space-y-1.5 shadow-2xs"
                 >
-                  <span className="font-bold text-foreground block">Isolated Container Runner</span>
-                  <p className="text-muted-foreground leading-relaxed">
+                  <span className="font-bold text-[#111111] block">Isolated Container Runner</span>
+                  <p className="text-[#50566A] leading-relaxed">
                     All Java code execution passes through disposable, network-isolated Docker sandbox containers with 256MB RAM caps.
                   </p>
                 </motion.div>
@@ -961,43 +875,37 @@ export const LandingPage: React.FC = () => {
             arcs={1}
             interactive={true}
           >
-            <div className="text-center p-8 sm:p-12 bg-white border border-border rounded-2xl space-y-6 shadow-sm">
+            <div className="text-center p-8 sm:p-12 bg-white border border-[#E5E7EB] rounded-2xl space-y-6 shadow-sm">
               <div className="space-y-2 max-w-2xl mx-auto">
-                <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-surface border border-border text-[11px] font-mono text-muted-foreground">
+                <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#F9FAFB] border border-[#E5E7EB] text-[11px] font-mono text-[#50566A]">
                   <span>Ready to Get Started?</span>
                 </div>
-                <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+                <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#111111]">
                   <WordReveal
                     text="Enter the Java 21 Laboratory Today"
                     delay={0.1}
                   />
                 </h2>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                  No mandatory sign-in required. Enter immediately as a guest to write code, inspect runtime memory, and master Object-Oriented Programming.
+                <p className="text-xs sm:text-sm text-[#50566A] leading-relaxed">
+                  Join hundreds of students, educators, and engineers mastering object-oriented programming through interactive deterministic visualization.
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                <button
                   onClick={handleEnterAsGuest}
-                  className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-xl bg-foreground text-background text-sm font-semibold hover:bg-black/90 transition-all shadow-sm group"
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#111111] text-white text-xs font-semibold hover:bg-black transition-all flex items-center justify-center space-x-2 shadow-xs cursor-pointer"
                 >
-                  <UserCheck className="w-4 h-4 stroke-[2]" />
-                  <span>Enter Laboratory as Guest</span>
-                  <ArrowRight className="w-4 h-4 stroke-[2] group-hover:translate-x-1 transition-transform" />
-                </motion.button>
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => handleOpenAuth('signin')}
-                  className="w-full sm:w-auto flex items-center justify-center space-x-2 px-6 py-3 rounded-xl border border-border bg-white text-foreground text-sm font-semibold hover:border-foreground hover:bg-surface transition-all"
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>Launch Playground as Guest</span>
+                </button>
+                <button
+                  onClick={() => handleOpenAuth('signup')}
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl border border-[#E5E7EB] bg-white text-[#111111] text-xs font-semibold hover:bg-[#F9FAFB] transition-all flex items-center justify-center space-x-2 cursor-pointer"
                 >
-                  <Lock className="w-4 h-4 stroke-[1.5]" />
+                  <Lock className="w-3.5 h-3.5 stroke-[1.5]" />
                   <span>Sign In / Create Account</span>
-                </motion.button>
+                </button>
               </div>
             </div>
           </ElectricBorder>
@@ -1005,28 +913,28 @@ export const LandingPage: React.FC = () => {
       </main>
 
       {/* Standalone Public Footer */}
-      <footer className="relative z-10 border-t border-border bg-white/90 backdrop-blur-sm py-8 px-4 sm:px-8 text-xs text-muted-foreground">
+      <footer className="relative z-10 border-t border-[#E5E7EB] bg-white/95 backdrop-blur-sm py-8 px-4 sm:px-8 text-xs text-[#50566A]">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center space-x-2 font-mono">
-            <Code2 className="w-4 h-4 text-foreground stroke-[1.5]" />
-            <span className="font-bold text-foreground">OOPS LAB</span>
+            <Code2 className="w-4 h-4 text-[#111111] stroke-[1.5]" />
+            <span className="font-bold text-[#111111]">OOPS LAB</span>
             <span>• Open-Source Interactive Java OOP Learning Laboratory</span>
           </div>
 
           <div className="flex items-center space-x-6">
             <button
               onClick={handleEnterAsGuest}
-              className="hover:text-foreground transition-colors font-medium text-foreground"
+              className="hover:text-[#111111] transition-colors font-medium text-[#111111] cursor-pointer"
             >
               Enter as Guest
             </button>
             <button
               onClick={() => handleOpenAuth('signin')}
-              className="hover:text-foreground transition-colors"
+              className="hover:text-[#111111] transition-colors cursor-pointer"
             >
               Sign In
             </button>
-            <span className="text-muted-foreground/60">•</span>
+            <span className="text-[#9CA3AF]">•</span>
             <span>MIT License</span>
             <span>Target: Java 21 LTS</span>
           </div>
@@ -1042,6 +950,12 @@ export const LandingPage: React.FC = () => {
           setIsAuthModalOpen(false);
           handleEnterAsGuest();
         }}
+      />
+
+      {/* Interactive Demo Video Modal */}
+      <DemoModal
+        isOpen={isDemoOpen}
+        onClose={() => setIsDemoOpen(false)}
       />
     </div>
   );
