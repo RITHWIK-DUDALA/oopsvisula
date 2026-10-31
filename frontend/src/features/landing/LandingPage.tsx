@@ -23,7 +23,7 @@ import {
 import { AuthModal } from '@/components/shared/AuthModal';
 import { WordReveal } from './components/WordReveal';
 import ElectricBorder from '@/components/ElectricBorder';
-import Antigravity from '@/components/Antigravity';
+import Hyperspeed from '@/components/Hyperspeed';
 
 interface PreviewConcept {
   id: string;
@@ -230,20 +230,33 @@ export const LandingPage: React.FC = () => {
         style={{ scaleX }}
       />
 
-      {/* Interactive Antigravity Particle Field Background */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-50">
-        <Antigravity
-          colors={['#00e5ff', '#0066ff', '#38bdf8', '#18181b']}
-          count={1200}
-          magnetRadius={10}
-          ringRadius={7.5}
-          particleSize={0.85}
-          autoAnimate={true}
-          lightMode={true}
-          waveAmplitude={0.8}
-          waveSpeed={0.35}
+      {/* Interactive Hyperspeed Warp Light Trail Background */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-60">
+        <Hyperspeed
+          curve="winding"
+          curvature={0.8}
+          speed={1.1}
+          boost={2.5}
+          fov={85}
+          boostFov={125}
+          lanes={3}
+          roadWidth={12}
+          medianWidth={2}
+          density={35}
+          trailLength={1.2}
+          lightSize={1.1}
+          poles={24}
+          dust={120}
+          glow={0.7}
+          reflections={0.35}
+          roadOpacity={0.06}
+          steer={0.35}
+          tailColors={['#00e5ff', '#0066ff', '#0284c7']}
+          headColors={['#00d2ff', '#0070f3', '#38bdf8']}
+          poleColors={['#00e5ff', '#0066ff']}
+          theme="light"
+          background="transparent"
           interactive={true}
-          clickBurst={true}
         />
       </div>
 
