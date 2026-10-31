@@ -111,3 +111,4 @@ The current `index.css` defines base CSS custom properties. We will formalize th
 5. `frontend/src/features/simulation/sampleTraces.ts` (Align `bankAccountTrace` source code and event step lines).
 6. `frontend/src/features/simulation/simulationStore.ts` (Add selected object/variable state and active visualizer tab).
 7. `frontend/src/index.css` (Inject standardized design tokens from Section 14).
+

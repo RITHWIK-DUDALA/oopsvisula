@@ -406,3 +406,4 @@ export const StackHeapView: React.FC = () => {
     </div>
   );
 };
+

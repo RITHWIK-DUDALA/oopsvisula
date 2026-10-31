@@ -441,17 +441,16 @@ export const LandingPage: React.FC = () => {
 
           {/* Interactive Simulation Preview Card with Smooth Concept Transition */}
           <ElectricBorder
-            color="#18181b"
-            glowColor="#71717a"
-            theme="light"
+            color="#00e5ff"
+            glowColor="#0066ff"
             borderRadius={16}
-            speed={0.8}
+            speed={0.85}
             chaos={0.35}
-            spread={0.5}
-            thickness={1.5}
+            spread={0.55}
+            thickness={1.6}
             strands={3}
-            intensity={0.65}
-            glow={0.5}
+            intensity={0.85}
+            glow={0.75}
             arcs={1}
             interactive={true}
           >
@@ -812,17 +811,16 @@ export const LandingPage: React.FC = () => {
           viewport={{ once: true, margin: '-60px' }}
         >
           <ElectricBorder
-            color="#18181b"
-            glowColor="#71717a"
-            theme="light"
+            color="#00e5ff"
+            glowColor="#0066ff"
             borderRadius={16}
-            speed={0.65}
+            speed={0.7}
             chaos={0.3}
-            spread={0.45}
-            thickness={1.5}
+            spread={0.5}
+            thickness={1.6}
             strands={3}
-            intensity={0.6}
-            glow={0.45}
+            intensity={0.8}
+            glow={0.7}
             arcs={1}
             interactive={true}
           >

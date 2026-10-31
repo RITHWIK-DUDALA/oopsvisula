@@ -176,6 +176,7 @@
 | OOPS-20261031-0009 | T12 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Rebuilt page integrating resizable workspace, toolbar, visualizer, inspector, controls | Master integration requirement |
 | OOPS-20261031-0009 | T12 | `frontend/src/features/simulation/sampleTraces.ts` | MODIFIED | Standardized BankAccount code to 21 lines and aligned all event step lines | Section 19 Runtime state correctness |
 | OOPS-20261031-0009 | T12 | `frontend/src/features/simulation/simulationStore.ts` | MODIFIED | Added selection state, runtime view mode, and workspace mode | Simulation store requirement |
+| OOPS-20261031-0010 | EB-02 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Set ElectricBorder to electric blue (#00e5ff core, #0066ff glow) and removed ink desaturation | User directive requirement |
 
 ---
 
