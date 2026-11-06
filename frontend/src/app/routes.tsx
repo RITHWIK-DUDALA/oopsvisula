@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter, Navigate, useParams } from 'react-router-dom';
 import { AppLayout } from '@/app/layouts/AppLayout';
 import { LandingPage } from '@/features/landing/LandingPage';
 import { DashboardPage } from '@/features/dashboard/DashboardPage';
@@ -20,9 +20,15 @@ import { useAuthStore } from '@/services/storage/authStore';
 const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuthStore();
   if (!isAuthenticated) {
-    return <Navigate to="/playground" replace />;
+    return <Navigate to="/app/concepts" replace />;
   }
   return <>{children}</>;
+};
+
+// Seamless Redirect helper for top-level /concepts/:conceptId URLs to /app/concepts/:conceptId
+const RedirectToAppConcept: React.FC = () => {
+  const { conceptId } = useParams<{ conceptId: string; categorySlug?: string }>();
+  return <Navigate to={`/app/concepts/${conceptId || ''}`} replace />;
 };
 
 // Graceful Error Boundary Fallback for all application routes
@@ -47,10 +53,10 @@ const RouteErrorBoundary: React.FC = () => {
             Reload Laboratory
           </button>
           <a
-            href="/playground"
+            href="/app/concepts"
             className="px-3.5 py-1.5 border border-border text-foreground text-xs font-medium rounded-lg hover:bg-surface transition-colors"
           >
-            Go to Playground
+            Go to Concepts
           </a>
         </div>
       </div>
@@ -59,19 +65,53 @@ const RouteErrorBoundary: React.FC = () => {
 };
 
 export const router = createBrowserRouter([
-  // Public Standalone Landing Page (Zero application feature access; sign-in / guest gateway)
+  // PART A — Public Standalone Marketing Website (Zero application feature access)
   {
     path: '/',
     element: <LandingPage />,
     errorElement: <RouteErrorBoundary />,
   },
 
-  // Internal Laboratory Application Shell
+  // PART B — OOPS LAB Learning Application Shell (/app/*)
   {
+    path: '/app',
     element: <AppLayout />,
     errorElement: <RouteErrorBoundary />,
     children: [
-      // Protected routes (Only registered/signed-in accounts have Dashboard & Profile)
+      // Default Student Entry: /app -> /app/concepts
+      { index: true, element: <Navigate to="/app/concepts" replace /> },
+
+      // 1. Concepts (Primary Educational Starting Point)
+      { path: 'concepts', element: <ConceptsPage /> },
+      { path: 'concepts/:conceptId', element: <ConceptDetailPage /> },
+      { path: 'concepts/:categorySlug/:conceptId', element: <ConceptDetailPage /> },
+
+      // 2. Roadmap (Curriculum Dependencies & Milestones)
+      { path: 'roadmap', element: <RoadmapPage /> },
+
+      // 3. Visualizers (Interactive JVM Visualizations)
+      { path: 'visualizers', element: <VisualizerPage /> },
+
+      // 4. Playground / Lab (Full 2D/3D Java Execution Laboratory)
+      { path: 'playground', element: <PlaygroundPage /> },
+
+      // 5. Practice (AST Auto-Graded Challenges)
+      { path: 'practice', element: <PracticePage /> },
+
+      // 6. Reference (JVM Memory, Bytecode, UML Reference)
+      { path: 'reference', element: <ReferencePage /> },
+
+      // 7. Progress (Learning Achievements & Activity)
+      { path: 'progress', element: <ProgressPage /> },
+
+      // 8. Settings (Monaco, Theme & Playback Calibration)
+      { path: 'settings', element: <SettingsPage /> },
+
+      // 9. Help / About (Laboratory Information & Architecture)
+      { path: 'help', element: <AboutPage /> },
+      { path: 'about', element: <Navigate to="/app/help" replace /> },
+
+      // Protected Account Features
       {
         path: 'dashboard',
         element: (
@@ -89,20 +129,25 @@ export const router = createBrowserRouter([
         ),
       },
 
-      // Open laboratory features (Accessible to both Guests & Registered Learners)
-      { path: 'playground', element: <PlaygroundPage /> },
-      { path: 'visualizers', element: <VisualizerPage /> },
-      { path: 'concepts', element: <ConceptsPage /> },
-      { path: 'concepts/:conceptId', element: <ConceptDetailPage /> },
-      { path: 'practice', element: <PracticePage /> },
-      { path: 'roadmap', element: <RoadmapPage /> },
-      { path: 'progress', element: <ProgressPage /> },
-      { path: 'reference', element: <ReferencePage /> },
-      { path: 'about', element: <AboutPage /> },
-      { path: 'settings', element: <SettingsPage /> },
-
-      // Fallback
-      { path: '*', element: <Navigate to="/playground" replace /> },
+      // Fallback within /app -> /app/concepts
+      { path: '*', element: <Navigate to="/app/concepts" replace /> },
     ],
   },
+
+  // Legacy Non-Prefixed Compatibility Redirects
+  { path: '/playground', element: <Navigate to="/app/playground" replace /> },
+  { path: '/concepts', element: <Navigate to="/app/concepts" replace /> },
+  { path: '/concepts/:conceptId', element: <RedirectToAppConcept /> },
+  { path: '/concepts/:categorySlug/:conceptId', element: <RedirectToAppConcept /> },
+  { path: '/visualizers', element: <Navigate to="/app/visualizers" replace /> },
+  { path: '/practice', element: <Navigate to="/app/practice" replace /> },
+  { path: '/roadmap', element: <Navigate to="/app/roadmap" replace /> },
+  { path: '/progress', element: <Navigate to="/app/progress" replace /> },
+  { path: '/reference', element: <Navigate to="/app/reference" replace /> },
+  { path: '/settings', element: <Navigate to="/app/settings" replace /> },
+  { path: '/about', element: <Navigate to="/app/help" replace /> },
+  { path: '/help', element: <Navigate to="/app/help" replace /> },
+
+  // Global Fallback
+  { path: '*', element: <Navigate to="/" replace /> },
 ]);

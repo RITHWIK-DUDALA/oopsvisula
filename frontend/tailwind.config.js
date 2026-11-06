@@ -20,6 +20,8 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'Courier New', 'monospace'],
+        plexCondensed: ['"IBM Plex Sans Condensed"', 'sans-serif'],
+        spaceMono: ['"Space Mono"', 'monospace'],
       },
       borderRadius: {
         'card': '12px',

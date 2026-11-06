@@ -1,0 +1,47 @@
+name: OOPS LAB Production Release Certification
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  production-certification:
+    name: Production Release Gates & Security Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify TypeScript Compilation (Zero Errors)
+        working-directory: ./frontend
+        run: pnpm exec tsc --noEmit
+
+      - name: Execute Master Production Release Gates (7 Gates)
+        run: node scripts/run_all_production_gates.cjs
+
+      - name: Build Frontend Production Bundle
+        working-directory: ./frontend
+        run: pnpm run build
+

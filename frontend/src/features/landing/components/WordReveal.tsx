@@ -7,6 +7,7 @@ export interface WordRevealProps {
   delay?: number;
   wordDelay?: number;
   as?: 'h1' | 'h2' | 'h3' | 'p' | 'span';
+  highlightMap?: Record<string, string>;
 }
 
 export const WordReveal: React.FC<WordRevealProps> = ({
@@ -15,6 +16,7 @@ export const WordReveal: React.FC<WordRevealProps> = ({
   delay = 0.1,
   wordDelay = 0.04,
   as: Component = 'span',
+  highlightMap,
 }) => {
   const shouldReduceMotion = useReducedMotion();
   const words = text.split(' ');
@@ -59,15 +61,29 @@ export const WordReveal: React.FC<WordRevealProps> = ({
       viewport={{ once: true, margin: '-40px' }}
       className={`inline-block ${className}`}
     >
-      {words.map((word, i) => (
-        <motion.span
-          key={`${word}-${i}`}
-          variants={wordVariants}
-          className="inline-block mr-[0.26em] last:mr-0"
-        >
-          {word}
-        </motion.span>
-      ))}
+      {words.map((word, i) => {
+        const endsWithPeriod = word.endsWith('.');
+        const baseWord = endsWithPeriod ? word.slice(0, -1) : word;
+        const baseStyle = highlightMap?.[word] || highlightMap?.[baseWord] || '';
+        const dotStyle = highlightMap?.['.'] || '';
+
+        return (
+          <motion.span
+            key={`${word}-${i}`}
+            variants={wordVariants}
+            className="inline-block mr-[0.26em] last:mr-0"
+          >
+            {endsWithPeriod && dotStyle ? (
+              <>
+                <span className={baseStyle}>{baseWord}</span>
+                <span className={dotStyle}>.</span>
+              </>
+            ) : (
+              <span className={baseStyle}>{word}</span>
+            )}
+          </motion.span>
+        );
+      })}
     </motion.span>
   );
 };

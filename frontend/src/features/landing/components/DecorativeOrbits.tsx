@@ -40,28 +40,6 @@ export const DecorativeOrbits: React.FC = () => {
         }}
       />
 
-      {/* Lower-Left Concentric Translucent Orange Shapes */}
-      <div
-        className="absolute w-[440px] h-[440px] rounded-full border-[32px] border-[#FF9838]/20 pointer-events-none"
-        style={{
-          bottom: '-160px',
-          left: '-160px',
-        }}
-      />
-      <div
-        className="absolute w-[320px] h-[320px] rounded-full bg-[#FFAA4C]/30 blur-2xl pointer-events-none"
-        style={{
-          bottom: '-80px',
-          left: '-80px',
-        }}
-      />
-      <div
-        className="absolute w-[220px] h-[220px] rounded-full border-[18px] border-[#FF841C]/25 pointer-events-none"
-        style={{
-          bottom: '-20px',
-          left: '-20px',
-        }}
-      />
 
       {/* SVG Thin Orbital Paths with Radiant Nodes */}
       <svg

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -22,32 +22,56 @@ import {
 import { detailedConceptsMap } from '@/data/conceptDetailsData';
 import { curriculumLessons } from '@/data/curriculumData';
 import { useLearnerStore } from '@/services/storage/localStore';
+import { JAVA_MODULES, OOP_MODULES } from './curriculumModulesData';
+import { LessonNavigationFooter } from './components/LessonNavigationFooter';
+import { ApplicationTransition } from '@/features/transition/ApplicationTransition';
+import { getCanonicalLesson } from './data/canonicalLessonsRegistry';
+import { CanonicalLessonView } from './components/CanonicalLessonView';
 
 export const ConceptDetailPage: React.FC = () => {
   const { conceptId } = useParams<{ conceptId: string }>();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'all' | 'basic' | 'intermediate' | 'advanced' | 'modern'>('all');
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
+  const [isLoadingConcept, setIsLoadingConcept] = useState(true);
+
+  // Trigger loading animation whenever the user enters or switches to a new concept
+  useEffect(() => {
+    setIsLoadingConcept(true);
+  }, [conceptId]);
 
   const { masteredTopics, markTopicMastered, unmarkTopicMastered } = useLearnerStore();
+
+  const canonicalLesson = useMemo(() => {
+    return getCanonicalLesson(conceptId);
+  }, [conceptId]);
 
   const concept = conceptId ? detailedConceptsMap[conceptId] : null;
 
   // Fallback to curriculum lesson if concept details map is missing
   const fallbackLesson = curriculumLessons.find((l) => l.id === conceptId);
 
-  // Linear progression: find previous and next lessons
-  const currentIndex = curriculumLessons.findIndex((l) => l.id === conceptId);
-  const prevLesson = currentIndex > 0 ? curriculumLessons[currentIndex - 1] : null;
-  const nextLesson = currentIndex >= 0 && currentIndex < curriculumLessons.length - 1 ? curriculumLessons[currentIndex + 1] : null;
+  // Fallback to module sub-concepts across Java and OOP tracks
+  const subConceptData = useMemo(() => {
+    if (!conceptId || canonicalLesson || concept || fallbackLesson) return null;
+    for (const mod of JAVA_MODULES) {
+      const match = mod.concepts.find((c) => c.id === conceptId);
+      if (match) return { concept: match, module: mod, track: 'java' as const };
+    }
+    for (const mod of OOP_MODULES) {
+      const match = mod.concepts.find((c) => c.id === conceptId);
+      if (match) return { concept: match, module: mod, track: 'oop' as const };
+    }
+    return null;
+  }, [conceptId, canonicalLesson, concept, fallbackLesson]);
 
-  if (!concept && !fallbackLesson) {
+  if (!canonicalLesson && !concept && !fallbackLesson && !subConceptData) {
     return (
       <div className="p-8 max-w-4xl mx-auto text-center space-y-4">
         <h1 className="text-xl font-bold text-foreground">Concept Not Found</h1>
         <p className="text-xs text-muted-foreground">The requested concept step "{conceptId}" does not exist in the curriculum.</p>
         <button
-          onClick={() => navigate('/concepts')}
+          onClick={() => navigate('/app/concepts')}
           className="inline-flex items-center space-x-2 px-4 py-2 bg-foreground text-background text-xs font-medium rounded-lg"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -75,24 +99,82 @@ export const ConceptDetailPage: React.FC = () => {
   };
 
   const handleLaunchPlayground = () => {
-    navigate('/playground');
+    navigate('/app/playground');
   };
+
+  const conceptTitle =
+    canonicalLesson?.title ||
+    concept?.title ||
+    fallbackLesson?.title ||
+    subConceptData?.concept.title ||
+    'Java Concept';
+
+  if (canonicalLesson) {
+    return (
+      <div className="p-4 sm:p-8 max-w-5xl mx-auto space-y-8 animate-in fade-in duration-200">
+        {/* Entering Concept Page Loading Animation Overlay */}
+        <ApplicationTransition
+          isOpen={isLoadingConcept}
+          title="OOPS LAB"
+          subtitle="Interactive Concept Lab"
+          initialStatus={`Loading ${canonicalLesson.title}...`}
+          backdropVariant="translucent"
+          stages={[
+            { timeMs: 320, text: 'Configuring Memory Canvas & Syntax...' },
+            { timeMs: 680, text: 'Preparing Interactive Visualizer...', isComplete: true },
+            { timeMs: 1000, text: `${canonicalLesson.title} Ready` },
+          ]}
+          durationMs={1150}
+          onComplete={() => setIsLoadingConcept(false)}
+        />
+
+        <CanonicalLessonView
+          lesson={canonicalLesson}
+          isMastered={isMastered}
+          onToggleMastery={toggleMastery}
+          onLaunchPlayground={(_code) => {
+            navigate('/app/playground');
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 sm:p-8 max-w-5xl mx-auto space-y-8 animate-in fade-in duration-200">
+      {/* Entering Concept Page Loading Animation Overlay */}
+      <ApplicationTransition
+        isOpen={isLoadingConcept}
+        title="OOPS LAB"
+        subtitle="Interactive Concept Lab"
+        initialStatus={`Loading ${conceptTitle}...`}
+        backdropVariant="translucent"
+        stages={[
+          { timeMs: 320, text: 'Configuring Memory Canvas & Syntax...' },
+          { timeMs: 680, text: 'Preparing Interactive Visualizer...', isComplete: true },
+          { timeMs: 1000, text: `${conceptTitle} Ready` },
+        ]}
+        durationMs={1150}
+        onComplete={() => setIsLoadingConcept(false)}
+      />
+
       {/* Top Breadcrumb & Actions Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
         <div className="flex items-center space-x-2 text-xs font-mono text-muted-foreground">
-          <Link to="/concepts" className="hover:text-foreground transition-colors flex items-center space-x-1">
+          <Link to={subConceptData?.track === 'oop' ? "/app/concepts?track=oop" : "/app/concepts?track=java"} className="hover:text-foreground transition-colors flex items-center space-x-1">
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Curriculum</span>
           </Link>
           <span>/</span>
           <span className="text-foreground font-semibold">
-            Step {concept ? concept.stepNumber.toString().padStart(2, '0') : fallbackLesson?.stepNumber}
+            {subConceptData
+              ? `Module ${subConceptData.module.moduleNumber}`
+              : `Step ${(concept ? concept.stepNumber : fallbackLesson?.stepNumber || 1).toString().padStart(2, '0')}`}
           </span>
           <span>/</span>
-          <span className="truncate max-w-[200px] text-foreground">{concept?.title || fallbackLesson?.title}</span>
+          <span className="truncate max-w-[200px] text-foreground">
+            {concept?.title || fallbackLesson?.title || subConceptData?.concept.title}
+          </span>
         </div>
 
         <div className="flex items-center space-x-3">
@@ -171,60 +253,65 @@ export const ConceptDetailPage: React.FC = () => {
       </div>
 
       {/* Progressive Level Navigation Tabs */}
-      <div className="border-b border-border flex items-center space-x-1 overflow-x-auto pb-px text-xs font-medium">
+      <div className="border-b border-border flex items-center space-x-1 sm:space-x-2 overflow-x-auto pb-px text-xs font-medium no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         <button
           onClick={() => setActiveTab('all')}
-          className={`px-4 py-2 border-b-2 transition-all whitespace-nowrap ${
+          className={`px-3 sm:px-4 py-2 border-b-2 transition-all whitespace-nowrap shrink-0 ${
             activeTab === 'all'
               ? 'border-foreground text-foreground font-bold'
               : 'border-transparent text-muted-foreground hover:text-foreground'
           }`}
         >
-          Comprehensive Guide (All Levels)
+          <span>All Levels</span>
+          <span className="hidden xl:inline text-muted-foreground font-normal ml-1">(Overview)</span>
         </button>
         <button
           onClick={() => setActiveTab('basic')}
-          className={`px-4 py-2 border-b-2 transition-all whitespace-nowrap flex items-center space-x-1.5 ${
+          className={`px-3 sm:px-4 py-2 border-b-2 transition-all whitespace-nowrap shrink-0 flex items-center space-x-1.5 ${
             activeTab === 'basic'
               ? 'border-foreground text-foreground font-bold'
               : 'border-transparent text-muted-foreground hover:text-foreground'
           }`}
         >
           <BookOpen className="w-3.5 h-3.5" />
-          <span>1. Basic (Foundations)</span>
+          <span>1. Basic</span>
+          <span className="hidden md:inline text-muted-foreground font-normal ml-0.5">(Foundations)</span>
         </button>
         <button
           onClick={() => setActiveTab('intermediate')}
-          className={`px-4 py-2 border-b-2 transition-all whitespace-nowrap flex items-center space-x-1.5 ${
+          className={`px-3 sm:px-4 py-2 border-b-2 transition-all whitespace-nowrap shrink-0 flex items-center space-x-1.5 ${
             activeTab === 'intermediate'
               ? 'border-foreground text-foreground font-bold'
               : 'border-transparent text-muted-foreground hover:text-foreground'
           }`}
         >
           <Code2 className="w-3.5 h-3.5" />
-          <span>2. Intermediate (Mechanics)</span>
+          <span>2. Intermediate</span>
+          <span className="hidden md:inline text-muted-foreground font-normal ml-0.5">(Mechanics)</span>
         </button>
         <button
           onClick={() => setActiveTab('advanced')}
-          className={`px-4 py-2 border-b-2 transition-all whitespace-nowrap flex items-center space-x-1.5 ${
+          className={`px-3 sm:px-4 py-2 border-b-2 transition-all whitespace-nowrap shrink-0 flex items-center space-x-1.5 ${
             activeTab === 'advanced'
               ? 'border-foreground text-foreground font-bold'
               : 'border-transparent text-muted-foreground hover:text-foreground'
           }`}
         >
           <Cpu className="w-3.5 h-3.5" />
-          <span>3. Advanced (JVM & Bytecode)</span>
+          <span>3. Advanced</span>
+          <span className="hidden md:inline text-muted-foreground font-normal ml-0.5">(JVM & Bytecode)</span>
         </button>
         <button
           onClick={() => setActiveTab('modern')}
-          className={`px-4 py-2 border-b-2 transition-all whitespace-nowrap flex items-center space-x-1.5 ${
+          className={`px-3 sm:px-4 py-2 border-b-2 transition-all whitespace-nowrap shrink-0 flex items-center space-x-1.5 ${
             activeTab === 'modern'
               ? 'border-foreground text-foreground font-bold'
               : 'border-transparent text-muted-foreground hover:text-foreground'
           }`}
         >
           <Zap className="w-3.5 h-3.5" />
-          <span>4. Modern Java 21 Mastery</span>
+          <span>4. Java 21</span>
+          <span className="hidden md:inline text-muted-foreground font-normal ml-0.5">(Modern)</span>
         </button>
       </div>
 
@@ -549,12 +636,17 @@ export const ConceptDetailPage: React.FC = () => {
             )}
           </>
         ) : (
-          /* Fallback content for any extra steps */
+          /* Fallback content for any extra steps or sub-concepts */
           <div className="p-6 bg-white border border-border rounded-xl space-y-4">
-            <h2 className="text-lg font-bold text-foreground">Overview</h2>
-            <p className="text-xs text-muted-foreground">{fallbackLesson?.subtitle}</p>
+            <h2 className="text-lg font-bold text-foreground">
+              {fallbackLesson?.title || subConceptData?.concept.title || 'Overview'}
+            </h2>
+            <p className="text-xs text-muted-foreground">
+              {fallbackLesson?.subtitle || subConceptData?.concept.description}
+            </p>
             <pre className="p-4 bg-[#111111] text-white rounded-xl font-mono text-xs overflow-x-auto">
-              {fallbackLesson?.sampleCode}
+              {fallbackLesson?.sampleCode ||
+                `// ${subConceptData?.module.title || 'Java Learning Module'}\n// Concept: ${subConceptData?.concept.title || 'Lesson Overview'}\n// Type or execute your code directly in the OOPS LAB Interactive Visualizer`}
             </pre>
           </div>
         )}
@@ -571,7 +663,7 @@ export const ConceptDetailPage: React.FC = () => {
 
         <div className="flex items-center space-x-3 shrink-0">
           <Link
-            to="/practice"
+            to="/app/practice"
             className="px-3.5 py-2 border border-border text-foreground hover:bg-surface rounded-lg text-xs font-semibold transition-colors"
           >
             Practice Challenges
@@ -588,42 +680,8 @@ export const ConceptDetailPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Linear Step Progression Navigation Footer */}
-      <div className="border-t border-border pt-6 flex items-center justify-between text-xs">
-        {prevLesson ? (
-          <Link
-            to={`/concepts/${prevLesson.id}`}
-            className="group flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-            <div className="text-left">
-              <span className="text-[10px] font-mono text-muted-foreground block">
-                PREVIOUS (STEP {prevLesson.stepNumber.toString().padStart(2, '0')})
-              </span>
-              <span className="font-semibold text-foreground">{prevLesson.title}</span>
-            </div>
-          </Link>
-        ) : (
-          <div />
-        )}
-
-        {nextLesson ? (
-          <Link
-            to={`/concepts/${nextLesson.id}`}
-            className="group flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors text-right"
-          >
-            <div>
-              <span className="text-[10px] font-mono text-muted-foreground block">
-                NEXT (STEP {nextLesson.stepNumber.toString().padStart(2, '0')})
-              </span>
-              <span className="font-semibold text-foreground">{nextLesson.title}</span>
-            </div>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        ) : (
-          <div />
-        )}
-      </div>
+      {/* Universal Reusable Previous / Next Lesson Navigation Footer */}
+      <LessonNavigationFooter currentLessonId={conceptId} />
     </div>
   );
 };

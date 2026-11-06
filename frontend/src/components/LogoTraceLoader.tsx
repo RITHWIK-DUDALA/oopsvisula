@@ -12,45 +12,68 @@ export type LogoTraceLoaderProps = {
   onDone?: () => void;
 };
 
-type LoaderPhase = 'loop' | 'closingOutline' | 'fadingFill' | 'done';
+type AnimationStage = 'initial' | 'tracing' | 'outlineComplete' | 'filled';
 
-const LOGO_VIEW_BOX = '0 0 24 24';
+const LOGO_VIEW_BOX = '0 0 100 100';
 
-// Single clean continuous outer contour around the logo silhouette
-const TRACE_PATH = 'M 12 2 L 22 7 L 22 17 L 12 22 L 2 17 L 2 7 Z';
+/**
+ * Approved Three-Layer Stacked SVG Logo Geometry:
+ * Symmetrical around (50, 50), total width 72, total height 73.
+ * Preserves exact proportions, spacing, negative space, and corner curvature.
+ */
+export const OOPS_LOGO_PATHS = [
+  // 1. Top Layer - Rounded Isometric Diamond
+  'M 45.16 16.12 Q 50 13.50 54.84 16.12 L 81.16 30.38 Q 86.00 33.00 81.16 35.62 L 54.84 49.88 Q 50 52.50 45.16 49.88 L 18.84 35.62 Q 14.00 33.00 18.84 30.38 Z',
 
-// Clean filled vector shapes matching the logo mark
-const FILL_PATHS = [
-  'M 12 2 L 22 7 L 12 12 L 2 7 Z',
-  'M 2 12 L 12 17 L 22 12 L 22 14 L 12 19 L 2 14 Z',
-  'M 2 17 L 12 22 L 22 17 L 22 19 L 12 24 L 2 19 Z',
+  // 2. Middle Layer - Stacked Isometric Slab (Outer Lip & Inner Notch)
+  'M 18.84 44.50 Q 14.00 48.50 18.84 52.62 L 45.16 66.88 Q 50 69.50 54.84 66.88 L 81.16 52.62 Q 86.00 48.50 81.16 44.50 L 54.84 58.76 Q 50 61.38 45.16 58.76 Z',
+
+  // 3. Bottom Layer - Stacked Isometric Slab (Outer Lip & Inner Notch)
+  'M 18.84 61.50 Q 14.00 65.50 18.84 69.62 L 45.16 83.88 Q 50 86.50 54.84 83.88 L 81.16 69.62 Q 86.00 65.50 81.16 61.50 L 54.84 75.76 Q 50 78.38 45.16 75.76 Z',
 ] as const;
+
+// Sequential layer fill colors matching production specification
+export const OOPS_LOGO_FILL_COLORS = [
+  '#075CF5', // Layer 1 - Top: Cobalt Blue
+  '#75A9FF', // Layer 2 - Middle: Light Blue
+  '#073DAB', // Layer 3 - Bottom: Deep Navy Blue
+] as const;
+
+// Production stage outline colors
+const COLOR_INITIAL_OUTLINE = '#D9DADD';
+const COLOR_TRACING_STROKE = '#0860F5';
+const COLOR_COMPLETE_OUTLINE = '#17191D';
 
 export const LogoTraceLoader: React.FC<LogoTraceLoaderProps> = ({
   loading = true,
   isComplete = false,
-  size = 40,
-  strokeWidth = 2,
-  loopDurationSeconds = 1.6,
-  fillFadeSeconds = 0.35,
+  size = 64,
+  strokeWidth = 3,
+  loopDurationSeconds = 1.75,
+  fillFadeSeconds = 0.45,
   className = '',
-  ariaLabel = 'Loading...',
+  ariaLabel = 'Loading OOPS LAB...',
   onDone,
 }) => {
-  const [phase, setPhase] = useState<LoaderPhase>(() => {
+  const isStaticMode = !loading || isComplete;
+
+  const [stage, setStage] = useState<AnimationStage>(() => {
     if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-      return 'done';
+      return 'filled';
     }
-    return !loading || isComplete ? 'closingOutline' : 'loop';
+    return isStaticMode ? 'filled' : 'initial';
   });
 
-  const [fillOpacity, setFillOpacity] = useState(phase === 'done' ? 1 : 0);
+  const [outlineColor, setOutlineColor] = useState<string>(
+    isStaticMode ? COLOR_COMPLETE_OUTLINE : COLOR_INITIAL_OUTLINE
+  );
+  const [fillOpacities, setFillOpacities] = useState<[number, number, number]>(
+    isStaticMode ? [1, 1, 1] : [0, 0, 0]
+  );
+
   const onDoneRef = useRef(onDone);
   onDoneRef.current = onDone;
   const doneFiredRef = useRef(false);
-
-  // Fallback safety timeout reference
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const fireDoneOnce = () => {
     if (!doneFiredRef.current) {
@@ -60,48 +83,109 @@ export const LogoTraceLoader: React.FC<LogoTraceLoaderProps> = ({
   };
 
   useEffect(() => {
-    // Respect prefers-reduced-motion immediately
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-      setPhase('done');
-      setFillOpacity(1);
+    // 1. Reduced motion: immediately render filled state and fire onDone
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setStage('filled');
+      setOutlineColor(COLOR_COMPLETE_OUTLINE);
+      setFillOpacities([1, 1, 1]);
       fireDoneOnce();
       return;
     }
 
-    const shouldResolve = isComplete || !loading;
-
-    if (shouldResolve && phase === 'loop') {
-      // 1. Transition from loop to closing outline
-      setPhase('closingOutline');
-
-      const closingDurationMs = 300;
-      timeoutRef.current = setTimeout(() => {
-        // 2. Transition from closed outline to fading fill
-        setPhase('fadingFill');
-        requestAnimationFrame(() => {
-          setFillOpacity(1);
-        });
-
-        const fillFadeMs = fillFadeSeconds * 1000;
-        timeoutRef.current = setTimeout(() => {
-          // 3. Complete and resolve
-          setPhase('done');
-          fireDoneOnce();
-        }, fillFadeMs);
-      }, closingDurationMs);
-    } else if (!shouldResolve && (phase === 'done' || phase === 'closingOutline' || phase === 'fadingFill')) {
-      // Reset back to looping if loading is restarted
-      doneFiredRef.current = false;
-      setPhase('loop');
-      setFillOpacity(0);
+    // 2. Static / Finished State
+    if (!loading || isComplete) {
+      setStage('filled');
+      setOutlineColor(COLOR_COMPLETE_OUTLINE);
+      setFillOpacities([1, 1, 1]);
+      fireDoneOnce();
+      return;
     }
 
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+    // 3. Active Animation Sequence
+    let isCancelled = false;
+    const timers: NodeJS.Timeout[] = [];
+
+    // Scale nominal timings proportionately to loopDurationSeconds
+    const totalCycleMs = Math.max(1000, loopDurationSeconds * 1000);
+    const scale = totalCycleMs / 1750;
+
+    const tStage2Tracing = Math.round(250 * scale);
+    const tStage3OutlineComplete = Math.round(950 * scale);
+    const tStage4FillLayer1 = Math.round(1300 * scale);
+    const tStage4FillLayer2 = Math.round(1400 * scale);
+    const tStage4FillLayer3 = Math.round(1500 * scale);
+    const tCycleEnd = Math.round(1750 * scale);
+
+    const runCycle = () => {
+      if (isCancelled) return;
+      doneFiredRef.current = false;
+
+      // Phase 1 — INITIAL (0.00 – 0.25s)
+      setStage('initial');
+      setOutlineColor(COLOR_INITIAL_OUTLINE);
+      setFillOpacities([0, 0, 0]);
+
+      // Phase 2 — TRACING (0.25 – 0.95s)
+      timers.push(
+        setTimeout(() => {
+          if (isCancelled) return;
+          setStage('tracing');
+        }, tStage2Tracing)
+      );
+
+      // Phase 3 — OUTLINE COMPLETE (0.95 – 1.30s)
+      timers.push(
+        setTimeout(() => {
+          if (isCancelled) return;
+          setStage('outlineComplete');
+          setOutlineColor(COLOR_COMPLETE_OUTLINE);
+        }, tStage3OutlineComplete)
+      );
+
+      // Phase 4 — FILLED LOGO (1.30 – 1.75s) with ~100ms sequential stagger
+      timers.push(
+        setTimeout(() => {
+          if (isCancelled) return;
+          setStage('filled');
+          setFillOpacities([1, 0, 0]); // Layer 1 Top
+        }, tStage4FillLayer1)
+      );
+
+      timers.push(
+        setTimeout(() => {
+          if (isCancelled) return;
+          setFillOpacities([1, 1, 0]); // Layer 2 Middle
+        }, tStage4FillLayer2)
+      );
+
+      timers.push(
+        setTimeout(() => {
+          if (isCancelled) return;
+          setFillOpacities([1, 1, 1]); // Layer 3 Bottom
+        }, tStage4FillLayer3)
+      );
+
+      // End of cycle check
+      timers.push(
+        setTimeout(() => {
+          if (isCancelled) return;
+          if (isComplete || !loading) {
+            fireDoneOnce();
+          } else {
+            // Repeat cycle while loading
+            runCycle();
+          }
+        }, tCycleEnd)
+      );
     };
-  }, [loading, isComplete, phase, fillFadeSeconds]);
+
+    runCycle();
+
+    return () => {
+      isCancelled = true;
+      timers.forEach(clearTimeout);
+    };
+  }, [loading, isComplete, loopDurationSeconds]);
 
   return (
     <svg
@@ -110,82 +194,64 @@ export const LogoTraceLoader: React.FC<LogoTraceLoaderProps> = ({
       viewBox={LOGO_VIEW_BOX}
       width={size}
       height={size}
-      className={`inline-block shrink-0 ${className}`}
-      style={{ width: size, height: size }}
+      className={`inline-block shrink-0 select-none ${className}`}
+      style={{
+        width: size,
+        height: size,
+        overflow: 'visible',
+      }}
     >
-      {/* Background Faint Track */}
-      <g opacity="0.18">
+      {/* 1. Underlying Base Outlines for All Three Layers */}
+      {OOPS_LOGO_PATHS.map((path, idx) => (
         <path
-          d={TRACE_PATH}
+          key={`base-outline-${idx}`}
+          d={path}
           fill="none"
-          stroke="currentColor"
-          strokeWidth={Math.max(1, strokeWidth / 2)}
+          stroke={outlineColor}
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
           strokeLinejoin="round"
+          style={{
+            transition: 'stroke 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
+          }}
         />
-        <path
-          d="M 2 12 L 12 17 L 22 12"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={Math.max(1, strokeWidth / 2)}
-          strokeLinejoin="round"
-        />
-        <path
-          d="M 2 17 L 12 22 L 22 17"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={Math.max(1, strokeWidth / 2)}
-          strokeLinejoin="round"
-        />
-      </g>
+      ))}
 
-      {/* Active Animated Looping Trace */}
-      {phase === 'loop' && (
+      {/* 2. Phase 2 (TRACING): Cobalt-Blue Animated Stroke Tracing Upper Layer */}
+      {stage === 'tracing' && (
         <path
-          d={TRACE_PATH}
+          d={OOPS_LOGO_PATHS[0]}
           fill="none"
-          stroke="currentColor"
+          stroke={COLOR_TRACING_STROKE}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
           pathLength={1}
-          strokeDasharray="0.16 0.84"
+          strokeDasharray="0.32 0.68"
           style={{
-            animation: `logo-trace-loader-loop ${loopDurationSeconds}s linear infinite`,
+            animation: `oops-logo-trace-stroke ${
+              (0.7 * (loopDurationSeconds / 1.75)).toFixed(2)
+            }s linear forwards`,
           }}
         />
       )}
 
-      {/* Closing Outline Transition */}
-      {phase === 'closingOutline' && (
+      {/* 3. Phase 4 (FILLED LOGO): Sequentially Faded Layer Fills */}
+      {OOPS_LOGO_PATHS.map((path, idx) => (
         <path
-          d={TRACE_PATH}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={strokeWidth}
+          key={`fill-layer-${idx}`}
+          d={path}
+          fill={OOPS_LOGO_FILL_COLORS[idx]}
+          stroke={stage === 'filled' || isStaticMode ? COLOR_COMPLETE_OUTLINE : 'none'}
+          strokeWidth={stage === 'filled' || isStaticMode ? strokeWidth : 0}
           strokeLinecap="round"
           strokeLinejoin="round"
-          pathLength={1}
           style={{
-            strokeDasharray: '1 0',
-            transition: 'stroke-dasharray 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            opacity: fillOpacities[idx],
+            transition: `opacity ${fillFadeSeconds}s cubic-bezier(0.22, 1, 0.36, 1)`,
           }}
         />
-      )}
-
-      {/* Fading Fill and Final Resolved State */}
-      {(phase === 'fadingFill' || phase === 'done') && (
-        <g
-          style={{
-            opacity: fillOpacity,
-            transition: `opacity ${fillFadeSeconds}s ease-in-out`,
-          }}
-        >
-          {FILL_PATHS.map((path) => (
-            <path key={path} d={path} fill="currentColor" />
-          ))}
-        </g>
-      )}
+      ))}
     </svg>
   );
 };
-

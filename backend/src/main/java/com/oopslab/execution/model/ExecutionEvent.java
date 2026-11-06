@@ -11,9 +11,35 @@ public record ExecutionEvent(
     String description,
     List<StackFrameSnapshot> stackFrames,
     List<HeapObjectSnapshot> heapObjects,
+    List<ThreadSnapshot> threads,
     String stdout,
     String errorMessage
 ) {
+    public ExecutionEvent(
+        int step,
+        ExecutionEventType type,
+        int line,
+        String methodName,
+        String className,
+        String description,
+        List<StackFrameSnapshot> stackFrames,
+        List<HeapObjectSnapshot> heapObjects,
+        String stdout,
+        String errorMessage
+    ) {
+        this(step, type, line, methodName, className, description, stackFrames, heapObjects, List.of(), stdout, errorMessage);
+    }
+
+    public record ThreadSnapshot(
+        String threadId,
+        String name,
+        String state,
+        List<StackFrameSnapshot> callStack,
+        boolean isCurrent,
+        String lockAcquired,
+        String lockWaitingOn
+    ) {}
+
     public record LocalVarSnapshot(
         String name,
         String type,

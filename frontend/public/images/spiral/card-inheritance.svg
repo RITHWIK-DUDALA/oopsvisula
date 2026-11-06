@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" rx="16" fill="#FFFFFF" stroke="#16A34A" stroke-width="2"/>
+  <rect x="36" y="16" width="128" height="42" rx="6" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="100" y="42" fill="#166534" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">Vehicle</text>
+  <line x1="100" y1="58" x2="100" y2="106" stroke="#16A34A" stroke-width="2"/>
+  <polygon points="100,58 93,72 107,72" fill="#FFFFFF" stroke="#16A34A" stroke-width="2"/>
+  <rect x="24" y="106" width="152" height="74" rx="6" fill="#FFFFFF" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="100" y="130" fill="#166534" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">ElectricCar</text>
+  <line x1="24" y1="140" x2="176" y2="140" stroke="#DCFCE7"/>
+  <text x="32" y="160" fill="#15803D" font-family="monospace" font-size="10">+ battery: int</text>
+  <text x="32" y="174" fill="#15803D" font-family="monospace" font-size="10">+ charge(): void</text>
+</svg>

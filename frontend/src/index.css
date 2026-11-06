@@ -1,6 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+@import 'lenis/dist/lenis.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Visualizers Sidebar Typography Identity */
+.sidebar-search-input::placeholder {
+  font-family: 'IBM Plex Sans Condensed', sans-serif !important;
+  font-size: 15px !important;
+  color: #94a3b8 !important;
+}
 
 :root {
   --background: #ffffff;
@@ -32,6 +42,26 @@
 
   --focus-ring: rgba(40, 40, 40, 0.2);
 
+  /* Playground Reference Spacing System (16px Primary Grid) */
+  --playground-gap: 16px;
+  --playground-page-padding: 16px;
+  --playground-panel-gap: 16px;
+
+  /* Playground State Accent Tokens */
+  --playground-cobalt: #1263F1;
+  --playground-cobalt-hover: #0D4EC4;
+  --playground-orange: #F47B20;
+  --playground-orange-hover: #D66412;
+  --playground-border: #E5E7EB;
+
+  /* Stacked Layer Logo Trace Loader Palette */
+  --loader-blue: #1263F1;
+  --loader-blue-light: #65A6FF;
+  --loader-blue-dark: #103FAD;
+  --loader-outline: #171B22;
+  --loader-outline-muted: #D7DADF;
+  --loader-white: #FFFFFF;
+
   --text-xs: 11px;
   --text-sm: 12px;
   --text-base: 13px;
@@ -55,12 +85,13 @@
 
 html {
   scroll-behavior: smooth;
+  height: 100%;
 }
 
 body {
   margin: 0;
   padding: 0;
-  min-height: 100vh;
+  min-height: 100%;
   background-color: var(--background);
   color: var(--foreground);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -88,8 +119,30 @@ body {
   background: #A1A1AA;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
 /* Logo Trace Loader Animation */
 @keyframes logo-trace-loader-loop {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes oops-logo-trace-stroke {
+  from {
+    stroke-dashoffset: 0;
+  }
   to {
     stroke-dashoffset: -1;
   }
@@ -124,5 +177,106 @@ body {
     width: 100%;
   }
 }
+
+/* Monaco Execution Line Decoration */
+.monaco-execution-line {
+  background-color: rgba(244, 123, 32, 0.12) !important;
+  border-left: 3px solid #F47B20 !important;
+}
+
+.monaco-execution-gutter-arrow {
+  position: relative;
+}
+
+.monaco-execution-gutter-arrow::after {
+  content: '▶';
+  color: #F47B20;
+  font-size: 11px;
+  position: absolute;
+  left: 3px;
+  top: 1px;
+}
+
+.monaco-breakpoint-glyph {
+  position: relative;
+}
+
+.monaco-breakpoint-glyph::after {
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: #EF4444;
+  border-radius: 50%;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+}
+
+.monaco-error-line {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  border-left: 3px solid #EF4444 !important;
+}
+
+.monaco-error-gutter {
+  position: relative;
+}
+
+.monaco-error-gutter::after {
+  content: '⚠';
+  color: #DC2626;
+  font-size: 12px;
+  font-weight: bold;
+  position: absolute;
+  left: 2px;
+  top: 0px;
+}
+
+/* ========================================================================= */
+/* UNIVERSAL SMOOTH ACCORDION TRANSITIONS (350-450ms cubic-bezier)           */
+/* ========================================================================= */
+.oops-accordion-grid {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: grid-template-rows;
+}
+
+.oops-accordion-grid.is-expanded {
+  grid-template-rows: 1fr;
+}
+
+.oops-accordion-inner {
+  overflow: hidden;
+}
+
+.oops-accordion-content {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 380ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.oops-accordion-grid.is-expanded .oops-accordion-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.oops-chevron-rotate {
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oops-accordion-grid,
+  .oops-accordion-content,
+  .oops-chevron-rotate {
+    transition: none !important;
+  }
+}
+
+
 
 

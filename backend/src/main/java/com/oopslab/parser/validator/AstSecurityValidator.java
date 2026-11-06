@@ -18,11 +18,13 @@ public class AstSecurityValidator {
 
     private static final Set<String> FORBIDDEN_PACKAGE_PREFIXES = Set.of(
         "java.lang.reflect",
+        "java.lang.invoke",
         "java.lang.instrument",
         "java.lang.management",
         "java.io.File",
         "java.nio.file",
         "java.net",
+        "java.security",
         "sun.misc",
         "jdk.internal",
         "com.sun"
@@ -34,7 +36,11 @@ public class AstSecurityValidator {
         "load",
         "loadLibrary",
         "exec",
-        "forName"
+        "forName",
+        "stop",
+        "suspend",
+        "resume",
+        "invokeExact"
     );
 
     public List<String> validate(CompilationUnit cu) {
@@ -57,10 +63,29 @@ public class AstSecurityValidator {
                 super.visit(n, arg);
                 String methodName = n.getNameAsString();
                 if (FORBIDDEN_METHOD_NAMES.contains(methodName)) {
-                    // Check scope if present
                     String scopeStr = n.getScope().map(Object::toString).orElse("");
-                    if (scopeStr.contains("System") || scopeStr.contains("Runtime") || scopeStr.contains("Class")) {
-                        violations.add("Forbidden method call detected: '" + scopeStr + "." + methodName + "()'. Security policy forbids process/JVM termination or reflection.");
+                    violations.add("Forbidden method call detected: '" + (scopeStr.isEmpty() ? "" : scopeStr + ".") + methodName + "()'. Security policy forbids process/JVM termination, thread abort, or reflection.");
+                }
+            }
+
+            @Override
+            public void visit(com.github.javaparser.ast.type.ClassOrInterfaceType n, Void arg) {
+                super.visit(n, arg);
+                String fullTypeName = n.asString();
+                for (String forbidden : FORBIDDEN_PACKAGE_PREFIXES) {
+                    if (fullTypeName.startsWith(forbidden)) {
+                        violations.add("Forbidden type usage detected: '" + fullTypeName + "'. Package access restricted by security policy.");
+                    }
+                }
+            }
+
+            @Override
+            public void visit(com.github.javaparser.ast.expr.ObjectCreationExpr n, Void arg) {
+                super.visit(n, arg);
+                String createdType = n.getTypeAsString();
+                for (String forbidden : FORBIDDEN_PACKAGE_PREFIXES) {
+                    if (createdType.startsWith(forbidden)) {
+                        violations.add("Forbidden object allocation detected: 'new " + createdType + "()'. Construction restricted by security policy.");
                     }
                 }
             }

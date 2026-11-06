@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Lock, ShieldCheck, ArrowRight, UserCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/services/storage/authStore';
+import { useAuthStore, validatePasswordStrength } from '@/services/storage/authStore';
 import { LogoTraceLoader } from '@/components/LogoTraceLoader';
 
 interface AuthModalProps {
@@ -22,37 +22,94 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>(initialMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [authComplete, setAuthComplete] = useState(false);
+  const [authTarget, setAuthTarget] = useState<string>('/app/dashboard');
   const navigate = useNavigate();
   const { signIn, enterAsGuest } = useAuthStore();
 
   if (!isOpen) return null;
 
   const handleGuestEntry = () => {
-    enterAsGuest();
-    onClose();
-    if (onContinueAsGuest) {
-      onContinueAsGuest();
-    } else {
-      navigate('/playground');
-    }
+    setErrorMessage(null);
+    setAuthTarget('/app/concepts');
+    setIsAuthenticating(true);
+    setAuthComplete(false);
+    setTimeout(() => {
+      setAuthComplete(true);
+    }, 1200);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
     if (!email) return;
-    setIsSubmitting(true);
+
+    if (authMode === 'signup' && password) {
+      const pwCheck = validatePasswordStrength(password);
+      if (!pwCheck.valid) {
+        setErrorMessage(pwCheck.errors[0] || 'Password does not meet security requirements.');
+        return;
+      }
+    }
+
+    setAuthTarget('/app/dashboard');
+    setIsAuthenticating(true);
+    setAuthComplete(false);
     setTimeout(() => {
-      setIsSubmitting(false);
-      signIn(email);
-      onClose();
-      navigate('/dashboard');
-    }, 400);
+      setAuthComplete(true);
+    }, 1200);
+  };
+
+  const handleAuthDone = () => {
+    if (authTarget === '/app/dashboard') {
+      const res = signIn(email);
+      if (!res.success) {
+        setIsAuthenticating(false);
+        setAuthComplete(false);
+        setErrorMessage(res.error || 'Authentication failed.');
+        return;
+      }
+    } else {
+      enterAsGuest();
+    }
+    setIsAuthenticating(false);
+    setAuthComplete(false);
+    onClose();
+    if (onContinueAsGuest) {
+      onContinueAsGuest();
+    } else {
+      navigate(authTarget);
+    }
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-in fade-in duration-150">
-      <div className="relative w-full max-w-md bg-white border border-border rounded-2xl shadow-2xl p-6 text-foreground animate-in zoom-in-95 duration-150">
+      <div className="relative w-full max-w-md bg-white border border-border rounded-2xl shadow-2xl p-6 text-foreground animate-in zoom-in-95 duration-150 overflow-hidden">
+        {isAuthenticating && (
+          <div className="absolute inset-0 z-30 bg-white/95 backdrop-blur-xs rounded-2xl flex flex-col items-center justify-center p-6 space-y-4 animate-in fade-in duration-200">
+            <LogoTraceLoader
+              loading={!authComplete}
+              isComplete={authComplete}
+              size={56}
+              strokeWidth={2.5}
+              loopDurationSeconds={1.2}
+              fillFadeSeconds={0.35}
+              className="text-foreground"
+              onDone={handleAuthDone}
+            />
+            <div className="text-center space-y-1">
+              <div className="text-xs font-bold text-foreground">
+                {authTarget === '/dashboard' ? 'Authenticating Session...' : 'Preparing Guest Workspace...'}
+              </div>
+              <div className="text-[10px] text-muted-foreground font-mono">
+                Java 21 JVM Laboratory
+              </div>
+            </div>
+          </div>
+        )}
+
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-1.5 text-muted-foreground hover:text-foreground rounded-lg hover:bg-surface transition-colors"
@@ -131,22 +188,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             />
           </div>
 
+          {errorMessage && (
+            <div className="p-2 text-[11px] rounded bg-red-50 border border-red-200 text-red-600 font-mono">
+              {errorMessage}
+            </div>
+          )}
+
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="w-full py-2.5 px-4 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.99] transition-all flex items-center justify-center space-x-2 shadow-xs"
+            disabled={isAuthenticating}
+            className="w-full py-2.5 px-4 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.99] transition-all flex items-center justify-center space-x-2 shadow-xs cursor-pointer"
           >
-            {isSubmitting ? (
-              <>
-                <LogoTraceLoader size={16} strokeWidth={2.5} className="text-background" />
-                <span>Authenticating...</span>
-              </>
-            ) : (
-              <>
-                <span>{authMode === 'signin' ? 'Sign In & Open Dashboard' : 'Create Account & Open Dashboard'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </>
-            )}
+            <span>{authMode === 'signin' ? 'Sign In & Open Dashboard' : 'Create Account & Open Dashboard'}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </form>
 

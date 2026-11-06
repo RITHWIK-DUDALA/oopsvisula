@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" rx="16" fill="#FFFFFF" stroke="#0D9488" stroke-width="2"/>
+  <rect x="12" y="12" width="176" height="32" rx="6" fill="#F0FDFA" stroke="#99F6E4"/>
+  <text x="100" y="33" fill="#0F766E" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">THREAD STATES</text>
+  <rect x="20" y="56" width="70" height="36" rx="6" fill="#CCFBF1" stroke="#5EEAD4"/>
+  <text x="55" y="78" fill="#115E59" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">NEW</text>
+  <path d="M 90 74 L 110 74" stroke="#0D9488" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="110" y="56" width="70" height="36" rx="6" fill="#0D9488"/>
+  <text x="145" y="78" fill="#FFFFFF" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">RUNNING</text>
+  <rect x="20" y="114" width="70" height="36" rx="6" fill="#FEE2E2" stroke="#FCA5A5"/>
+  <text x="55" y="136" fill="#991B1B" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">BLOCKED</text>
+  <rect x="110" y="114" width="70" height="36" rx="6" fill="#F1F5F9" stroke="#CBD5E1"/>
+  <text x="145" y="136" fill="#475569" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">TERMINATED</text>
+  <rect x="20" y="162" width="160" height="24" rx="4" fill="#F8FAFC" stroke="#E2E8F0"/>
+  <text x="100" y="178" fill="#0F766E" font-family="monospace" font-size="9" font-weight="bold" text-anchor="middle">Thread.ofVirtual().start()</text>
+</svg>

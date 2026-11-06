@@ -33,3 +33,9 @@ __pycache__/
 .env
 .env.local
 
+# Agent Skills Local Isolation
+.agents/
+skills-lock.json
+ai-design-skills-main (2)/
+scratch/
+

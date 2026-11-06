@@ -3,6 +3,8 @@ package com.oopslab.api.controller;
 import com.oopslab.api.dto.ExecutionStatusResponseDto;
 import com.oopslab.api.dto.RunCodeRequestDto;
 import com.oopslab.execution.service.ExecutionService;
+import com.oopslab.model.ParsedAstDto;
+import com.oopslab.parser.service.AstAnalysisService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +14,20 @@ import org.springframework.web.bind.annotation.*;
 public class ExecutionController {
 
     private final ExecutionService executionService;
+    private final AstAnalysisService astAnalysisService;
 
-    public ExecutionController(ExecutionService executionService) {
+    public ExecutionController(ExecutionService executionService, AstAnalysisService astAnalysisService) {
         this.executionService = executionService;
+        this.astAnalysisService = astAnalysisService;
+    }
+
+    @PostMapping("/parse-ast")
+    public ResponseEntity<ParsedAstDto> parseAst(@Valid @RequestBody RunCodeRequestDto request) {
+        ParsedAstDto result = astAnalysisService.extractUnifiedAst(request.sourceCode(), "Main.java");
+        if (!result.valid()) {
+            return ResponseEntity.badRequest().body(result);
+        }
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/run")

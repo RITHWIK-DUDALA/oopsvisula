@@ -12,11 +12,13 @@ export interface SecurityScanResult {
 
 const FORBIDDEN_IMPORT_PATTERNS = [
   /^java\.lang\.reflect(\..*)?$/,
+  /^java\.lang\.invoke(\..*)?$/,
   /^java\.lang\.instrument(\..*)?$/,
   /^java\.lang\.management(\..*)?$/,
   /^java\.io\.(File|FileInputStream|FileOutputStream|RandomAccessFile|FileDescriptor)$/,
   /^java\.nio\.file(\..*)?$/,
   /^java\.net(\..*)?$/,
+  /^java\.security(\..*)?$/,
   /^sun\.misc(\..*)?$/,
   /^jdk\.internal(\..*)?$/,
   /^com\.sun(\..*)?$/,
@@ -28,6 +30,14 @@ const FORBIDDEN_METHOD_CALLS = [
   /\bProcessBuilder\b/,
   /\bClass\s*\.\s*forName\s*\(/,
   /\bSystem\s*\.\s*(load|loadLibrary)\s*\(/,
+  /\bMethodHandles\s*\.\s*lookup\s*\(/,
+  /\b\w*\.?\s*(stop|suspend|resume)\s*\(/,
+  /\bjava\.lang\.reflect\b/,
+  /\bjava\.lang\.invoke\b/,
+  /\bjava\.security\b/,
+  /\bjava\.net\.(Socket|ServerSocket|URL|URI|HttpURLConnection)\b/,
+  /\bjava\.io\.(File|FileInputStream|FileOutputStream|RandomAccessFile)\b/,
+  /\bjava\.nio\.file\b/,
 ];
 
 export const scanJavaSourceSecurity = (code: string): SecurityScanResult => {
@@ -52,11 +62,12 @@ export const scanJavaSourceSecurity = (code: string): SecurityScanResult => {
     }
   }
 
-  // 2. Scan for forbidden method calls
+  // 2. Scan for forbidden method calls & inline types
   for (const pattern of FORBIDDEN_METHOD_CALLS) {
-    if (pattern.test(code)) {
+    const callMatch = pattern.exec(code);
+    if (callMatch) {
       violations.push(
-        `Forbidden system invocation matching: ${pattern.source}. Sandbox forbids process termination, reflection, and external execution.`
+        `Forbidden system invocation or type usage: '${callMatch[0]}'. Sandbox restricts process termination, reflection, and external I/O.`
       );
     }
   }

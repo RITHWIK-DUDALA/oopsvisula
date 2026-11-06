@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { GitBranch, CheckCircle2, Circle, ArrowRight, Sparkles } from 'lucide-react';
+import { GitBranch, CheckCircle2, Circle, ArrowRight, Sparkles, ChevronDown } from 'lucide-react';
 import { curriculumLessons } from '@/data/curriculumData';
 import { useLearnerStore } from '@/services/storage/localStore';
 
 export const RoadmapPage: React.FC = () => {
   const { masteredTopics } = useLearnerStore();
+  const [expandedStages, setExpandedStages] = useState<Set<number>>(() => new Set([0, 1, 2, 3, 4]));
+
+  const toggleStage = (idx: number) => {
+    setExpandedStages((prev) => {
+      const next = new Set(prev);
+      if (next.has(idx)) {
+        next.delete(idx);
+      } else {
+        next.add(idx);
+      }
+      return next;
+    });
+  };
 
   const stages = [
     {
@@ -50,22 +63,41 @@ export const RoadmapPage: React.FC = () => {
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         {stages.map((stage, idx) => {
           const lessonsInStage = curriculumLessons.filter((l) => l.category === stage.category);
           const completedInStage = lessonsInStage.filter((l) => masteredTopics.includes(l.id));
           const isAllCompleted = completedInStage.length === lessonsInStage.length && lessonsInStage.length > 0;
+          const isExpanded = expandedStages.has(idx);
 
           return (
-            <div key={idx} className="p-6 bg-white border border-border rounded-xl space-y-4 shadow-2xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-border pb-3 gap-2">
-                <div className="flex items-center space-x-2.5">
-                  <GitBranch className="w-4 h-4 text-foreground stroke-[1.5]" />
-                  <h2 className="text-sm font-bold text-foreground">{stage.title}</h2>
+            <div
+              key={idx}
+              className={`p-5 sm:p-6 bg-white rounded-xl overflow-hidden transition-all duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-2xs ${
+                isExpanded ? 'border border-[#CBD5E1]' : 'border border-border hover:border-[#CBD5E1]/80'
+              }`}
+            >
+              {/* Interactive Stage Header with Dropdown Chevron */}
+              <div
+                role="button"
+                tabIndex={0}
+                aria-expanded={isExpanded}
+                onClick={() => toggleStage(idx)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleStage(idx);
+                  }
+                }}
+                className="flex items-center justify-between cursor-pointer select-none gap-3 -m-2 p-2 rounded-lg hover:bg-black/[0.015] transition-colors"
+              >
+                <div className="flex items-center space-x-2.5 min-w-0 flex-1">
+                  <GitBranch className="w-4 h-4 text-foreground stroke-[1.5] shrink-0" />
+                  <h2 className="text-sm font-bold text-foreground truncate">{stage.title}</h2>
                 </div>
 
-                <div className="flex items-center space-x-2 text-xs font-mono">
-                  <span className="text-muted-foreground">
+                <div className="flex items-center space-x-3 text-xs font-mono shrink-0">
+                  <span className="text-muted-foreground hidden sm:inline">
                     {completedInStage.length} / {lessonsInStage.length} Completed
                   </span>
                   <span
@@ -79,58 +111,82 @@ export const RoadmapPage: React.FC = () => {
                   >
                     {isAllCompleted ? 'Mastered' : completedInStage.length > 0 ? 'In Progress' : 'Pending'}
                   </span>
+
+                  {/* Smooth 280ms Rotating Chevron */}
+                  <div
+                    className={`w-6 h-6 rounded-md flex items-center justify-center text-muted-foreground hover:text-foreground oops-chevron-rotate ${
+                      isExpanded ? 'rotate-180' : 'rotate-0'
+                    }`}
+                  >
+                    <ChevronDown className="w-4 h-4 stroke-[2]" />
+                  </div>
                 </div>
               </div>
 
-              <p className="text-xs text-muted-foreground">{stage.description}</p>
+              {/* Smooth Animated Accordion Panel */}
+              <div className={`oops-accordion-grid ${isExpanded ? 'is-expanded' : ''}`}>
+                <div className="oops-accordion-inner">
+                  <div className="oops-accordion-content space-y-4 pt-4 mt-2 border-t border-border">
+                    <p className="text-xs text-muted-foreground">{stage.description}</p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                {lessonsInStage.map((lesson) => {
-                  const done = masteredTopics.includes(lesson.id);
-                  return (
-                    <NavLink
-                      key={lesson.id}
-                      to="/concepts"
-                      className="p-3 rounded-lg border border-border bg-surface/30 hover:border-foreground/50 transition-all flex items-center justify-between group"
-                    >
-                      <div className="flex items-center space-x-2.5">
-                        {done ? (
-                          <CheckCircle2 className="w-4 h-4 text-foreground stroke-[2]" />
-                        ) : (
-                          <Circle className="w-4 h-4 text-muted-foreground stroke-[1.5]" />
-                        )}
-                        <span className="text-xs font-medium text-foreground group-hover:underline">
-                          {lesson.title}
-                        </span>
-                      </div>
-                      <span className="text-[10px] font-mono text-muted-foreground">
-                        Step {lesson.stepNumber}
-                      </span>
-                    </NavLink>
-                  );
-                })}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                      {lessonsInStage.map((lesson) => {
+                        const done = masteredTopics.includes(lesson.id);
+                        return (
+                          <NavLink
+                            key={lesson.id}
+                            to={`/app/concepts/${lesson.id}`}
+                            className="p-3 rounded-lg border border-border bg-surface/30 hover:border-foreground/50 transition-all flex items-center justify-between group"
+                          >
+                            <div className="flex items-center space-x-2.5">
+                              {done ? (
+                                <CheckCircle2 className="w-4 h-4 text-foreground stroke-[2]" />
+                              ) : (
+                                <Circle className="w-4 h-4 text-muted-foreground stroke-[1.5]" />
+                              )}
+                              <span className="text-xs font-medium text-foreground group-hover:underline">
+                                {lesson.title}
+                              </span>
+                            </div>
+                            <span className="text-[10px] font-mono text-muted-foreground">
+                              Step {lesson.stepNumber}
+                            </span>
+                          </NavLink>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Footer Banner */}
-      <div className="p-6 bg-surface border border-border rounded-xl flex items-center justify-between">
+      {/* Footer Banner — Contextual Progression to Visualizers and Playground */}
+      <div className="p-6 bg-surface border border-border rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center space-x-3">
           <Sparkles className="w-5 h-5 text-foreground stroke-[1.5]" />
           <div>
-            <div className="text-xs font-bold text-foreground">Want hands-on code tracing?</div>
-            <div className="text-[11px] text-muted-foreground">Open the 3-panel playground to execute live Java 21 programs.</div>
+            <div className="text-xs font-bold text-foreground">Next Step: Explore Interactive Visualizers</div>
+            <div className="text-[11px] text-muted-foreground">Observe JVM runtime memory mechanics, stack frames, and object graphs in 2D and 3D.</div>
           </div>
         </div>
-        <NavLink
-          to="/playground"
-          className="flex items-center space-x-1.5 px-4 py-2 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 transition-all shrink-0"
-        >
-          <span>Open Playground</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </NavLink>
+        <div className="flex items-center space-x-2.5 shrink-0">
+          <NavLink
+            to="/app/visualizers"
+            className="flex items-center space-x-1.5 px-4 py-2 bg-foreground text-background text-xs font-semibold rounded-lg hover:bg-black/90 transition-all shadow-xs"
+          >
+            <span>Explore Visualizers</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </NavLink>
+          <NavLink
+            to="/app/playground"
+            className="flex items-center space-x-1.5 px-3.5 py-2 border border-border bg-white text-foreground text-xs font-medium rounded-lg hover:bg-surface transition-all"
+          >
+            <span>Playground</span>
+          </NavLink>
+        </div>
       </div>
     </div>
   );

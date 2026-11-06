@@ -112,7 +112,7 @@ export const DashboardPage: React.FC = () => {
           </button>
 
           <NavLink
-            to="/playground"
+            to="/app/playground"
             className="flex items-center space-x-2 px-4 py-2 bg-foreground text-background text-xs font-medium rounded-lg hover:bg-black/90 active:scale-[0.98] transition-all"
           >
             <Terminal className="w-3.5 h-3.5 stroke-[1.5]" />
@@ -175,7 +175,7 @@ export const DashboardPage: React.FC = () => {
               <h2 className="text-sm font-semibold text-foreground tracking-tight">Active Curriculum Sequence</h2>
               <p className="text-[11px] text-muted-foreground">Structured OOP progression from primitives to Java 21</p>
             </div>
-            <NavLink to="/concepts" className="text-xs text-muted-foreground hover:text-foreground flex items-center space-x-1">
+            <NavLink to="/app/concepts" className="text-xs text-muted-foreground hover:text-foreground flex items-center space-x-1">
               <span>View All 14</span>
               <ArrowRight className="w-3.5 h-3.5 stroke-[1.5]" />
             </NavLink>
@@ -201,7 +201,7 @@ export const DashboardPage: React.FC = () => {
                   <div className="text-[11px] text-muted-foreground">Default constructors, overloaded forms, explicit invocation</div>
                 </div>
               </div>
-              <NavLink to="/concepts" className="text-xs font-medium text-foreground hover:underline flex items-center space-x-1">
+              <NavLink to="/app/concepts" className="text-xs font-medium text-foreground hover:underline flex items-center space-x-1">
                 <span>Resume</span>
                 <ArrowRight className="w-3 h-3 stroke-[2]" />
               </NavLink>
@@ -226,7 +226,7 @@ export const DashboardPage: React.FC = () => {
 
           <div className="space-y-3">
             <NavLink
-              to="/visualizers"
+              to="/app/visualizers"
               className="block p-3.5 border border-border rounded-lg hover:border-foreground transition-all group"
             >
               <div className="flex items-center justify-between mb-1">
@@ -237,7 +237,7 @@ export const DashboardPage: React.FC = () => {
             </NavLink>
 
             <NavLink
-              to="/playground"
+              to="/app/playground"
               className="block p-3.5 border border-border rounded-lg hover:border-foreground transition-all group"
             >
               <div className="flex items-center justify-between mb-1">
@@ -248,7 +248,7 @@ export const DashboardPage: React.FC = () => {
             </NavLink>
 
             <NavLink
-              to="/practice"
+              to="/app/practice"
               className="block p-3.5 border border-border rounded-lg hover:border-foreground transition-all group"
             >
               <div className="flex items-center justify-between mb-1">

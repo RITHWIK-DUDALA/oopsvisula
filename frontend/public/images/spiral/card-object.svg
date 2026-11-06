@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" rx="16" fill="#FFFFFF" stroke="#F47721" stroke-width="2"/>
+  <rect x="12" y="12" width="176" height="38" rx="8" fill="#F47721"/>
+  <text x="100" y="36" fill="#FFFFFF" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">obj-001 : Student</text>
+  <rect x="12" y="52" width="176" height="134" rx="8" fill="#FFFBF5"/>
+  <text x="24" y="80" fill="#9A3412" font-family="monospace" font-size="11">id: 101</text>
+  <text x="24" y="104" fill="#9A3412" font-family="monospace" font-size="11">name: "Alice"</text>
+  <text x="24" y="128" fill="#EA580C" font-family="monospace" font-size="12" font-weight="bold">gpa: 4.0 ★</text>
+  <rect x="24" y="146" width="150" height="26" rx="6" fill="#FFEDD5" stroke="#FED7AA"/>
+  <text x="99" y="163" fill="#C2410C" font-family="monospace" font-size="10" font-weight="bold" text-anchor="middle">HEAP INSTANCE</text>
+</svg>

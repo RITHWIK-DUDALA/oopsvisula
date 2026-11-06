@@ -1,5 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import {
+  safeJsonParse,
+  validateLearnerSession,
+  clearAllApplicationStorage,
+  MAX_IMPORT_BYTES,
+} from './secureStorage';
 
 export interface SavedSnippet {
   id: string;
@@ -9,6 +15,7 @@ export interface SavedSnippet {
 }
 
 export interface LearnerProgressState {
+  version: number;
   guestId: string;
   guestName: string;
   createdAt: string;
@@ -27,8 +34,9 @@ export interface LearnerProgressState {
   saveSnippet: (title: string, code: string) => string;
   deleteSnippet: (id: string) => void;
   exportSessionJson: () => string;
-  importSessionJson: (json: string) => boolean;
+  importSessionJson: (json: string) => { success: boolean; error?: string };
   resetProgress: () => void;
+  clearAllData: () => void;
 }
 
 const initialGuestId = `guest-${Math.random().toString(36).substring(2, 9)}`;
@@ -36,6 +44,7 @@ const initialGuestId = `guest-${Math.random().toString(36).substring(2, 9)}`;
 export const useLearnerStore = create<LearnerProgressState>()(
   persist(
     (set, get) => ({
+      version: 2,
       guestId: initialGuestId,
       guestName: 'Guest Student',
       createdAt: new Date().toISOString(),
@@ -97,7 +106,7 @@ export const useLearnerStore = create<LearnerProgressState>()(
       exportSessionJson: () => {
         const state = get();
         const exportObj = {
-          version: '1.0',
+          version: 2,
           exportedAt: new Date().toISOString(),
           guestId: state.guestId,
           totalLabSeconds: state.totalLabSeconds,
@@ -109,23 +118,28 @@ export const useLearnerStore = create<LearnerProgressState>()(
         return JSON.stringify(exportObj, null, 2);
       },
 
-      importSessionJson: (json: string) => {
-        try {
-          const parsed = JSON.parse(json);
-          if (Array.isArray(parsed.masteredTopics) && Array.isArray(parsed.solvedChallengeIds)) {
-            set({
-              masteredTopics: parsed.masteredTopics,
-              solvedChallengeIds: parsed.solvedChallengeIds,
-              simulationsRunCount: typeof parsed.simulationsRunCount === 'number' ? parsed.simulationsRunCount : get().simulationsRunCount,
-              totalLabSeconds: typeof parsed.totalLabSeconds === 'number' ? parsed.totalLabSeconds : get().totalLabSeconds,
-              savedSnippets: Array.isArray(parsed.savedSnippets) ? parsed.savedSnippets : get().savedSnippets,
-            });
-            return true;
-          }
-          return false;
-        } catch {
-          return false;
+      importSessionJson: (json: string): { success: boolean; error?: string } => {
+        const result = safeJsonParse(
+          json,
+          validateLearnerSession,
+          null,
+          MAX_IMPORT_BYTES
+        );
+
+        if (!result.success || !result.data) {
+          return { success: false, error: result.error || 'Invalid session JSON.' };
         }
+
+        const parsed = result.data;
+        set({
+          masteredTopics: parsed.masteredTopics,
+          solvedChallengeIds: parsed.solvedChallengeIds,
+          simulationsRunCount: parsed.simulationsRunCount,
+          totalLabSeconds: parsed.totalLabSeconds,
+          savedSnippets: (parsed.savedSnippets as SavedSnippet[]) || get().savedSnippets,
+        });
+
+        return { success: true };
       },
 
       resetProgress: () => {
@@ -137,9 +151,29 @@ export const useLearnerStore = create<LearnerProgressState>()(
           savedSnippets: [],
         });
       },
+
+      clearAllData: () => {
+        get().resetProgress();
+        clearAllApplicationStorage();
+      },
     }),
     {
       name: 'oops-lab-learner-storage',
+      version: 2,
+      migrate: (persistedState: unknown, version: number) => {
+        if (version < 2) {
+          // Migration from version 1 to version 2
+          const oldState = (persistedState || {}) as Record<string, unknown>;
+          return {
+            ...oldState,
+            version: 2,
+            masteredTopics: Array.isArray(oldState.masteredTopics) ? oldState.masteredTopics : [],
+            solvedChallengeIds: Array.isArray(oldState.solvedChallengeIds) ? oldState.solvedChallengeIds : [],
+            savedSnippets: Array.isArray(oldState.savedSnippets) ? oldState.savedSnippets : [],
+          };
+        }
+        return persistedState as LearnerProgressState;
+      },
     }
   )
 );

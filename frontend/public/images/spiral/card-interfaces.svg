@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" rx="16" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/>
+  <rect x="20" y="14" width="160" height="60" rx="6" fill="#FFFBEB" stroke="#FDE68A" stroke-width="1.5"/>
+  <text x="100" y="34" fill="#B45309" font-family="monospace" font-size="10" text-anchor="middle">&lt;&lt;interface&gt;&gt;</text>
+  <text x="100" y="52" fill="#92400E" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">Payable</text>
+  <text x="100" y="66" fill="#78350F" font-family="monospace" font-size="9" text-anchor="middle">+ process(amt): void</text>
+  <line x1="100" y1="74" x2="100" y2="114" stroke="#D97706" stroke-width="2" stroke-dasharray="4,3"/>
+  <polygon points="100,74 93,88 107,88" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/>
+  <rect x="20" y="114" width="160" height="66" rx="6" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
+  <text x="100" y="138" fill="#92400E" font-family="monospace" font-size="12" font-weight="bold" text-anchor="middle">CreditCardPayment</text>
+  <text x="28" y="162" fill="#B45309" font-family="monospace" font-size="10">@Override process()</text>
+</svg>

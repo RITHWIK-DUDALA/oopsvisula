@@ -1,0 +1,121 @@
+[
+  {
+    "id": "ADV-VM-01",
+    "component": "JVM-Simulator",
+    "name": "Stops infinite loop bomb within execution budget",
+    "status": "PASS",
+    "evidence": "Terminated at step 2000 with SAFETY TERMINATION"
+  },
+  {
+    "id": "ADV-VM-02",
+    "component": "JVM-Simulator",
+    "name": "Safely traps mutual recursive stack explosion",
+    "status": "PASS",
+    "evidence": "Call stack limited cleanly at 50 frames: StackOverflowError: Maximum simulated call stack depth (50) exceeded."
+  },
+  {
+    "id": "ADV-VM-03",
+    "component": "JVM-Simulator",
+    "name": "Rejects massive array allocation (1,000,000 elements) with OutOfMemoryError",
+    "status": "PASS",
+    "evidence": "Array dimension capped at 100 elements. Emitted: OutOfMemoryError: Requested array dimension (1000000) exceeds maximum supported simulation length (100)."
+  },
+  {
+    "id": "ADV-VM-04",
+    "component": "JVM-Simulator",
+    "name": "Bounds exponential string concatenation without memory exhaustion",
+    "status": "PASS",
+    "evidence": "Exponential string concatenation safely clamped at 10,000 characters."
+  },
+  {
+    "id": "ADV-VM-05",
+    "component": "JVM-Simulator",
+    "name": "Handles null pointer dereferences with simulated NullPointerException",
+    "status": "PASS",
+    "evidence": "Successfully handled null reference without crashing host JS runtime."
+  },
+  {
+    "id": "ADV-VM-06",
+    "component": "JVM-Simulator",
+    "name": "Recovers gracefully from malformed and unsupported syntax tokens",
+    "status": "PASS",
+    "evidence": "Malformed source parsed safely into empty program with 0 unhandled JS errors."
+  },
+  {
+    "id": "ADV-VM-07",
+    "component": "JVM-Simulator",
+    "name": "Guarantees state purity across 10 repeated execution cycles",
+    "status": "PASS",
+    "evidence": "10 consecutive execution cycles executed with 100% state purity and zero memory leaks."
+  },
+  {
+    "id": "ADV-STO-01",
+    "component": "Browser-Storage",
+    "name": "Handles 100-level deep JSON nesting without stack overflow",
+    "status": "PASS",
+    "evidence": "100-level deep JSON nesting parsed and sanitized with zero call stack overflow."
+  },
+  {
+    "id": "ADV-STO-02",
+    "component": "Browser-Storage",
+    "name": "Rejects array flooding attack (10,000 items in masteredTopics)",
+    "status": "PASS",
+    "evidence": "Array flooding rejected (exceeded maximum topic ceiling of 300 items)."
+  },
+  {
+    "id": "ADV-STO-03",
+    "component": "Browser-Storage",
+    "name": "Neutralizes prototype pollution injection containing constructor prototype payload",
+    "status": "PASS",
+    "evidence": "Prototype pollution payload successfully stripped; Object.prototype remains clean."
+  },
+  {
+    "id": "ADV-STO-04",
+    "component": "Browser-Storage",
+    "name": "Preserves data fidelity across 10 export/import cycles",
+    "status": "PASS",
+    "evidence": "10 export/import serialization cycles verified with 100% data fidelity."
+  },
+  {
+    "id": "ADV-CSP-01",
+    "component": "Production-Ingress",
+    "name": "Production preview server returns Content-Security-Policy on port 4173",
+    "status": "PASS",
+    "evidence": "CSP: default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' http: https: ws: wss:; worker-src 'self' blob:; object-src 'none'; frame-ancestors 'none';"
+  },
+  {
+    "id": "ADV-CSP-02",
+    "component": "Production-Ingress",
+    "name": "Production preview server returns X-Frame-Options: DENY on port 4173",
+    "status": "PASS",
+    "evidence": "X-Frame-Options: DENY confirmed over live production socket."
+  },
+  {
+    "id": "ADV-CSP-03",
+    "component": "Production-Ingress",
+    "name": "Production preview server returns X-Content-Type-Options: nosniff on port 4173",
+    "status": "PASS",
+    "evidence": "X-Content-Type-Options: nosniff confirmed over live production socket."
+  },
+  {
+    "id": "ADV-CSP-04",
+    "component": "Production-Ingress",
+    "name": "Production preview server returns Referrer-Policy on port 4173",
+    "status": "PASS",
+    "evidence": "Referrer-Policy: strict-origin-when-cross-origin confirmed."
+  },
+  {
+    "id": "ADV-BND-01",
+    "component": "Bundle-Integrity",
+    "name": "Confirms separate modular vendor chunks generated in dist/assets",
+    "status": "PASS",
+    "evidence": "Verified modular vendor chunks: vendor-react, vendor-three, vendor-flow, vendor-motion, vendor-icons."
+  },
+  {
+    "id": "ADV-BND-02",
+    "component": "Bundle-Integrity",
+    "name": "Confirms zero .map source maps are exposed in production dist",
+    "status": "PASS",
+    "evidence": "Zero .map source maps confirmed in production dist directory."
+  }
+]

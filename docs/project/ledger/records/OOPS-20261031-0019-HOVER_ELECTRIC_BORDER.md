@@ -30,3 +30,4 @@
 - `tsc -b && vite build`: Exited with code 0 in 13.54s (2,075 modules transformed).
 - `graphify update .`: Local graph updated (832 nodes, 1,315 edges, 73 communities).
 - Dev server running live on `http://localhost:5173/`.
+
