@@ -181,7 +181,7 @@ export const RulesPage: React.FC = () => {
 
       {/* Filter and Search Bar */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-        <div className="flex items-center space-x-1.5 overflow-x-auto pb-1 sm:pb-0">
+        <div className="flex flex-wrap items-center gap-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {categories.map((c) => (
             <button
               key={c.id}
@@ -307,7 +307,7 @@ export const RulesPage: React.FC = () => {
               Because OOPS LAB runs within a student learning sandbox in the browser, code that attempts to breach host boundaries or access operating system primitives is blocked by the AST Security Filter before simulation begins.
             </p>
 
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               <table className="w-full text-xs text-left border-collapse">
                 <thead>
                   <tr className="border-b border-border text-muted-foreground font-mono bg-surface/50">
@@ -511,7 +511,7 @@ export const RulesPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <pre className="p-3.5 bg-surface/50 border border-border rounded-lg text-xs font-mono text-[#1F2937] overflow-x-auto leading-relaxed max-h-64">
+                  <pre className="p-3.5 bg-surface/50 border border-border rounded-lg text-xs font-mono text-[#1F2937] leading-relaxed whitespace-pre overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     <code>{tmpl.code}</code>
                   </pre>
                 </div>
