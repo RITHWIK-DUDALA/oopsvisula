@@ -101,7 +101,7 @@ export const CloudCardSurface: React.FC<CloudCardSurfaceProps> = ({
         aria-hidden="true" 
       />
       
-      <div className={cn("relative z-10 w-full h-full [transform-style:preserve-3d]", !interactive3D && contentClassName)}>
+      <div className={cn("relative z-10 w-full h-full", !interactive3D && contentClassName)}>
         {children}
       </div>
     </>

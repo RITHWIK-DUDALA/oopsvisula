@@ -8,7 +8,6 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { SemanticEntity } from '@/core/engine/semanticModel';
-import { Interactive3DCard } from '@/components/shared/Interactive3DCard';
 
 export interface ClassNodeData {
   entity: SemanticEntity;
@@ -171,11 +170,7 @@ export const ClassCardNode: React.FC<any> = ({ data }) => {
       <Handle type="target" position={Position.Right} id="right-target" className="!w-2 !h-2 !bg-transparent !border-0 pointer-events-auto z-20" />
       <Handle type="source" position={Position.Right} id="right" className="!opacity-0 !w-1 !h-1 z-20" />
 
-      <Interactive3DCard
-        maxTilt={6}
-        scale={1.018}
-        glareSize={240}
-        glareOpacity={0.25}
+      <div
         onClick={() => onSelectEntity?.(entity.id, entity.sourceFile || 'Main.java', entity.sourceLine)}
         className={`w-full rounded-lg border shadow-xs transition-all select-none font-sans text-xs overflow-hidden ${borderStyle} ${
           isSelected ? 'ring-2 ring-blue-600 ring-offset-1 shadow-md' : ''
@@ -418,7 +413,7 @@ export const ClassCardNode: React.FC<any> = ({ data }) => {
           ))}
         </div>
       )}
-      </Interactive3DCard>
+      </div>
     </div>
   );
 };

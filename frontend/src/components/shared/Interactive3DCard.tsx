@@ -38,20 +38,20 @@ export interface Interactive3DCardProps extends React.HTMLAttributes<HTMLDivElem
  * - Event propagation control for nested cards
  */
 export const Interactive3DCard: React.FC<Interactive3DCardProps> = ({
-  maxTilt = 15,
-  scale = 1.04,
-  perspective = 900,
-  glare = true,
+  maxTilt = 0,
+  scale = 1,
+  perspective = 0,
+  glare = false,
   glareColor = 'rgba(255, 255, 255, 0.55)',
   glareSize = 360,
-  glareOpacity = 0.45,
-  borderGlow = true,
+  glareOpacity = 0,
+  borderGlow = false,
   borderGlowColor = 'rgba(255, 255, 255, 0.95)',
   borderGlowSize = 280,
-  shadow3D = true,
+  shadow3D = false,
   tiltReverse = false,
-  preserve3D = true,
-  disabled = false,
+  preserve3D = false,
+  disabled = true,
   stopPropagation = false,
   contentClassName,
   wrapperClassName,
@@ -221,10 +221,6 @@ export const Interactive3DCard: React.FC<Interactive3DCardProps> = ({
     <div
       ref={wrapperRef}
       className={cn('relative', wrapperClassName)}
-      style={{
-        perspective: `${perspective}px`,
-        transformStyle: preserve3D ? 'preserve-3d' : 'flat',
-      }}
     >
       <div
         ref={cardRef}
@@ -234,14 +230,11 @@ export const Interactive3DCard: React.FC<Interactive3DCardProps> = ({
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         className={cn(
-          'relative group select-none',
-          preserve3D ? '[transform-style:preserve-3d]' : '',
+          'relative select-none',
           className
         )}
         style={{
           ...style,
-          transform: 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)',
-          willChange: 'transform, box-shadow',
         }}
         {...props}
       >

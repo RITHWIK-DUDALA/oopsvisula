@@ -3,7 +3,6 @@ import { Handle, Position, NodeProps, NodeResizer } from '@xyflow/react';
 import { Box, RotateCw } from 'lucide-react';
 import { VisualEntityData } from '../../types';
 import { useVisualizationLabStore } from '../../visualizationStore';
-import { Interactive3DCard } from '@/components/shared/Interactive3DCard';
 
 export const ObjectBlockNode: React.FC<NodeProps> = ({ id, data: nodeData, selected }) => {
   const data = nodeData as VisualEntityData;
@@ -87,11 +86,7 @@ export const ObjectBlockNode: React.FC<NodeProps> = ({ id, data: nodeData, selec
         className="!w-2.5 !h-2.5 !bg-transparent !border-0 !rounded-full -right-1.5 pointer-events-auto z-20"
       />
 
-      <Interactive3DCard
-        maxTilt={7}
-        scale={1.018}
-        glareSize={260}
-        glareOpacity={0.25}
+      <div
         className={`relative w-full bg-white rounded-md border text-left shadow-2xs font-sans transition-all group overflow-hidden ${
           selected
             ? 'border-[#1749C8] ring-2 ring-[#1749C8]/20 shadow-md'
@@ -158,7 +153,7 @@ export const ObjectBlockNode: React.FC<NodeProps> = ({ id, data: nodeData, selec
             )}
           </div>
         </div>
-      </Interactive3DCard>
+      </div>
     </div>
   );
 };

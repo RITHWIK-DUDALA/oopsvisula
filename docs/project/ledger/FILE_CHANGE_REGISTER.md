@@ -1,3 +1,9 @@
+| OOPS-20261107-1825 | R3C-01 | `frontend/src/features/landing/components/HeroPreviewCard.tsx` | MODIFIED | Removed rotateX, rotateY, sheen, perspective, and translateZ 3D hovering styles |
+| OOPS-20261107-1825 | R3C-01 | `frontend/src/features/playground/components/ClassCardNode.tsx` | MODIFIED | Replaced Interactive3DCard with flat standard div element |
+| OOPS-20261107-1825 | R3C-01 | `frontend/src/features/visualization-lab/components/nodes/ClassBlockNode.tsx` | MODIFIED | Replaced Interactive3DCard with flat standard div element |
+| OOPS-20261107-1825 | R3C-01 | `frontend/src/features/visualization-lab/components/nodes/ObjectBlockNode.tsx` | MODIFIED | Replaced Interactive3DCard with flat standard div element |
+| OOPS-20261107-1825 | R3C-01 | `frontend/src/components/shared/Interactive3DCard.tsx` | MODIFIED | Set disabled: true and maxTilt: 0 defaults, removed 3D transform strings |
+| OOPS-20261107-1825 | R3C-01 | `frontend/src/features/landing/components/CloudSurface.tsx` | MODIFIED | Flattened transformStyle |
 | OOPS-20261107-1345 | MCS-01 | `frontend/index.html` | MODIFIED | Added https://cdn.jsdelivr.net to script-src, style-src, and font-src in meta CSP tag |
 | OOPS-20261107-1345 | MCS-01 | `frontend/vite.config.ts` | MODIFIED | Added https://cdn.jsdelivr.net to script-src, style-src, and font-src in server/preview CSP headers |
 | OOPS-20261107-1345 | MCS-01 | `vercel.json` | MODIFIED | Added https://cdn.jsdelivr.net to script-src, style-src, and font-src in root CSP headers |
