@@ -129,20 +129,62 @@ export function safeLocalStorageSet(key: string, value: string): boolean {
 }
 
 /**
- * Universal clear-data function: purges all application state from localStorage
+ * Returns diagnostic statistics of OOPS LAB application data stored in localStorage
  */
-export function clearAllApplicationStorage(): void {
+export function getApplicationStorageStats(): { keysCount: number; approximateBytes: number; keys: string[] } {
   try {
-    const keysToRemove: string[] = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key && (key.startsWith('oops') || key.startsWith('oopslab'))) {
-        keysToRemove.push(key);
+    const keys: string[] = [];
+    let approximateBytes = 0;
+    if (typeof localStorage !== 'undefined') {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.toLowerCase().startsWith('oops') || key.toLowerCase().startsWith('oopslab'))) {
+          keys.push(key);
+          const val = localStorage.getItem(key);
+          if (val) approximateBytes += (key.length + val.length) * 2; // UTF-16 approximate
+        }
       }
     }
-    keysToRemove.forEach((k) => localStorage.removeItem(k));
+    return { keysCount: keys.length, approximateBytes, keys };
+  } catch {
+    return { keysCount: 0, approximateBytes: 0, keys: [] };
+  }
+}
+
+/**
+ * Universal clear-data function: purges strictly OOPS LAB application state from browser storage.
+ * GUARANTEE: Never touches any non-OOPS LAB keys, personal browser data, cookies, or other websites.
+ */
+export function clearAllApplicationStorage(): { removedKeysCount: number; removedKeys: string[] } {
+  try {
+    const keysToRemove: string[] = [];
+    if (typeof localStorage !== 'undefined') {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.toLowerCase().startsWith('oops') || key.toLowerCase().startsWith('oopslab'))) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach((k) => localStorage.removeItem(k));
+    }
+
+    // Also purge sessionStorage strictly for oops keys if any
+    const sessionKeys: string[] = [];
+    if (typeof sessionStorage !== 'undefined') {
+      for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i);
+        if (key && (key.toLowerCase().startsWith('oops') || key.toLowerCase().startsWith('oopslab'))) {
+          sessionKeys.push(key);
+        }
+      }
+      sessionKeys.forEach((k) => sessionStorage.removeItem(k));
+    }
+
+    const allRemoved = [...keysToRemove, ...sessionKeys];
+    return { removedKeysCount: allRemoved.length, removedKeys: allRemoved };
   } catch (e) {
     console.error('[SecureStorage] Error clearing storage:', e);
+    return { removedKeysCount: 0, removedKeys: [] };
   }
 }
 
