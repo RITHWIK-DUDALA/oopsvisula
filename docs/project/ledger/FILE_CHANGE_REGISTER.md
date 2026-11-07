@@ -1,3 +1,4 @@
+| OOPS-20261108-0115 | PFCL-01 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Upgraded to full-card lock animation with card recoil physics, scanning laser, and mechanical deadbolts |
 | OOPS-20261108-0058 | PCLA-01 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Implemented CoolLockIcon with spring shackle physics, denial head-shake, and radar pulse wave |
 | OOPS-20261108-0048 | PBR-01 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Enforced universal rejection message 'Oops, you are not a verified beta tester.' for any login combination |
 | OOPS-20261108-0040 | PTOC-01 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Neutralized card backgrounds and borders; applied Cherry Red, Cobalt Blue, and Orange exclusively to text |
