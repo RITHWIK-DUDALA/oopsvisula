@@ -848,3 +848,7 @@
 | 2026-11-07 22:16:00 | `frontend/src/app/routes.tsx` | MODIFIED | Added `/app/rules` route and legacy redirect from `/rules` | OOPS-20261107-2216 |
 | 2026-11-07 22:16:00 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Added Rules item with ShieldCheck icon under Practice sidebar section | OOPS-20261107-2216 |
 | 2026-11-07 22:16:00 | `docs/project/ledger/records/OOPS-20261107-2216-CODING_RULES_AND_SPECIFICATIONS_PAGE.md` | CREATED | Permanent audit ledger record for comprehensive coding rules and interactive page | OOPS-20261107-2216 |
+| 2026-11-07 22:58:00 | `frontend/src/services/system/systemCompatibilityScanner.ts` | CREATED | Client hardware & browser feature detector evaluating WebGL, JVM engine, local storage, resolution, and CPU cores | OOPS-20261107-2258 |
+| 2026-11-07 22:58:00 | `frontend/src/components/shared/SystemCompatibilityModal.tsx` | CREATED | Monochromatic interactive suitability scan modal with progressive check animation and device topology summary | OOPS-20261107-2258 |
+| 2026-11-07 22:58:00 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Wired system scan modal into handleEnterLaboratory and guest entry actions | OOPS-20261107-2258 |
+| 2026-11-07 22:58:00 | `docs/project/ledger/records/OOPS-20261107-2258-SYSTEM_SUITABILITY_SCAN_FEATURE.md` | CREATED | Permanent audit ledger record for system suitability scanner | OOPS-20261107-2258 |

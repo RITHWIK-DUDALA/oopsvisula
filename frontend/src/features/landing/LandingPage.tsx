@@ -20,6 +20,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { ApplicationTransition } from '@/features/transition/ApplicationTransition';
+import { SystemCompatibilityModal } from '@/components/shared/SystemCompatibilityModal';
 import { WordReveal } from './components/WordReveal';
 import { LandingHeader } from './components/LandingHeader';
 import { DecorativeOrbits } from './components/DecorativeOrbits';
@@ -176,6 +177,7 @@ export const LandingPage: React.FC = () => {
   const [activeConceptIndex, setActiveConceptIndex] = useState(0);
   const [isDemoOpen, setIsDemoOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isSystemScanOpen, setIsSystemScanOpen] = useState(false);
   const navigate = useNavigate();
 
   // Centralized single entry handler for all landing actions (guest-first architecture)
@@ -184,6 +186,19 @@ export const LandingPage: React.FC = () => {
   const handleEnterLaboratory = () => {
     enterAsGuest();
     if (isTransitioning) return;
+    try {
+      if (localStorage.getItem('oops_skip_system_scan') === 'true') {
+        setIsTransitioning(true);
+        return;
+      }
+    } catch {
+      // Safe fallback
+    }
+    setIsSystemScanOpen(true);
+  };
+
+  const handleSystemScanProceed = () => {
+    setIsSystemScanOpen(false);
     setIsTransitioning(true);
   };
 
@@ -1008,6 +1023,13 @@ export const LandingPage: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* System Suitability Diagnostic Scan Modal */}
+      <SystemCompatibilityModal
+        isOpen={isSystemScanOpen}
+        onClose={() => setIsSystemScanOpen(false)}
+        onProceed={handleSystemScanProceed}
+      />
 
       {/* Interactive Demo Video Modal */}
       <DemoModal
