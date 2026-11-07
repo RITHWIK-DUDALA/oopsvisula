@@ -858,3 +858,5 @@
 | 2026-11-07 23:34:00 | `frontend/src/components/shared/SystemCompatibilityModal.tsx` | MODIFIED | Added frosted glass blur styling (backdrop-blur-2xl bg-white/80) and 100% automated guest workspace entry | OOPS-20261107-2334 |
 | 2026-11-07 23:43:00 | `frontend/src/services/storage/secureStorage.ts` | MODIFIED | Added getApplicationStorageStats and strict prefix-scoped storage purge guaranteeing zero impact on personal keys | OOPS-20261107-2343 |
 | 2026-11-07 23:43:00 | `frontend/src/features/settings/SettingsPage.tsx` | MODIFIED | Added Local Storage & Privacy section with live key diagnostics and confirmation modal for Clear All My Data | OOPS-20261107-2343 |
+| 2026-11-08 00:06:00 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Protected Progress page behind signed-in beta gate with interactive email invite request form and beta credentials modal | OOPS-20261108-0006 |
+| 2026-11-08 00:06:00 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Added BETA badge next to Progress item in sidebar navigation | OOPS-20261108-0006 |

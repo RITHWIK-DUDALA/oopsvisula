@@ -22,6 +22,7 @@ interface NavItem {
   name: string;
   path: string;
   icon: React.ComponentType<{ className?: string }>;
+  badge?: string;
 }
 
 interface NavGroup {
@@ -61,7 +62,7 @@ export const LeftSidebar: React.FC = () => {
     {
       label: 'PERSONAL',
       items: [
-        { name: 'Progress', path: '/app/progress', icon: Award },
+        { name: 'Progress', path: '/app/progress', icon: Award, badge: 'BETA' },
       ],
     },
     {
@@ -199,7 +200,14 @@ export const LeftSidebar: React.FC = () => {
                         }`}
                       />
                       {!isSidebarCollapsed && (
-                        <span className="truncate">{item.name}</span>
+                        <>
+                          <span className="truncate">{item.name}</span>
+                          {item.badge && (
+                            <span className="ml-auto text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#E5E7EB] text-[#374151] font-semibold uppercase tracking-wider">
+                              {item.badge}
+                            </span>
+                          )}
+                        </>
                       )}
                     </NavLink>
                   );

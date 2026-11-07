@@ -1,6 +1,25 @@
-import React, { useState, useRef } from 'react';
-import { Download, Upload, CheckCircle2, RotateCcw, Award, BookOpen, Clock, Cpu } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Download,
+  Upload,
+  CheckCircle2,
+  RotateCcw,
+  Award,
+  BookOpen,
+  Clock,
+  Cpu,
+  Lock,
+  ShieldAlert,
+  Send,
+  KeyRound,
+  Code2,
+  X,
+  LogOut,
+} from 'lucide-react';
 import { useLearnerStore } from '@/services/storage/localStore';
+import { useAuthStore } from '@/services/storage/authStore';
 import { curriculumLessons } from '@/data/curriculumData';
 
 export const ProgressPage: React.FC = () => {
@@ -14,8 +33,37 @@ export const ProgressPage: React.FC = () => {
     resetProgress,
   } = useLearnerStore();
 
+  const { isAuthenticated, isGuest, user, signIn, signOut } = useAuthStore();
+  const navigate = useNavigate();
+
+  // Beta Request State
+  const [requestEmail, setRequestEmail] = useState('');
+  const [requestSubmitted, setRequestSubmitted] = useState(false);
+  const [requestError, setRequestError] = useState<string | null>(null);
+
+  // Beta Sign-In Modal State
+  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
+  const [loginEmail, setLoginEmail] = useState('');
+  const [betaKey, setBetaKey] = useState('');
+  const [loginError, setLoginError] = useState<string | null>(null);
+
+  // File import & notification state
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [notice, setNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const existing = localStorage.getItem('oops_beta_requests');
+      if (existing) {
+        const parsed = JSON.parse(existing);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setRequestSubmitted(true);
+        }
+      }
+    } catch {
+      // Safe fallback
+    }
+  }, []);
 
   const totalLessons = curriculumLessons.length;
   const completionPercentage = Math.round((masteredTopics.length / totalLessons) * 100);
@@ -60,13 +108,263 @@ export const ProgressPage: React.FC = () => {
     setTimeout(() => setNotice(null), 3000);
   };
 
+  const handleBetaRequestSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setRequestError(null);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(requestEmail.trim())) {
+      setRequestError('Please provide a valid email address.');
+      return;
+    }
+
+    try {
+      const existing = localStorage.getItem('oops_beta_requests');
+      const list = existing ? JSON.parse(existing) : [];
+      if (!list.includes(requestEmail.trim())) {
+        list.push(requestEmail.trim());
+        localStorage.setItem('oops_beta_requests', JSON.stringify(list));
+      }
+    } catch {
+      // Safe storage fallback
+    }
+
+    setRequestSubmitted(true);
+  };
+
+  const handleBetaLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError(null);
+
+    if (!loginEmail.trim() || !betaKey.trim()) {
+      setLoginError('Both email and beta authorization key are required.');
+      return;
+    }
+
+    // Authenticate user with provisioned beta credentials
+    const res = signIn(loginEmail.trim(), loginEmail.split('@')[0], betaKey.trim());
+    if (res.success) {
+      setIsSignInModalOpen(false);
+      showNotice(`Authenticated into Progress Beta as ${loginEmail.trim()}`);
+    } else {
+      setLoginError(res.error || 'Invalid credentials or expired beta key.');
+    }
+  };
+
+  // If user is a guest or not authenticated, render the Protected Closed Beta Gate Screen
+  if (!isAuthenticated || isGuest) {
+    return (
+      <div className="p-6 sm:p-12 max-w-4xl mx-auto space-y-8 animate-in fade-in duration-200">
+        {/* Beta Restriction Notice Card */}
+        <div className="relative bg-white border border-[#E5E7EB] rounded-3xl p-8 sm:p-12 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] space-y-8 overflow-hidden text-[#111111]">
+          {/* Top Badge */}
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center space-x-3">
+              <div className="w-11 h-11 rounded-2xl bg-[#111111] text-white flex items-center justify-center shadow-xs shrink-0">
+                <Lock className="w-5 h-5 stroke-[2.2]" />
+              </div>
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-wider text-[#6B7280] font-semibold block">
+                  Closed Beta Restricted Area
+                </span>
+                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#111111]">
+                  Learner Progress & Cloud Analytics
+                </h1>
+              </div>
+            </div>
+
+            <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-[#F3F4F6] text-[#111111] border border-[#E5E7EB] uppercase tracking-wider">
+              Batch #03 Testing Cohort
+            </span>
+          </div>
+
+          {/* User Directive Notice */}
+          <div className="p-5 sm:p-6 bg-[#F9FAFB] rounded-2xl border border-[#E5E7EB] space-y-3">
+            <div className="flex items-center space-x-2 text-xs font-mono font-bold uppercase tracking-wider text-[#111111]">
+              <ShieldAlert className="w-4 h-4 stroke-[2.2] shrink-0" />
+              <span>Restricted Access Specification</span>
+            </div>
+            <p className="text-sm text-[#374151] leading-relaxed">
+              This mode is currently in <strong>beta testing</strong>. Only a selected batch of people are granted access to this version and it is not ready for mass usage. Please submit a request to receive an invite for the upcoming cohort.
+            </p>
+          </div>
+
+          {/* Interactive Request Form / Submission Status */}
+          <div className="space-y-4">
+            <div className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">
+              Request Beta Access Invitation
+            </div>
+
+            {requestSubmitted ? (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-5 rounded-2xl bg-white border border-[#D1D5DB] shadow-2xs space-y-2"
+              >
+                <div className="flex items-center space-x-2.5 text-sm font-semibold text-[#111111]">
+                  <CheckCircle2 className="w-5 h-5 stroke-[2.2]" />
+                  <span>Request Received & Queued</span>
+                </div>
+                <p className="text-xs text-[#4B5563] leading-relaxed">
+                  Your request has been logged. Access is provisioned in sequential cohorts. You will receive an invitation access key once your cohort slot becomes active.
+                </p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleBetaRequestSubmit} className="space-y-3">
+                <div className="flex flex-col sm:flex-row items-stretch gap-3">
+                  <input
+                    type="email"
+                    value={requestEmail}
+                    onChange={(e) => setRequestEmail(e.target.value)}
+                    placeholder="Enter your email to request beta invitation..."
+                    className="flex-1 px-4 py-3 rounded-xl border border-[#D1D5DB] bg-white text-xs text-[#111111] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#111111] transition-colors"
+                  />
+                  <button
+                    type="submit"
+                    className="px-6 py-3 rounded-xl bg-[#111111] hover:bg-[#222222] text-white text-xs font-semibold flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-xs active:scale-98"
+                  >
+                    <Send className="w-3.5 h-3.5 stroke-[2]" />
+                    <span>Submit Request</span>
+                  </button>
+                </div>
+                {requestError && (
+                  <p className="text-xs text-[#DC2626] font-mono">{requestError}</p>
+                )}
+              </form>
+            )}
+          </div>
+
+          {/* Alternative Action Rows */}
+          <div className="pt-6 border-t border-[#E5E7EB] flex flex-col sm:flex-row items-center justify-between gap-4">
+            <button
+              onClick={() => setIsSignInModalOpen(true)}
+              className="text-xs font-mono font-semibold text-[#111111] hover:underline flex items-center space-x-2 cursor-pointer"
+            >
+              <KeyRound className="w-4 h-4 stroke-[2]" />
+              <span>Already have beta credentials? Sign in here</span>
+            </button>
+
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => navigate('/app/concepts')}
+                className="px-4 py-2 rounded-xl text-xs font-medium text-[#4B5563] hover:text-[#111111] hover:bg-[#F3F4F6] transition-colors cursor-pointer"
+              >
+                Browse Concepts
+              </button>
+              <button
+                onClick={() => navigate('/app/playground')}
+                className="px-5 py-2.5 rounded-xl border border-[#111111] bg-white hover:bg-[#F9FAFB] text-[#111111] text-xs font-semibold flex items-center space-x-2 transition-all cursor-pointer active:scale-98"
+              >
+                <Code2 className="w-3.5 h-3.5 stroke-[2]" />
+                <span>Open Playground</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Beta Sign-In Modal */}
+        <AnimatePresence>
+          {isSignInModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md select-none">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsSignInModalOpen(false)}
+                className="absolute inset-0"
+              />
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.94, y: 16 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.94, y: 16 }}
+                transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+                className="relative w-full max-w-md bg-white border border-[#E5E7EB] shadow-2xl rounded-2xl p-8 space-y-6 text-[#111111] z-10"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#111111] text-white flex items-center justify-center shadow-xs">
+                      <KeyRound className="w-5 h-5 stroke-[2]" />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-[#111111]">Beta Access Sign In</h3>
+                      <p className="text-xs text-[#6B7280]">Authorized tester authorization</p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setIsSignInModalOpen(false)}
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-[#6B7280] hover:text-[#111111] hover:bg-black/5 transition-colors cursor-pointer"
+                  >
+                    <X className="w-4 h-4 stroke-[2]" />
+                  </button>
+                </div>
+
+                <div className="p-3.5 bg-[#F9FAFB] rounded-xl border border-[#E5E7EB] text-xs text-[#4B5563] leading-relaxed">
+                  <strong>Notice:</strong> This mode is currently in beta testing. Only a batch of people are granted access to this version. Please submit a request if you have not been assigned an access key.
+                </div>
+
+                <form onSubmit={handleBetaLoginSubmit} className="space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[#111111] block">Beta Tester Email</label>
+                    <input
+                      type="email"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      placeholder="e.g. beta@oopslab.dev"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D1D5DB] text-xs text-[#111111] focus:outline-none focus:border-[#111111] transition-colors"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[#111111] block">Beta Access Key / Password</label>
+                    <input
+                      type="password"
+                      value={betaKey}
+                      onChange={(e) => setBetaKey(e.target.value)}
+                      placeholder="Enter your cohort invite token..."
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D1D5DB] text-xs text-[#111111] focus:outline-none focus:border-[#111111] transition-colors"
+                      required
+                    />
+                  </div>
+
+                  {loginError && (
+                    <p className="text-xs text-[#DC2626] font-mono">{loginError}</p>
+                  )}
+
+                  <div className="flex items-center justify-end space-x-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsSignInModalOpen(false)}
+                      className="px-4 py-2 rounded-xl text-xs font-medium text-[#4B5563] hover:text-[#111111] transition-colors cursor-pointer"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#111111] hover:bg-[#222222] text-white text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-98"
+                    >
+                      Authorize & Enter
+                    </button>
+                  </div>
+                </form>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  }
+
+  // If user is authenticated and not a guest, render the full Progress Tracker
   return (
     <div className="p-4 sm:p-8 max-w-5xl mx-auto space-y-6 sm:space-y-8 animate-in fade-in duration-150">
       {/* Toast Notice */}
       {notice && (
         <div className="p-3 bg-foreground text-background text-xs font-mono rounded-lg flex items-center justify-between shadow-xs">
           <span>{notice}</span>
-          <button onClick={() => setNotice(null)} className="underline hover:opacity-80">
+          <button onClick={() => setNotice(null)} className="underline hover:opacity-80 cursor-pointer">
             Dismiss
           </button>
         </div>
@@ -81,9 +379,17 @@ export const ProgressPage: React.FC = () => {
         className="hidden"
       />
 
+      {/* Header with Authenticated Badge & Sign Out */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <div className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Analytics & History</div>
+          <div className="flex items-center space-x-2">
+            <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
+              Analytics & History
+            </span>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#111111] text-white font-semibold">
+              BETA TESTER: {user?.email || 'Authorized'}
+            </span>
+          </div>
           <h1 className="text-2xl font-bold tracking-tight text-foreground mt-0.5">Learner Progress Tracker</h1>
           <p className="text-xs text-muted-foreground mt-0.5">
             Locally persisted metrics, concept mastery milestones, and code experiment history.
@@ -93,18 +399,20 @@ export const ProgressPage: React.FC = () => {
         <div className="flex items-center space-x-2">
           <button
             onClick={handleExport}
-            className="flex items-center space-x-1.5 px-3 py-1.5 border border-border bg-white text-xs font-medium rounded-lg hover:border-foreground transition-colors"
+            className="flex items-center space-x-1.5 px-3 py-1.5 border border-border bg-white text-xs font-medium rounded-lg hover:border-foreground transition-colors cursor-pointer"
           >
             <Download className="w-3.5 h-3.5 stroke-[1.5]" />
             <span>Export Data</span>
           </button>
+
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center space-x-1.5 px-3 py-1.5 border border-border bg-white text-xs font-medium rounded-lg hover:border-foreground transition-colors"
+            className="flex items-center space-x-1.5 px-3 py-1.5 border border-border bg-white text-xs font-medium rounded-lg hover:border-foreground transition-colors cursor-pointer"
           >
             <Upload className="w-3.5 h-3.5 stroke-[1.5]" />
             <span>Import Data</span>
           </button>
+
           <button
             onClick={() => {
               if (window.confirm('Reset local progress?')) {
@@ -112,10 +420,21 @@ export const ProgressPage: React.FC = () => {
                 showNotice('Progress reset to zero');
               }
             }}
-            className="p-2 border border-border bg-white text-muted-foreground hover:text-foreground rounded-lg transition-colors"
+            className="p-2 border border-border bg-white text-muted-foreground hover:text-foreground rounded-lg transition-colors cursor-pointer"
             title="Reset progress"
           >
             <RotateCcw className="w-3.5 h-3.5" />
+          </button>
+
+          <button
+            onClick={() => {
+              signOut();
+              showNotice('Signed out of Progress beta session');
+            }}
+            className="p-2 border border-border bg-white text-muted-foreground hover:text-foreground rounded-lg transition-colors cursor-pointer"
+            title="Sign Out of Beta"
+          >
+            <LogOut className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
