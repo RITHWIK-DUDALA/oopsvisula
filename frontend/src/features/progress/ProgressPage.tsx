@@ -10,7 +10,6 @@ import {
   BookOpen,
   Clock,
   Cpu,
-  Lock,
   ShieldAlert,
   Send,
   KeyRound,
@@ -22,6 +21,93 @@ import {
 import { useLearnerStore } from '@/services/storage/localStore';
 import { useAuthStore } from '@/services/storage/authStore';
 import { curriculumLessons } from '@/data/curriculumData';
+
+interface CoolLockIconProps {
+  size?: number;
+  shake?: boolean;
+  locked?: boolean;
+  pulseRing?: boolean;
+  className?: string;
+}
+
+const CoolLockIcon: React.FC<CoolLockIconProps> = ({
+  size = 24,
+  shake = false,
+  locked = true,
+  pulseRing = false,
+  className = '',
+}) => {
+  return (
+    <div className={`relative flex items-center justify-center ${className}`}>
+      {/* Shockwave Radar Pulse Ring */}
+      {pulseRing && (
+        <motion.span
+          key={`ring-${shake ? 'active' : 'idle'}`}
+          className="absolute inset-0 rounded-2xl border border-[#D92638]/50 pointer-events-none"
+          initial={{ scale: 0.85, opacity: 0.9 }}
+          animate={{ scale: 1.55, opacity: 0 }}
+          transition={{ duration: 0.75, ease: 'easeOut' }}
+        />
+      )}
+
+      {/* Main Animated Padlock Frame with Denial Shake Physics */}
+      <motion.svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        animate={
+          shake
+            ? {
+                x: [0, -7, 7, -5, 5, -3, 3, -1, 1, 0],
+                rotate: [0, -4, 4, -3, 3, -1.5, 1.5, 0],
+              }
+            : { x: 0, rotate: 0 }
+        }
+        transition={{ duration: 0.52, ease: [0.36, 0.07, 0.19, 0.97] }}
+      >
+        {/* Shackle: Physically springs open/closed with tactile damping */}
+        <motion.path
+          d="M7 11V7a5 5 0 0 1 10 0v4"
+          initial={false}
+          animate={
+            locked
+              ? { y: 0, scaleY: 1 }
+              : { y: -3.8, scaleY: 1.05 }
+          }
+          transition={{
+            type: 'spring',
+            stiffness: 450,
+            damping: 18,
+            mass: 0.7,
+          }}
+        />
+
+        {/* Padlock Body */}
+        <motion.rect
+          x="4"
+          y="11"
+          width="16"
+          height="10"
+          rx="3"
+          ry="3"
+          animate={{
+            scale: shake ? [1, 1.05, 0.97, 1] : 1,
+          }}
+          transition={{ duration: 0.35 }}
+        />
+
+        {/* Center Keyhole Core */}
+        <circle cx="12" cy="15" r="1.3" fill="currentColor" />
+        <path d="M12 16.3v1.7" strokeWidth="2.4" />
+      </motion.svg>
+    </div>
+  );
+};
 
 export const ProgressPage: React.FC = () => {
   const {
@@ -47,6 +133,11 @@ export const ProgressPage: React.FC = () => {
   const [loginEmail, setLoginEmail] = useState('');
   const [betaKey, setBetaKey] = useState('');
   const [loginError, setLoginError] = useState<string | null>(null);
+
+  // Smooth Lock Animation State
+  const [headerLockHovered, setHeaderLockHovered] = useState(false);
+  const [modalShaking, setModalShaking] = useState(false);
+  const [shakeKey, setShakeKey] = useState(0);
 
   // File import & notification state
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -136,14 +227,18 @@ export const ProgressPage: React.FC = () => {
   const handleBetaLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(null);
+    setModalShaking(true);
+    setShakeKey((prev) => prev + 1);
 
     if (!loginEmail.trim() || !betaKey.trim()) {
       setLoginError('Both email and password are required.');
+      setTimeout(() => setModalShaking(false), 550);
       return;
     }
 
     // For any combination of mail and password for now say "oops you are not a verified beta tester"
     setLoginError('Oops, you are not a verified beta tester.');
+    setTimeout(() => setModalShaking(false), 550);
   };
 
   // If user is a guest or not authenticated, render the Protected Closed Beta Gate Screen
@@ -156,10 +251,22 @@ export const ProgressPage: React.FC = () => {
             {/* Top Badge Section */}
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center space-x-4">
-                {/* Neutral Container with Cherry Red Icon */}
-                <div className="w-12 h-12 rounded-2xl bg-[#F9FAFB] text-[#D92638] border border-[#E5E7EB] flex items-center justify-center shadow-xs shrink-0">
-                  <Lock className="w-5 h-5 stroke-[2.2]" />
-                </div>
+                {/* Interactive Animated Padlock with Mechanical Spring Shackle */}
+                <motion.div
+                  onMouseEnter={() => setHeaderLockHovered(true)}
+                  onMouseLeave={() => setHeaderLockHovered(false)}
+                  whileHover={{ scale: 1.06 }}
+                  whileTap={{ scale: 0.94 }}
+                  className="relative w-12 h-12 rounded-2xl bg-[#F9FAFB] text-[#D92638] border border-[#E5E7EB] flex items-center justify-center shadow-xs shrink-0 cursor-pointer group"
+                  title="Closed Beta - Click or hover to test lock mechanism"
+                >
+                  <CoolLockIcon
+                    size={22}
+                    locked={!headerLockHovered}
+                    shake={false}
+                    pulseRing={true}
+                  />
+                </motion.div>
                 <div>
                   <div className="flex items-center space-x-2">
                     <span className="text-[11px] font-mono uppercase tracking-wider text-[#D92638] font-bold block">
@@ -294,9 +401,9 @@ export const ProgressPage: React.FC = () => {
                 <div className="p-8 space-y-6">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-3">
-                      {/* Neutral Container with Cobalt Blue Icon */}
-                      <div className="w-10 h-10 rounded-xl bg-[#F9FAFB] text-[#075CF5] border border-[#E5E7EB] flex items-center justify-center shadow-xs">
-                        <KeyRound className="w-5 h-5 stroke-[2]" />
+                      {/* Animated Padlock Icon in Modal Header */}
+                      <div className="w-10 h-10 rounded-xl bg-[#F9FAFB] text-[#D92638] border border-[#E5E7EB] flex items-center justify-center shadow-xs">
+                        <CoolLockIcon size={20} shake={modalShaking} locked={true} pulseRing={modalShaking} />
                       </div>
                       <div>
                         <h3 className="text-base font-bold text-[#111111]">
@@ -345,10 +452,18 @@ export const ProgressPage: React.FC = () => {
                     </div>
 
                     {loginError && (
-                      <div className="p-3 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center space-x-2 text-xs text-[#D92638] font-medium animate-in fade-in duration-150">
-                        <ShieldAlert className="w-4 h-4 shrink-0 stroke-[2]" />
-                        <span>{loginError}</span>
-                      </div>
+                      <motion.div
+                        key={`error-${shakeKey}`}
+                        initial={{ opacity: 0, y: -6, scale: 0.96 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                        className="p-3.5 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center space-x-3 text-xs text-[#D92638] font-medium shadow-2xs"
+                      >
+                        <div className="shrink-0 p-1.5 rounded-lg bg-white border border-[#E5E7EB] shadow-2xs flex items-center justify-center">
+                          <CoolLockIcon size={18} shake={modalShaking} locked={true} pulseRing={modalShaking} />
+                        </div>
+                        <span className="leading-tight font-medium">{loginError}</span>
+                      </motion.div>
                     )}
 
                     <div className="flex items-center justify-end space-x-3 pt-2">

@@ -23,3 +23,4 @@ The user instructed: "for any combination of mail and password for now say oops 
 
 ## 3. Verification
 - Built frontend with `pnpm run build` (`tsc -b && vite build`): Succeeded in 18.95s with 0 errors across 3,272 modules.
+
