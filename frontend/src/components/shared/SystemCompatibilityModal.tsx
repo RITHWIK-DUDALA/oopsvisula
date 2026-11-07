@@ -61,7 +61,6 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
         clearInterval(interval);
         setTimeout(() => {
           setIsScanning(false);
-          // Animate score rollup smoothly
           const target = result.score;
           let currentScore = 0;
           const scoreStep = Math.max(1, Math.floor(target / 25));
@@ -74,9 +73,9 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
               setDisplayedScore(currentScore);
             }
           }, 20);
-        }, 150);
+        }, 120);
       }
-    }, 200);
+    }, 180);
 
     return () => clearInterval(interval);
   }, [isOpen]);
@@ -122,9 +121,9 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
               setDisplayedScore(currentScore);
             }
           }, 20);
-        }, 150);
+        }, 120);
       }
-    }, 180);
+    }, 160);
   };
 
   if (!isOpen) return null;
@@ -136,7 +135,7 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-xs select-none">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/45 backdrop-blur-xs select-none">
         {/* Backdrop click to close */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -146,24 +145,25 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
           className="absolute inset-0"
         />
 
+        {/* Horizontally Stretched Diagnostic Cockpit Card */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.93, y: 16 }}
+          initial={{ opacity: 0, scale: 0.94, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.93, y: 16 }}
+          exit={{ opacity: 0, scale: 0.94, y: 16 }}
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-xl bg-white border border-[#E5E7EB] rounded-2xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.18)] overflow-hidden flex flex-col text-[#111111] z-10"
+          className="relative w-full max-w-4xl lg:max-w-5xl bg-white border border-[#E5E7EB] rounded-2xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.18)] overflow-hidden flex flex-col text-[#111111] z-10"
         >
-          {/* Scanning Laser Beam (Monochromatic) */}
+          {/* Top Laser Scanning Beam (Monochromatic) */}
           {isScanning && (
             <motion.div
-              className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#111111] to-transparent z-20"
+              className="absolute top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-transparent via-[#111111] to-transparent z-20"
               animate={{ x: ['-100%', '100%'] }}
               transition={{ repeat: Infinity, duration: 1.4, ease: 'easeInOut' }}
             />
           )}
 
           {/* Header */}
-          <div className="px-6 py-5 border-b border-[#E5E7EB] flex items-center justify-between bg-[#FAFAFA] relative">
+          <div className="px-6 py-4.5 border-b border-[#E5E7EB] flex items-center justify-between bg-[#FAFAFA] relative">
             <div className="flex items-center space-x-3.5">
               <div className="relative w-10 h-10 rounded-xl bg-[#111111] text-white flex items-center justify-center shadow-xs shrink-0">
                 <ShieldCheck className="w-5 h-5 stroke-[2.2]" />
@@ -193,13 +193,20 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
               </div>
             </div>
 
-            <button
-              onClick={onClose}
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-[#6B7280] hover:text-[#111111] hover:bg-[#E5E7EB]/60 transition-colors cursor-pointer"
-              aria-label="Close"
-            >
-              <X className="w-4 h-4 stroke-[2]" />
-            </button>
+            <div className="flex items-center space-x-3">
+              <div className="hidden sm:flex items-center space-x-2 text-xs font-mono text-[#6B7280] bg-white px-3 py-1.5 rounded-lg border border-[#E5E7EB]">
+                <span className="w-2 h-2 rounded-full bg-[#111111] animate-pulse" />
+                <span>{isScanning ? 'ANALYZING HOST' : 'DIAGNOSIS COMPLETE'}</span>
+              </div>
+
+              <button
+                onClick={onClose}
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-[#6B7280] hover:text-[#111111] hover:bg-[#E5E7EB]/60 transition-colors cursor-pointer"
+                aria-label="Close"
+              >
+                <X className="w-4 h-4 stroke-[2]" />
+              </button>
+            </div>
           </div>
 
           {/* Precision Animated Progress Bar */}
@@ -212,79 +219,10 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
             />
           </div>
 
-          {/* Body Content */}
-          <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
-            {/* Verdict Card with Spring Transition */}
-            <motion.div
-              layout
-              className={`p-4 rounded-xl border transition-all duration-300 flex items-start space-x-3.5 relative overflow-hidden ${
-                isScanning
-                  ? 'border-[#E5E7EB] bg-[#F9FAFB]'
-                  : isOptimal
-                  ? 'border-[#D1D5DB] bg-white shadow-xs'
-                  : 'border-[#E5E7EB] bg-[#F9FAFB]'
-              }`}
-            >
-              {/* Scan Sweep Shimmer over Verdict Banner */}
-              {isScanning && (
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none"
-                  animate={{ x: ['-100%', '100%'] }}
-                  transition={{ repeat: Infinity, duration: 1.8, ease: 'linear' }}
-                />
-              )}
-
-              {isScanning ? (
-                <div className="relative w-5 h-5 mt-0.5 shrink-0 flex items-center justify-center">
-                  <Activity className="w-4 h-4 text-[#111111] stroke-[2.2] animate-pulse" />
-                </div>
-              ) : isOptimal ? (
-                <motion.div
-                  initial={{ scale: 0, rotate: -45 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ type: 'spring', stiffness: 220, damping: 15 }}
-                  className="shrink-0 mt-0.5"
-                >
-                  <CheckCircle2 className="w-5 h-5 text-[#111111] stroke-[2.2]" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                  className="shrink-0 mt-0.5"
-                >
-                  <AlertTriangle className="w-5 h-5 text-[#4B5563] stroke-[2.2]" />
-                </motion.div>
-              )}
-
-              <div className="space-y-1 min-w-0 flex-1 relative z-10">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold tracking-wider uppercase text-[#111111]">
-                    {isScanning
-                      ? `PROBING HARDWARE ARCHITECTURE (${progressPercent}%)...`
-                      : isOptimal
-                      ? 'SYSTEM VERIFIED — 100% SUITABLE'
-                      : isCompatible
-                      ? 'SYSTEM VERIFIED — COMPATIBLE'
-                      : 'SYSTEM COMPATIBLE WITH CAUTION'}
-                  </span>
-
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#111111] text-white font-medium">
-                    {isScanning ? `${progressPercent}%` : `${displayedScore}/100`}
-                  </span>
-                </div>
-
-                <p className="text-xs text-[#4B5563] leading-relaxed">
-                  {isScanning
-                    ? 'Benchmarking WebGL 3D acceleration, AST parsing throughput, and memory isolation...'
-                    : scanResult?.summary}
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Checklist Matrix with Sequential Spring Animation */}
-            <div className="space-y-2">
+          {/* Stretched 2-Column Body Content (Zero Vertical Scroll on Desktop) */}
+          <div className="p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+            {/* Left Column: Capability Matrix (7 cols) */}
+            <div className="md:col-span-7 space-y-2.5">
               <div className="flex items-center justify-between px-1">
                 <span className="text-[11px] font-mono tracking-wider uppercase text-[#6B7280] font-semibold">
                   Capability Matrix
@@ -308,9 +246,9 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
                         opacity: isRevealed ? 1 : 0.35,
                       }}
                       transition={{ duration: 0.2 }}
-                      className="px-4 py-3 flex items-center justify-between text-xs transition-colors"
+                      className="px-4 py-2.5 flex items-center justify-between text-xs transition-colors"
                     >
-                      <div className="flex items-center space-x-3 min-w-0 pr-4">
+                      <div className="flex items-center space-x-3 min-w-0 pr-3">
                         <div
                           className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                             isRevealed
@@ -378,65 +316,135 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
               </div>
             </div>
 
-            {/* Detected Machine Specs Pill Bar with Smooth Slide-In */}
-            <AnimatePresence>
-              {scanResult && !isScanning && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, height: 0 }}
-                  animate={{ opacity: 1, y: 0, height: 'auto' }}
-                  exit={{ opacity: 0, y: 10, height: 0 }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
-                  className="p-3.5 bg-[#F9FAFB] rounded-xl border border-[#E5E7EB] text-[11px] font-mono text-[#4B5563] space-y-2"
-                >
-                  <div className="flex items-center justify-between text-[10px] uppercase font-bold tracking-wider text-[#6B7280]">
-                    <span>Detected Machine Topology</span>
-                    <span className="text-[#111111] font-mono">Zero Cloud • 100% In-Browser</span>
+            {/* Right Column: Verdict Banner + Detected Topology + Preferences (5 cols) */}
+            <div className="md:col-span-5 space-y-4">
+              {/* Verdict Card with Spring Transition */}
+              <motion.div
+                layout
+                className={`p-4 rounded-xl border transition-all duration-300 flex items-start space-x-3.5 relative overflow-hidden ${
+                  isScanning
+                    ? 'border-[#E5E7EB] bg-[#F9FAFB]'
+                    : isOptimal
+                    ? 'border-[#D1D5DB] bg-white shadow-2xs'
+                    : 'border-[#E5E7EB] bg-[#F9FAFB]'
+                }`}
+              >
+                {/* Scan Sweep Shimmer */}
+                {isScanning && (
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none"
+                    animate={{ x: ['-100%', '100%'] }}
+                    transition={{ repeat: Infinity, duration: 1.8, ease: 'linear' }}
+                  />
+                )}
+
+                {isScanning ? (
+                  <div className="relative w-5 h-5 mt-0.5 shrink-0 flex items-center justify-center">
+                    <Activity className="w-4 h-4 text-[#111111] stroke-[2.2] animate-pulse" />
+                  </div>
+                ) : isOptimal ? (
+                  <motion.div
+                    initial={{ scale: 0, rotate: -45 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: 'spring', stiffness: 220, damping: 15 }}
+                    className="shrink-0 mt-0.5"
+                  >
+                    <CheckCircle2 className="w-5 h-5 text-[#111111] stroke-[2.2]" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                    className="shrink-0 mt-0.5"
+                  >
+                    <AlertTriangle className="w-5 h-5 text-[#4B5563] stroke-[2.2]" />
+                  </motion.div>
+                )}
+
+                <div className="space-y-1 min-w-0 flex-1 relative z-10">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-bold tracking-wider uppercase text-[#111111]">
+                      {isScanning
+                        ? `PROBING (${progressPercent}%)...`
+                        : isOptimal
+                        ? 'SYSTEM SUITABLE'
+                        : isCompatible
+                        ? 'SYSTEM COMPATIBLE'
+                        : 'SYSTEM COMPATIBLE'}
+                    </span>
+
+                    <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#111111] text-white font-medium">
+                      {isScanning ? `${progressPercent}%` : `${displayedScore}/100`}
+                    </span>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
-                    <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
-                      <span className="text-[#9CA3AF] block text-[10px]">OPERATING SYSTEM</span>
-                      <span className="font-semibold text-[#111111]">{scanResult.deviceSpecs.os}</span>
-                    </div>
+                  <p className="text-xs text-[#4B5563] leading-relaxed">
+                    {isScanning
+                      ? 'Benchmarking WebGL 3D acceleration, AST parsing throughput, and memory isolation...'
+                      : scanResult?.summary}
+                  </p>
+                </div>
+              </motion.div>
 
-                    <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
-                      <span className="text-[#9CA3AF] block text-[10px]">BROWSER RUNTIME</span>
-                      <span className="font-semibold text-[#111111]">{scanResult.deviceSpecs.browser}</span>
-                    </div>
+              {/* Detected Machine Specs Grid */}
+              <div className="p-3.5 bg-[#F9FAFB] rounded-xl border border-[#E5E7EB] text-[11px] font-mono text-[#4B5563] space-y-2">
+                <div className="flex items-center justify-between text-[10px] uppercase font-bold tracking-wider text-[#6B7280]">
+                  <span>Detected Machine Topology</span>
+                  <span className="text-[#111111] font-mono">Zero Cloud • 100% In-Browser</span>
+                </div>
 
-                    <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
-                      <span className="text-[#9CA3AF] block text-[10px]">VIEWPORT</span>
-                      <span className="font-semibold text-[#111111]">{scanResult.deviceSpecs.resolution}</span>
-                    </div>
-
-                    <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
-                      <span className="text-[#9CA3AF] block text-[10px]">CPU CORES</span>
-                      <span className="font-semibold text-[#111111]">{scanResult.deviceSpecs.cores} Logical Cores</span>
-                    </div>
-
-                    <div className="p-2 bg-white rounded-lg border border-[#E5E7EB] col-span-2">
-                      <span className="text-[#9CA3AF] block text-[10px]">GRAPHICS ACCELERATION</span>
-                      <span className="font-semibold text-[#111111] truncate block">
-                        {scanResult.deviceSpecs.gpu}
-                      </span>
-                    </div>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
+                    <span className="text-[#9CA3AF] block text-[10px]">OPERATING SYSTEM</span>
+                    <span className="font-semibold text-[#111111] truncate block">
+                      {scanResult ? scanResult.deviceSpecs.os : 'Detecting...'}
+                    </span>
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
 
-            {/* Remember Choice Checkbox */}
-            <div className="flex items-center space-x-2.5 pt-1">
-              <input
-                type="checkbox"
-                id="remember_scan"
-                checked={rememberPreference}
-                onChange={(e) => setRememberPreference(e.target.checked)}
-                className="w-4 h-4 rounded border-[#D1D5DB] text-[#111111] focus:ring-0 cursor-pointer"
-              />
-              <label htmlFor="remember_scan" className="text-xs text-[#6B7280] cursor-pointer">
-                Don&apos;t scan again on this device (remember my suitability)
-              </label>
+                  <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
+                    <span className="text-[#9CA3AF] block text-[10px]">BROWSER RUNTIME</span>
+                    <span className="font-semibold text-[#111111] truncate block">
+                      {scanResult ? scanResult.deviceSpecs.browser : 'Detecting...'}
+                    </span>
+                  </div>
+
+                  <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
+                    <span className="text-[#9CA3AF] block text-[10px]">VIEWPORT</span>
+                    <span className="font-semibold text-[#111111] truncate block">
+                      {scanResult ? scanResult.deviceSpecs.resolution : 'Detecting...'}
+                    </span>
+                  </div>
+
+                  <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
+                    <span className="text-[#9CA3AF] block text-[10px]">CPU THREADS</span>
+                    <span className="font-semibold text-[#111111] truncate block">
+                      {scanResult ? `${scanResult.deviceSpecs.cores} Cores` : 'Detecting...'}
+                    </span>
+                  </div>
+
+                  <div className="p-2 bg-white rounded-lg border border-[#E5E7EB] col-span-2">
+                    <span className="text-[#9CA3AF] block text-[10px]">GRAPHICS ACCELERATION</span>
+                    <span className="font-semibold text-[#111111] truncate block">
+                      {scanResult ? scanResult.deviceSpecs.gpu : 'Detecting GPU...'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Remember Choice Checkbox */}
+              <div className="flex items-center space-x-2.5 pt-0.5 px-1">
+                <input
+                  type="checkbox"
+                  id="remember_scan"
+                  checked={rememberPreference}
+                  onChange={(e) => setRememberPreference(e.target.checked)}
+                  className="w-4 h-4 rounded border-[#D1D5DB] text-[#111111] focus:ring-0 cursor-pointer"
+                />
+                <label htmlFor="remember_scan" className="text-xs text-[#6B7280] cursor-pointer">
+                  Don&apos;t scan again on this device (remember my suitability)
+                </label>
+              </div>
             </div>
           </div>
 
@@ -464,7 +472,7 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
                 whileTap={{ scale: 0.98 }}
                 onClick={handleProceed}
                 disabled={isScanning}
-                className="group relative px-5 py-2.5 rounded-xl bg-[#111111] hover:bg-[#222222] text-white text-xs font-semibold flex items-center space-x-2 transition-all shadow-xs cursor-pointer disabled:opacity-50 disabled:pointer-events-none overflow-hidden"
+                className="group relative px-6 py-2.5 rounded-xl bg-[#111111] hover:bg-[#222222] text-white text-xs font-semibold flex items-center space-x-2 transition-all shadow-xs cursor-pointer disabled:opacity-50 disabled:pointer-events-none overflow-hidden"
               >
                 {/* Subtle Button Shimmer Glow */}
                 {!isScanning && (

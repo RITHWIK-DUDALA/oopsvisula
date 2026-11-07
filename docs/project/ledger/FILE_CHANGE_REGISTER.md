@@ -853,3 +853,4 @@
 | 2026-11-07 22:58:00 | `frontend/src/features/landing/LandingPage.tsx` | MODIFIED | Wired system scan modal into handleEnterLaboratory and guest entry actions | OOPS-20261107-2258 |
 | 2026-11-07 22:58:00 | `docs/project/ledger/records/OOPS-20261107-2258-SYSTEM_SUITABILITY_SCAN_FEATURE.md` | CREATED | Permanent audit ledger record for system suitability scanner | OOPS-20261107-2258 |
 | 2026-11-07 23:15:00 | `frontend/src/components/shared/SystemCompatibilityModal.tsx` | MODIFIED | Upgraded with laser scan sweep beam, radar sonar ring, animated progress bar, score rollup counter, row highlight states, and button shimmer | OOPS-20261107-2315 |
+| 2026-11-07 23:22:00 | `frontend/src/components/shared/SystemCompatibilityModal.tsx` | MODIFIED | Replaced narrow max-w-xl layout with horizontally stretched max-w-5xl 2-column cockpit grid, eliminating vertical scrolling | OOPS-20261107-2322 |
