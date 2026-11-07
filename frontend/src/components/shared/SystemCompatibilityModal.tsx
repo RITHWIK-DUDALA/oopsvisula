@@ -135,7 +135,7 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/45 backdrop-blur-xs select-none">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/45 backdrop-blur-xs select-none">
         {/* Backdrop click to close */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -145,7 +145,7 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
           className="absolute inset-0"
         />
 
-        {/* Horizontally Stretched Diagnostic Cockpit Card */}
+        {/* 8pt Grid Cockpit Card (max-w-4xl / max-w-5xl) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 16 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -162,9 +162,9 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
             />
           )}
 
-          {/* Header */}
-          <div className="px-6 py-4.5 border-b border-[#E5E7EB] flex items-center justify-between bg-[#FAFAFA] relative">
-            <div className="flex items-center space-x-3.5">
+          {/* Header (px-8 py-4 -> 32px / 16px) */}
+          <div className="px-8 py-4 border-b border-[#E5E7EB] flex items-center justify-between bg-[#FAFAFA] relative">
+            <div className="flex items-center space-x-4">
               <div className="relative w-10 h-10 rounded-xl bg-[#111111] text-white flex items-center justify-center shadow-xs shrink-0">
                 <ShieldCheck className="w-5 h-5 stroke-[2.2]" />
 
@@ -187,13 +187,13 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
                     Java 21 JIT
                   </span>
                 </div>
-                <p className="text-xs text-[#6B7280] font-normal leading-tight mt-0.5">
+                <p className="text-xs text-[#6B7280] font-normal leading-tight mt-1">
                   Verifying device capability for in-browser Java OOP simulation
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-4">
               <div className="hidden sm:flex items-center space-x-2 text-xs font-mono text-[#6B7280] bg-white px-3 py-1.5 rounded-lg border border-[#E5E7EB]">
                 <span className="w-2 h-2 rounded-full bg-[#111111] animate-pulse" />
                 <span>{isScanning ? 'ANALYZING HOST' : 'DIAGNOSIS COMPLETE'}</span>
@@ -219,10 +219,10 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
             />
           </div>
 
-          {/* Stretched 2-Column Body Content (Zero Vertical Scroll on Desktop) */}
-          <div className="p-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-            {/* Left Column: Capability Matrix (7 cols) */}
-            <div className="md:col-span-7 space-y-2.5">
+          {/* Stretched 2-Column Body Content (p-8, gap-8 -> 32px 8pt Grid) */}
+          <div className="p-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            {/* Left Column: Capability Matrix (7 cols, space-y-4 -> 16px) */}
+            <div className="md:col-span-7 space-y-4">
               <div className="flex items-center justify-between px-1">
                 <span className="text-[11px] font-mono tracking-wider uppercase text-[#6B7280] font-semibold">
                   Capability Matrix
@@ -232,7 +232,7 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
                 </span>
               </div>
 
-              <div className="divide-y divide-[#F3F4F6] border border-[#E5E7EB] rounded-xl overflow-hidden bg-white shadow-2xs">
+              <div className="divide-y divide-[#F3F4F6] border border-[#E5E7EB] rounded-2xl overflow-hidden bg-white shadow-2xs">
                 {scanResult?.checks.map((check, index) => {
                   const isRevealed = index < revealedIndex;
                   const isCurrentlyScanning = isScanning && index === revealedIndex - 1;
@@ -246,30 +246,30 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
                         opacity: isRevealed ? 1 : 0.35,
                       }}
                       transition={{ duration: 0.2 }}
-                      className="px-4 py-2.5 flex items-center justify-between text-xs transition-colors"
+                      className="px-4 py-3 flex items-center justify-between text-xs transition-colors"
                     >
-                      <div className="flex items-center space-x-3 min-w-0 pr-3">
+                      <div className="flex items-center space-x-4 min-w-0 pr-4">
                         <div
-                          className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
+                          className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors ${
                             isRevealed
                               ? 'bg-[#F3F4F6] text-[#111111]'
                               : 'bg-transparent text-[#9CA3AF]'
                           }`}
                         >
                           {check.category === 'graphics' && (
-                            <Layers className="w-3.5 h-3.5 stroke-[2]" />
+                            <Layers className="w-4 h-4 stroke-[2]" />
                           )}
                           {check.category === 'engine' && (
-                            <Cpu className="w-3.5 h-3.5 stroke-[2]" />
+                            <Cpu className="w-4 h-4 stroke-[2]" />
                           )}
                           {check.category === 'storage' && (
-                            <HardDrive className="w-3.5 h-3.5 stroke-[2]" />
+                            <HardDrive className="w-4 h-4 stroke-[2]" />
                           )}
                           {check.category === 'display' && (
-                            <Monitor className="w-3.5 h-3.5 stroke-[2]" />
+                            <Monitor className="w-4 h-4 stroke-[2]" />
                           )}
                           {check.category === 'hardware' && (
-                            <Sparkles className="w-3.5 h-3.5 stroke-[2]" />
+                            <Sparkles className="w-4 h-4 stroke-[2]" />
                           )}
                         </div>
 
@@ -291,20 +291,20 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
                               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                             >
                               {check.status === 'pass' ? (
-                                <span className="inline-flex items-center space-x-1 text-[11px] font-mono text-[#111111] bg-[#F3F4F6] px-2.5 py-0.5 rounded-md font-semibold border border-[#E5E7EB]">
-                                  <CheckCircle2 className="w-3 h-3 stroke-[2.5]" />
+                                <span className="inline-flex items-center space-x-1.5 text-[11px] font-mono text-[#111111] bg-[#F3F4F6] px-3 py-1 rounded-md font-semibold border border-[#E5E7EB]">
+                                  <CheckCircle2 className="w-3.5 h-3.5 stroke-[2.5]" />
                                   <span>READY</span>
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center space-x-1 text-[11px] font-mono text-[#4B5563] bg-[#F3F4F6] px-2.5 py-0.5 rounded-md font-semibold border border-[#E5E7EB]">
-                                  <AlertTriangle className="w-3 h-3 stroke-[2.5]" />
+                                <span className="inline-flex items-center space-x-1.5 text-[11px] font-mono text-[#4B5563] bg-[#F3F4F6] px-3 py-1 rounded-md font-semibold border border-[#E5E7EB]">
+                                  <AlertTriangle className="w-3.5 h-3.5 stroke-[2.5]" />
                                   <span>WARN</span>
                                 </span>
                               )}
                             </motion.div>
                           ) : (
-                            <span className="text-[11px] font-mono text-[#9CA3AF] flex items-center space-x-1">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#D1D5DB] animate-pulse" />
+                            <span className="text-[11px] font-mono text-[#9CA3AF] flex items-center space-x-2">
+                              <span className="w-2 h-2 rounded-full bg-[#D1D5DB] animate-pulse" />
                               <span>QUEUED</span>
                             </span>
                           )}
@@ -316,12 +316,12 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
               </div>
             </div>
 
-            {/* Right Column: Verdict Banner + Detected Topology + Preferences (5 cols) */}
+            {/* Right Column: Verdict Banner + Detected Topology + Preferences (5 cols, space-y-4 -> 16px) */}
             <div className="md:col-span-5 space-y-4">
-              {/* Verdict Card with Spring Transition */}
+              {/* Verdict Card with Spring Transition (p-4 -> 16px) */}
               <motion.div
                 layout
-                className={`p-4 rounded-xl border transition-all duration-300 flex items-start space-x-3.5 relative overflow-hidden ${
+                className={`p-4 rounded-2xl border transition-all duration-300 flex items-start space-x-4 relative overflow-hidden ${
                   isScanning
                     ? 'border-[#E5E7EB] bg-[#F9FAFB]'
                     : isOptimal
@@ -374,12 +374,12 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
                         : 'SYSTEM COMPATIBLE'}
                     </span>
 
-                    <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#111111] text-white font-medium">
+                    <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-[#111111] text-white font-medium">
                       {isScanning ? `${progressPercent}%` : `${displayedScore}/100`}
                     </span>
                   </div>
 
-                  <p className="text-xs text-[#4B5563] leading-relaxed">
+                  <p className="text-xs text-[#4B5563] leading-relaxed mt-1">
                     {isScanning
                       ? 'Benchmarking WebGL 3D acceleration, AST parsing throughput, and memory isolation...'
                       : scanResult?.summary}
@@ -387,8 +387,8 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
                 </div>
               </motion.div>
 
-              {/* Detected Machine Specs Grid */}
-              <div className="p-3.5 bg-[#F9FAFB] rounded-xl border border-[#E5E7EB] text-[11px] font-mono text-[#4B5563] space-y-2">
+              {/* Detected Machine Specs Grid (p-4 -> 16px, space-y-2 -> 8px) */}
+              <div className="p-4 bg-[#F9FAFB] rounded-2xl border border-[#E5E7EB] text-[11px] font-mono text-[#4B5563] space-y-2">
                 <div className="flex items-center justify-between text-[10px] uppercase font-bold tracking-wider text-[#6B7280]">
                   <span>Detected Machine Topology</span>
                   <span className="text-[#111111] font-mono">Zero Cloud • 100% In-Browser</span>
@@ -397,43 +397,43 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
                     <span className="text-[#9CA3AF] block text-[10px]">OPERATING SYSTEM</span>
-                    <span className="font-semibold text-[#111111] truncate block">
+                    <span className="font-semibold text-[#111111] truncate block mt-0.5">
                       {scanResult ? scanResult.deviceSpecs.os : 'Detecting...'}
                     </span>
                   </div>
 
                   <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
                     <span className="text-[#9CA3AF] block text-[10px]">BROWSER RUNTIME</span>
-                    <span className="font-semibold text-[#111111] truncate block">
+                    <span className="font-semibold text-[#111111] truncate block mt-0.5">
                       {scanResult ? scanResult.deviceSpecs.browser : 'Detecting...'}
                     </span>
                   </div>
 
                   <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
                     <span className="text-[#9CA3AF] block text-[10px]">VIEWPORT</span>
-                    <span className="font-semibold text-[#111111] truncate block">
+                    <span className="font-semibold text-[#111111] truncate block mt-0.5">
                       {scanResult ? scanResult.deviceSpecs.resolution : 'Detecting...'}
                     </span>
                   </div>
 
                   <div className="p-2 bg-white rounded-lg border border-[#E5E7EB]">
                     <span className="text-[#9CA3AF] block text-[10px]">CPU THREADS</span>
-                    <span className="font-semibold text-[#111111] truncate block">
+                    <span className="font-semibold text-[#111111] truncate block mt-0.5">
                       {scanResult ? `${scanResult.deviceSpecs.cores} Cores` : 'Detecting...'}
                     </span>
                   </div>
 
                   <div className="p-2 bg-white rounded-lg border border-[#E5E7EB] col-span-2">
                     <span className="text-[#9CA3AF] block text-[10px]">GRAPHICS ACCELERATION</span>
-                    <span className="font-semibold text-[#111111] truncate block">
+                    <span className="font-semibold text-[#111111] truncate block mt-0.5">
                       {scanResult ? scanResult.deviceSpecs.gpu : 'Detecting GPU...'}
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Remember Choice Checkbox */}
-              <div className="flex items-center space-x-2.5 pt-0.5 px-1">
+              {/* Remember Choice Checkbox (space-x-2 -> 8px) */}
+              <div className="flex items-center space-x-2 pt-1 px-1">
                 <input
                   type="checkbox"
                   id="remember_scan"
@@ -441,25 +441,25 @@ export const SystemCompatibilityModal: React.FC<SystemCompatibilityModalProps> =
                   onChange={(e) => setRememberPreference(e.target.checked)}
                   className="w-4 h-4 rounded border-[#D1D5DB] text-[#111111] focus:ring-0 cursor-pointer"
                 />
-                <label htmlFor="remember_scan" className="text-xs text-[#6B7280] cursor-pointer">
+                <label htmlFor="remember_scan" className="text-xs text-[#6B7280] cursor-pointer select-none">
                   Don&apos;t scan again on this device (remember my suitability)
                 </label>
               </div>
             </div>
           </div>
 
-          {/* Footer Controls */}
-          <div className="px-6 py-4 border-t border-[#E5E7EB] bg-[#FAFAFA] flex items-center justify-between">
+          {/* Footer Controls (px-8 py-4 -> 32px / 16px) */}
+          <div className="px-8 py-4 border-t border-[#E5E7EB] bg-[#FAFAFA] flex items-center justify-between">
             <button
               onClick={handleRescan}
               disabled={isScanning}
-              className="text-xs font-mono text-[#6B7280] hover:text-[#111111] flex items-center space-x-1.5 transition-colors cursor-pointer disabled:opacity-40"
+              className="text-xs font-mono text-[#6B7280] hover:text-[#111111] flex items-center space-x-2 transition-colors cursor-pointer disabled:opacity-40"
             >
               <RefreshCw className={`w-3.5 h-3.5 stroke-[2] ${isScanning ? 'animate-spin' : ''}`} />
               <span>Rescan System</span>
             </button>
 
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-4">
               <button
                 onClick={onClose}
                 className="px-4 py-2 rounded-xl text-xs font-medium text-[#4B5563] hover:text-[#111111] hover:bg-[#E5E7EB]/60 transition-colors cursor-pointer"
