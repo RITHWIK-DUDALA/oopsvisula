@@ -843,3 +843,8 @@
 | OOPS-20261106-0330 | SFQ-01 | `PRODUCTION_AUDIT/functional_test_report.md` | CREATED | Formal functional QA audit report certifying 2,301 passed assertions across all application modules | Stage 2 Production Audit Deliverable |
 | OOPS-20261106-0330 | SFQ-01 | `frontend/src/features/playground/PlaygroundPage.tsx` | MODIFIED | Removed unused visualizerDimension and setVisualizerDimension declarations | TypeScript TS6133 cleanup |
 | OOPS-20261106-0330 | SFQ-01 | `frontend/src/features/playground/components/live/connectorRouter.ts` | MODIFIED | Exported doesSegmentIntersectBox for automated geometry testing | QA test harness support |
+| 2026-11-07 22:16:00 | `docs/CODING_RULES_AND_SPECIFICATIONS.md` | CREATED | Comprehensive technical documentation defining supported OOP constructs, sandbox restrictions, execution quotas, exception mechanics, and verified templates | OOPS-20261107-2216 |
+| 2026-11-07 22:16:00 | `frontend/src/features/rules/RulesPage.tsx` | CREATED | Dedicated interactive Rules & Capabilities page with real-time search, category filters, and 1-click Playground template launcher | OOPS-20261107-2216 |
+| 2026-11-07 22:16:00 | `frontend/src/app/routes.tsx` | MODIFIED | Added `/app/rules` route and legacy redirect from `/rules` | OOPS-20261107-2216 |
+| 2026-11-07 22:16:00 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Added Rules item with ShieldCheck icon under Practice sidebar section | OOPS-20261107-2216 |
+| 2026-11-07 22:16:00 | `docs/project/ledger/records/OOPS-20261107-2216-CODING_RULES_AND_SPECIFICATIONS_PAGE.md` | CREATED | Permanent audit ledger record for comprehensive coding rules and interactive page | OOPS-20261107-2216 |

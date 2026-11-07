@@ -13,6 +13,7 @@ import {
   HelpCircle,
   FileText,
   Award,
+  ShieldCheck,
 } from 'lucide-react';
 import { useShellStore } from '@/app/store/shellStore';
 import { LogoTraceLoader } from '@/components/LogoTraceLoader';
@@ -54,6 +55,7 @@ export const LeftSidebar: React.FC = () => {
       items: [
         { name: 'Practice', path: '/app/practice', icon: Target },
         { name: 'Reference', path: '/app/reference', icon: FileText },
+        { name: 'Rules', path: '/app/rules', icon: ShieldCheck },
       ],
     },
     {

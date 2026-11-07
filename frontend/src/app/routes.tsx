@@ -11,6 +11,7 @@ import { PracticePage } from '@/features/practice/PracticePage';
 import { RoadmapPage } from '@/features/roadmap/RoadmapPage';
 import { ProgressPage } from '@/features/progress/ProgressPage';
 import { ReferencePage } from '@/features/reference/ReferencePage';
+import { RulesPage } from '@/features/rules/RulesPage';
 import { AboutPage } from '@/features/about/AboutPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 import { ProfilePage } from '@/features/profile/ProfilePage';
@@ -101,6 +102,9 @@ export const router = createBrowserRouter([
       // 6. Reference (JVM Memory, Bytecode, UML Reference)
       { path: 'reference', element: <ReferencePage /> },
 
+      // 6b. Rules & Specifications (Sandbox Boundaries & Code Rules)
+      { path: 'rules', element: <RulesPage /> },
+
       // 7. Progress (Learning Achievements & Activity)
       { path: 'progress', element: <ProgressPage /> },
 
@@ -144,6 +148,7 @@ export const router = createBrowserRouter([
   { path: '/roadmap', element: <Navigate to="/app/roadmap" replace /> },
   { path: '/progress', element: <Navigate to="/app/progress" replace /> },
   { path: '/reference', element: <Navigate to="/app/reference" replace /> },
+  { path: '/rules', element: <Navigate to="/app/rules" replace /> },
   { path: '/settings', element: <Navigate to="/app/settings" replace /> },
   { path: '/about', element: <Navigate to="/app/help" replace /> },
   { path: '/help', element: <Navigate to="/app/help" replace /> },
