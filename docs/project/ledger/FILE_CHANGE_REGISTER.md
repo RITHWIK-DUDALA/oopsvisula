@@ -1,3 +1,11 @@
+| OOPS-20261107-1345 | MCS-01 | `frontend/index.html` | MODIFIED | Added https://cdn.jsdelivr.net to script-src, style-src, and font-src in meta CSP tag |
+| OOPS-20261107-1345 | MCS-01 | `frontend/vite.config.ts` | MODIFIED | Added https://cdn.jsdelivr.net to script-src, style-src, and font-src in server/preview CSP headers |
+| OOPS-20261107-1345 | MCS-01 | `vercel.json` | MODIFIED | Added https://cdn.jsdelivr.net to script-src, style-src, and font-src in root CSP headers |
+| OOPS-20261107-1345 | MCS-01 | `frontend/vercel.json` | MODIFIED | Added https://cdn.jsdelivr.net to script-src, style-src, and font-src in frontend CSP headers |
+| OOPS-20261107-1345 | MCS-01 | `frontend/nginx.conf` | MODIFIED | Added https://cdn.jsdelivr.net to script-src, style-src, and font-src in Nginx CSP headers |
+| OOPS-20261107-1345 | MCS-01 | `frontend/src/features/playground/components/JavaEditor.tsx` | MODIFIED | Added styled loading fallback indicator for Monaco Editor |
+| OOPS-20261107-1345 | MCS-01 | `frontend/src/features/visualization-lab/components/code/JavaCodeDrawer.tsx` | MODIFIED | Added styled loading fallback indicator for Monaco Editor |
+| OOPS-20261107-1345 | MCS-01 | `frontend/src/features/practice/PracticePage.tsx` | MODIFIED | Added styled loading fallback indicator for Monaco Editor |
 | OOPS-20261106-1030 | GRP-01 | `.git/config` | MODIFIED | Added remote origin https://github.com/RITHWIK-DUDALA/oopsvisula.git |
 | OOPS-20261106-1030 | GRP-01 | `PRODUCTION_AUDIT/RELEASE/FINAL_PUBLICATION_APPROVAL.md` | MODIFIED | Updated with remote push verification and GitHub URL |
 | OOPS-20261106-1030 | GRP-01 | `docs/project/ledger/records/OOPS-20261106-1030-GIT_REMOTE_PUSH_AND_RELEASE_TAG.md` | CREATED | Task execution record for remote origin setup and release push |

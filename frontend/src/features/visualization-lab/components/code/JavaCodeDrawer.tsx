@@ -241,6 +241,12 @@ export const JavaCodeDrawer: React.FC<JavaCodeDrawerProps> = ({ isOpen, onClose 
               setSourceCode(code);
               setJavaSource(code);
             }}
+            loading={
+              <div className="h-full w-full flex items-center justify-center space-x-2 text-xs text-muted-foreground font-mono bg-surface/30">
+                <div className="w-4 h-4 border-2 border-border border-t-foreground rounded-full animate-spin" />
+                <span>Initializing Java Editor...</span>
+              </div>
+            }
             options={{
               fontSize: 12,
               fontFamily: "'JetBrains Mono', monospace",

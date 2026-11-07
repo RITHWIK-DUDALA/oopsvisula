@@ -242,6 +242,12 @@ export const JavaEditor: React.FC<JavaEditorProps> = ({ targetLine, onRunCode })
             value={activeFile.content}
             onChange={(val) => updateFileContent(activeFile.id, val || '')}
             onMount={handleEditorMount}
+            loading={
+              <div className="h-full w-full flex items-center justify-center space-x-2 text-xs text-muted-foreground font-mono bg-surface/30">
+                <div className="w-4 h-4 border-2 border-border border-t-foreground rounded-full animate-spin" />
+                <span>Initializing Java Editor...</span>
+              </div>
+            }
             options={{
               fontSize: 13,
               fontFamily: "'JetBrains Mono', 'Fira Code', Menlo, Monaco, Consolas, monospace",

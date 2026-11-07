@@ -324,6 +324,12 @@ export const PracticePage: React.FC = () => {
                 theme="light"
                 value={userCode}
                 onChange={(val) => setUserCode(val || '')}
+                loading={
+                  <div className="h-full w-full flex items-center justify-center space-x-2 text-xs text-muted-foreground font-mono bg-surface/30">
+                    <div className="w-4 h-4 border-2 border-border border-t-foreground rounded-full animate-spin" />
+                    <span>Initializing Java Editor...</span>
+                  </div>
+                }
                 options={{
                   fontSize: editorFontSize,
                   lineNumbers: editorLineNumbers,
