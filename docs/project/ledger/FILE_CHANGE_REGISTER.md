@@ -860,3 +860,4 @@
 | 2026-11-07 23:43:00 | `frontend/src/features/settings/SettingsPage.tsx` | MODIFIED | Added Local Storage & Privacy section with live key diagnostics and confirmation modal for Clear All My Data | OOPS-20261107-2343 |
 | 2026-11-08 00:06:00 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Protected Progress page behind signed-in beta gate with interactive email invite request form and beta credentials modal | OOPS-20261108-0006 |
 | 2026-11-08 00:06:00 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Added BETA badge next to Progress item in sidebar navigation | OOPS-20261108-0006 |
+| 2026-11-08 00:14:00 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Added Cherry Red (#D92638), Cobalt Blue (#075CF5), and Orange (#EA580C) accents to Progress beta gate and tracker cards | OOPS-20261108-0014 |

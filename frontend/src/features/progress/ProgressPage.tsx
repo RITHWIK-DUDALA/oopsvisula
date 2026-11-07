@@ -17,6 +17,7 @@ import {
   Code2,
   X,
   LogOut,
+  Sparkles,
 } from 'lucide-react';
 import { useLearnerStore } from '@/services/storage/localStore';
 import { useAuthStore } from '@/services/storage/authStore';
@@ -141,7 +142,6 @@ export const ProgressPage: React.FC = () => {
       return;
     }
 
-    // Authenticate user with provisioned beta credentials
     const res = signIn(loginEmail.trim(), loginEmail.split('@')[0], betaKey.trim());
     if (res.success) {
       setIsSignInModalOpen(false);
@@ -155,109 +155,128 @@ export const ProgressPage: React.FC = () => {
   if (!isAuthenticated || isGuest) {
     return (
       <div className="p-6 sm:p-12 max-w-4xl mx-auto space-y-8 animate-in fade-in duration-200">
-        {/* Beta Restriction Notice Card */}
-        <div className="relative bg-white border border-[#E5E7EB] rounded-3xl p-8 sm:p-12 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] space-y-8 overflow-hidden text-[#111111]">
-          {/* Top Badge */}
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-11 h-11 rounded-2xl bg-[#111111] text-white flex items-center justify-center shadow-xs shrink-0">
-                <Lock className="w-5 h-5 stroke-[2.2]" />
+        {/* Beta Restriction Notice Card with Tri-Color Accent */}
+        <div className="relative bg-white border border-[#E5E7EB] rounded-3xl shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] overflow-hidden text-[#111111]">
+          {/* Top Tri-Color Accent Line (Cherry Red, Cobalt Blue, Orange) */}
+          <div className="h-2 w-full bg-gradient-to-r from-[#D92638] via-[#075CF5] to-[#EA580C]" />
+
+          <div className="p-8 sm:p-12 space-y-8">
+            {/* Top Badge Section */}
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center space-x-4">
+                {/* Cherry Red Lock Badge */}
+                <div className="w-12 h-12 rounded-2xl bg-[#D92638]/10 text-[#D92638] border border-[#D92638]/25 flex items-center justify-center shadow-xs shrink-0">
+                  <Lock className="w-5 h-5 stroke-[2.2]" />
+                </div>
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-[#D92638] font-bold block">
+                      Closed Beta Restricted Area
+                    </span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#EA580C] animate-pulse" />
+                  </div>
+                  <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#111111] mt-0.5">
+                    Learner Progress & Cloud Analytics
+                  </h1>
+                </div>
               </div>
-              <div>
-                <span className="text-[11px] font-mono uppercase tracking-wider text-[#6B7280] font-semibold block">
-                  Closed Beta Restricted Area
+
+              {/* Cobalt Blue Cohort Badge */}
+              <span className="px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-[#075CF5]/10 text-[#075CF5] border border-[#075CF5]/25 uppercase tracking-wider">
+                Batch #03 Testing Cohort
+              </span>
+            </div>
+
+            {/* User Directive Notice with Cherry Red Left Border */}
+            <div className="p-5 sm:p-6 bg-[#D92638]/[0.03] rounded-2xl border border-[#E5E7EB] border-l-4 border-l-[#D92638] space-y-3">
+              <div className="flex items-center space-x-2 text-xs font-mono font-bold uppercase tracking-wider text-[#D92638]">
+                <ShieldAlert className="w-4 h-4 stroke-[2.2] shrink-0" />
+                <span>Restricted Access Specification</span>
+              </div>
+              <p className="text-sm text-[#374151] leading-relaxed">
+                This mode is currently in <strong>beta testing</strong>. Only a selected batch of people are granted access to this version and it is not ready for mass usage. Please submit a request to receive an invite for the upcoming cohort.
+              </p>
+            </div>
+
+            {/* Interactive Request Form / Submission Status */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">
+                  Request Beta Access Invitation
                 </span>
-                <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#111111]">
-                  Learner Progress & Cloud Analytics
-                </h1>
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#FFF7ED] text-[#EA580C] border border-[#FFEDD5] font-semibold">
+                  Queue Open
+                </span>
               </div>
+
+              {requestSubmitted ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-5 rounded-2xl bg-[#075CF5]/[0.04] border border-[#075CF5]/25 shadow-2xs space-y-2"
+                >
+                  <div className="flex items-center space-x-2.5 text-sm font-semibold text-[#075CF5]">
+                    <CheckCircle2 className="w-5 h-5 stroke-[2.2]" />
+                    <span>Request Received & Queued</span>
+                  </div>
+                  <p className="text-xs text-[#374151] leading-relaxed">
+                    Your request has been logged. Access is provisioned in sequential cohorts. You will receive an invitation access key once your cohort slot becomes active.
+                  </p>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleBetaRequestSubmit} className="space-y-3">
+                  <div className="flex flex-col sm:flex-row items-stretch gap-3">
+                    <input
+                      type="email"
+                      value={requestEmail}
+                      onChange={(e) => setRequestEmail(e.target.value)}
+                      placeholder="Enter your email to request beta invitation..."
+                      className="flex-1 px-4 py-3 rounded-xl border border-[#D1D5DB] bg-white text-xs text-[#111111] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#075CF5] focus:ring-2 focus:ring-[#075CF5]/15 transition-all"
+                    />
+                    {/* Cobalt Blue Action Button */}
+                    <button
+                      type="submit"
+                      className="px-6 py-3 rounded-xl bg-[#075CF5] hover:bg-[#064ECC] text-white text-xs font-semibold flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-xs active:scale-98"
+                    >
+                      <Send className="w-3.5 h-3.5 stroke-[2]" />
+                      <span>Submit Request</span>
+                    </button>
+                  </div>
+                  {requestError && (
+                    <p className="text-xs text-[#D92638] font-mono font-medium">{requestError}</p>
+                  )}
+                </form>
+              )}
             </div>
 
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-[#F3F4F6] text-[#111111] border border-[#E5E7EB] uppercase tracking-wider">
-              Batch #03 Testing Cohort
-            </span>
-          </div>
-
-          {/* User Directive Notice */}
-          <div className="p-5 sm:p-6 bg-[#F9FAFB] rounded-2xl border border-[#E5E7EB] space-y-3">
-            <div className="flex items-center space-x-2 text-xs font-mono font-bold uppercase tracking-wider text-[#111111]">
-              <ShieldAlert className="w-4 h-4 stroke-[2.2] shrink-0" />
-              <span>Restricted Access Specification</span>
-            </div>
-            <p className="text-sm text-[#374151] leading-relaxed">
-              This mode is currently in <strong>beta testing</strong>. Only a selected batch of people are granted access to this version and it is not ready for mass usage. Please submit a request to receive an invite for the upcoming cohort.
-            </p>
-          </div>
-
-          {/* Interactive Request Form / Submission Status */}
-          <div className="space-y-4">
-            <div className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">
-              Request Beta Access Invitation
-            </div>
-
-            {requestSubmitted ? (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="p-5 rounded-2xl bg-white border border-[#D1D5DB] shadow-2xs space-y-2"
-              >
-                <div className="flex items-center space-x-2.5 text-sm font-semibold text-[#111111]">
-                  <CheckCircle2 className="w-5 h-5 stroke-[2.2]" />
-                  <span>Request Received & Queued</span>
-                </div>
-                <p className="text-xs text-[#4B5563] leading-relaxed">
-                  Your request has been logged. Access is provisioned in sequential cohorts. You will receive an invitation access key once your cohort slot becomes active.
-                </p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleBetaRequestSubmit} className="space-y-3">
-                <div className="flex flex-col sm:flex-row items-stretch gap-3">
-                  <input
-                    type="email"
-                    value={requestEmail}
-                    onChange={(e) => setRequestEmail(e.target.value)}
-                    placeholder="Enter your email to request beta invitation..."
-                    className="flex-1 px-4 py-3 rounded-xl border border-[#D1D5DB] bg-white text-xs text-[#111111] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#111111] transition-colors"
-                  />
-                  <button
-                    type="submit"
-                    className="px-6 py-3 rounded-xl bg-[#111111] hover:bg-[#222222] text-white text-xs font-semibold flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-xs active:scale-98"
-                  >
-                    <Send className="w-3.5 h-3.5 stroke-[2]" />
-                    <span>Submit Request</span>
-                  </button>
-                </div>
-                {requestError && (
-                  <p className="text-xs text-[#DC2626] font-mono">{requestError}</p>
-                )}
-              </form>
-            )}
-          </div>
-
-          {/* Alternative Action Rows */}
-          <div className="pt-6 border-t border-[#E5E7EB] flex flex-col sm:flex-row items-center justify-between gap-4">
-            <button
-              onClick={() => setIsSignInModalOpen(true)}
-              className="text-xs font-mono font-semibold text-[#111111] hover:underline flex items-center space-x-2 cursor-pointer"
-            >
-              <KeyRound className="w-4 h-4 stroke-[2]" />
-              <span>Already have beta credentials? Sign in here</span>
-            </button>
-
-            <div className="flex items-center space-x-3">
+            {/* Alternative Action Rows */}
+            <div className="pt-6 border-t border-[#E5E7EB] flex flex-col sm:flex-row items-center justify-between gap-4">
+              {/* Cobalt Blue Sign-In Link */}
               <button
-                onClick={() => navigate('/app/concepts')}
-                className="px-4 py-2 rounded-xl text-xs font-medium text-[#4B5563] hover:text-[#111111] hover:bg-[#F3F4F6] transition-colors cursor-pointer"
+                onClick={() => setIsSignInModalOpen(true)}
+                className="text-xs font-mono font-semibold text-[#075CF5] hover:text-[#064ECC] hover:underline flex items-center space-x-2 cursor-pointer"
               >
-                Browse Concepts
+                <KeyRound className="w-4 h-4 stroke-[2]" />
+                <span>Already have beta credentials? Sign in here</span>
               </button>
-              <button
-                onClick={() => navigate('/app/playground')}
-                className="px-5 py-2.5 rounded-xl border border-[#111111] bg-white hover:bg-[#F9FAFB] text-[#111111] text-xs font-semibold flex items-center space-x-2 transition-all cursor-pointer active:scale-98"
-              >
-                <Code2 className="w-3.5 h-3.5 stroke-[2]" />
-                <span>Open Playground</span>
-              </button>
+
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={() => navigate('/app/concepts')}
+                  className="px-4 py-2 rounded-xl text-xs font-medium text-[#4B5563] hover:text-[#111111] hover:bg-[#F3F4F6] transition-colors cursor-pointer"
+                >
+                  Browse Concepts
+                </button>
+
+                {/* Orange Playground Action Button */}
+                <button
+                  onClick={() => navigate('/app/playground')}
+                  className="px-5 py-2.5 rounded-xl border border-[#EA580C] bg-[#FFF7ED] hover:bg-[#FFEDD5] text-[#EA580C] text-xs font-semibold flex items-center space-x-2 transition-all cursor-pointer active:scale-98 shadow-2xs"
+                >
+                  <Code2 className="w-3.5 h-3.5 stroke-[2]" />
+                  <span>Open Playground</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -265,7 +284,7 @@ export const ProgressPage: React.FC = () => {
         {/* Beta Sign-In Modal */}
         <AnimatePresence>
           {isSignInModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-md select-none">
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-md select-none">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -279,76 +298,85 @@ export const ProgressPage: React.FC = () => {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.94, y: 16 }}
                 transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-full max-w-md bg-white border border-[#E5E7EB] shadow-2xl rounded-2xl p-8 space-y-6 text-[#111111] z-10"
+                className="relative w-full max-w-md bg-white border border-[#E5E7EB] shadow-2xl rounded-2xl overflow-hidden text-[#111111] z-10"
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#111111] text-white flex items-center justify-center shadow-xs">
-                      <KeyRound className="w-5 h-5 stroke-[2]" />
+                {/* Tri-Color Modal Top Stripe */}
+                <div className="h-1.5 w-full bg-gradient-to-r from-[#D92638] via-[#075CF5] to-[#EA580C]" />
+
+                <div className="p-8 space-y-6">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-3">
+                      {/* Cobalt Blue Icon Box */}
+                      <div className="w-10 h-10 rounded-xl bg-[#075CF5] text-white flex items-center justify-center shadow-xs">
+                        <KeyRound className="w-5 h-5 stroke-[2]" />
+                      </div>
+                      <div>
+                        <h3 className="text-base font-bold text-[#111111]">Beta Access Sign In</h3>
+                        <p className="text-xs text-[#6B7280]">Authorized tester authorization</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-base font-bold text-[#111111]">Beta Access Sign In</h3>
-                      <p className="text-xs text-[#6B7280]">Authorized tester authorization</p>
-                    </div>
-                  </div>
 
-                  <button
-                    onClick={() => setIsSignInModalOpen(false)}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-[#6B7280] hover:text-[#111111] hover:bg-black/5 transition-colors cursor-pointer"
-                  >
-                    <X className="w-4 h-4 stroke-[2]" />
-                  </button>
-                </div>
-
-                <div className="p-3.5 bg-[#F9FAFB] rounded-xl border border-[#E5E7EB] text-xs text-[#4B5563] leading-relaxed">
-                  <strong>Notice:</strong> This mode is currently in beta testing. Only a batch of people are granted access to this version. Please submit a request if you have not been assigned an access key.
-                </div>
-
-                <form onSubmit={handleBetaLoginSubmit} className="space-y-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#111111] block">Beta Tester Email</label>
-                    <input
-                      type="email"
-                      value={loginEmail}
-                      onChange={(e) => setLoginEmail(e.target.value)}
-                      placeholder="e.g. beta@oopslab.dev"
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D1D5DB] text-xs text-[#111111] focus:outline-none focus:border-[#111111] transition-colors"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-[#111111] block">Beta Access Key / Password</label>
-                    <input
-                      type="password"
-                      value={betaKey}
-                      onChange={(e) => setBetaKey(e.target.value)}
-                      placeholder="Enter your cohort invite token..."
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#D1D5DB] text-xs text-[#111111] focus:outline-none focus:border-[#111111] transition-colors"
-                      required
-                    />
-                  </div>
-
-                  {loginError && (
-                    <p className="text-xs text-[#DC2626] font-mono">{loginError}</p>
-                  )}
-
-                  <div className="flex items-center justify-end space-x-3 pt-2">
                     <button
-                      type="button"
                       onClick={() => setIsSignInModalOpen(false)}
-                      className="px-4 py-2 rounded-xl text-xs font-medium text-[#4B5563] hover:text-[#111111] transition-colors cursor-pointer"
+                      className="w-8 h-8 rounded-lg flex items-center justify-center text-[#6B7280] hover:text-[#111111] hover:bg-black/5 transition-colors cursor-pointer"
                     >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="px-5 py-2.5 rounded-xl bg-[#111111] hover:bg-[#222222] text-white text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-98"
-                    >
-                      Authorize & Enter
+                      <X className="w-4 h-4 stroke-[2]" />
                     </button>
                   </div>
-                </form>
+
+                  {/* Cherry Red Left-Border Notice */}
+                  <div className="p-3.5 bg-[#D92638]/[0.04] rounded-xl border border-[#E5E7EB] border-l-4 border-l-[#D92638] text-xs text-[#4B5563] leading-relaxed">
+                    <strong className="text-[#D92638]">Notice:</strong> This mode is currently in beta testing. Only a batch of people are granted access to this version. Please submit a request if you have not been assigned an access key.
+                  </div>
+
+                  <form onSubmit={handleBetaLoginSubmit} className="space-y-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-[#111111] block">Beta Tester Email</label>
+                      <input
+                        type="email"
+                        value={loginEmail}
+                        onChange={(e) => setLoginEmail(e.target.value)}
+                        placeholder="e.g. beta@oopslab.dev"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#D1D5DB] text-xs text-[#111111] focus:outline-none focus:border-[#075CF5] focus:ring-1 focus:ring-[#075CF5]/30 transition-all"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-[#111111] block">Beta Access Key / Password</label>
+                      <input
+                        type="password"
+                        value={betaKey}
+                        onChange={(e) => setBetaKey(e.target.value)}
+                        placeholder="Enter your cohort invite token..."
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#D1D5DB] text-xs text-[#111111] focus:outline-none focus:border-[#075CF5] focus:ring-1 focus:ring-[#075CF5]/30 transition-all"
+                        required
+                      />
+                    </div>
+
+                    {loginError && (
+                      <p className="text-xs text-[#D92638] font-mono font-medium">{loginError}</p>
+                    )}
+
+                    <div className="flex items-center justify-end space-x-3 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setIsSignInModalOpen(false)}
+                        className="px-4 py-2 rounded-xl text-xs font-medium text-[#4B5563] hover:text-[#111111] transition-colors cursor-pointer"
+                      >
+                        Cancel
+                      </button>
+
+                      {/* Cobalt Blue Authorize Button */}
+                      <button
+                        type="submit"
+                        className="px-5 py-2.5 rounded-xl bg-[#075CF5] hover:bg-[#064ECC] text-white text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-98"
+                      >
+                        Authorize & Enter
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </motion.div>
             </div>
           )}
@@ -357,7 +385,7 @@ export const ProgressPage: React.FC = () => {
     );
   }
 
-  // If user is authenticated and not a guest, render the full Progress Tracker
+  // If user is authenticated and not a guest, render the full Progress Tracker with Color Highlights
   return (
     <div className="p-4 sm:p-8 max-w-5xl mx-auto space-y-6 sm:space-y-8 animate-in fade-in duration-150">
       {/* Toast Notice */}
@@ -379,6 +407,9 @@ export const ProgressPage: React.FC = () => {
         className="hidden"
       />
 
+      {/* Top Tri-Color Accent Line */}
+      <div className="h-1.5 w-full bg-gradient-to-r from-[#D92638] via-[#075CF5] to-[#EA580C] rounded-full" />
+
       {/* Header with Authenticated Badge & Sign Out */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -386,11 +417,11 @@ export const ProgressPage: React.FC = () => {
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
               Analytics & History
             </span>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#111111] text-white font-semibold">
+            <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#075CF5]/10 text-[#075CF5] border border-[#075CF5]/25 font-bold uppercase tracking-wider">
               BETA TESTER: {user?.email || 'Authorized'}
             </span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground mt-0.5">Learner Progress Tracker</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground mt-1">Learner Progress Tracker</h1>
           <p className="text-xs text-muted-foreground mt-0.5">
             Locally persisted metrics, concept mastery milestones, and code experiment history.
           </p>
@@ -431,7 +462,7 @@ export const ProgressPage: React.FC = () => {
               signOut();
               showNotice('Signed out of Progress beta session');
             }}
-            className="p-2 border border-border bg-white text-muted-foreground hover:text-foreground rounded-lg transition-colors cursor-pointer"
+            className="p-2 border border-border bg-white text-muted-foreground hover:text-[#D92638] rounded-lg transition-colors cursor-pointer"
             title="Sign Out of Beta"
           >
             <LogOut className="w-3.5 h-3.5" />
@@ -439,53 +470,63 @@ export const ProgressPage: React.FC = () => {
         </div>
       </div>
 
-      {/* High-Level Stat Cards */}
+      {/* High-Level Stat Cards with Distinct Color Signatures */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-5 bg-white border border-border rounded-xl space-y-2">
+        {/* Card 1: Cobalt Blue Accent (Overall Track) */}
+        <div className="p-5 bg-white border border-border rounded-xl space-y-2 border-t-2 border-t-[#075CF5]">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs">Overall Track</span>
-            <BookOpen className="w-4 h-4 stroke-[1.5]" />
+            <span className="text-xs font-medium">Overall Track</span>
+            <BookOpen className="w-4 h-4 text-[#075CF5] stroke-[1.8]" />
           </div>
-          <div className="text-2xl font-bold text-foreground">{completionPercentage}%</div>
-          <div className="w-full h-1.5 bg-surface border border-border rounded-full overflow-hidden">
+          <div className="text-2xl font-bold text-[#075CF5]">{completionPercentage}%</div>
+          <div className="w-full h-1.5 bg-[#075CF5]/10 rounded-full overflow-hidden">
             <div
-              className="h-full bg-foreground transition-all duration-300"
+              className="h-full bg-[#075CF5] transition-all duration-300"
               style={{ width: `${completionPercentage}%` }}
             />
           </div>
         </div>
 
-        <div className="p-5 bg-white border border-border rounded-xl space-y-2">
+        {/* Card 2: Orange Accent (Practice Solved) */}
+        <div className="p-5 bg-white border border-border rounded-xl space-y-2 border-t-2 border-t-[#EA580C]">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs">Practice Solved</span>
-            <Award className="w-4 h-4 stroke-[1.5]" />
+            <span className="text-xs font-medium">Practice Solved</span>
+            <Award className="w-4 h-4 text-[#EA580C] stroke-[1.8]" />
           </div>
-          <div className="text-2xl font-bold text-foreground">{solvedChallengeIds.length} / 5</div>
+          <div className="text-2xl font-bold text-[#EA580C]">{solvedChallengeIds.length} / 5</div>
           <div className="text-xs text-muted-foreground">Challenges verified</div>
         </div>
 
-        <div className="p-5 bg-white border border-border rounded-xl space-y-2">
+        {/* Card 3: Cherry Red Accent (Visual Traces) */}
+        <div className="p-5 bg-white border border-border rounded-xl space-y-2 border-t-2 border-t-[#D92638]">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs">Visual Traces</span>
-            <Cpu className="w-4 h-4 stroke-[1.5]" />
+            <span className="text-xs font-medium">Visual Traces</span>
+            <Cpu className="w-4 h-4 text-[#D92638] stroke-[1.8]" />
           </div>
-          <div className="text-2xl font-bold text-foreground">{simulationsRunCount}</div>
+          <div className="text-2xl font-bold text-[#D92638]">{simulationsRunCount}</div>
           <div className="text-xs text-muted-foreground">Snapshots executed</div>
         </div>
 
-        <div className="p-5 bg-white border border-border rounded-xl space-y-2">
+        {/* Card 4: Cobalt Blue Accent (Lab Time) */}
+        <div className="p-5 bg-white border border-border rounded-xl space-y-2 border-t-2 border-t-[#075CF5]">
           <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-xs">Lab Time</span>
-            <Clock className="w-4 h-4 stroke-[1.5]" />
+            <span className="text-xs font-medium">Lab Time</span>
+            <Clock className="w-4 h-4 text-[#075CF5] stroke-[1.8]" />
           </div>
           <div className="text-2xl font-bold text-foreground">{formatTime(totalLabSeconds)}</div>
           <div className="text-xs text-muted-foreground">Tracked in session</div>
         </div>
       </div>
 
-      {/* Mastered Topics Checklist */}
+      {/* Mastered Topics Checklist with Cobalt Blue Accents */}
       <div className="p-6 bg-white border border-border rounded-xl space-y-4">
-        <h2 className="text-sm font-bold text-foreground">Curriculum Mastery Breakdown</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-bold text-foreground">Curriculum Mastery Breakdown</h2>
+          <span className="text-xs font-mono text-[#075CF5] font-semibold flex items-center space-x-1">
+            <Sparkles className="w-3.5 h-3.5 stroke-[2]" />
+            <span>{masteredTopics.length} Mastered</span>
+          </span>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           {curriculumLessons.map((lesson) => {
@@ -496,13 +537,17 @@ export const ProgressPage: React.FC = () => {
                 className="p-3 bg-surface/30 border border-border rounded-lg flex items-center justify-between"
               >
                 <div className="flex items-center space-x-2.5">
-                  <span className={`w-2 h-2 rounded-full ${mastered ? 'bg-foreground' : 'bg-muted-foreground/30'}`} />
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      mastered ? 'bg-[#075CF5]' : 'bg-muted-foreground/30'
+                    }`}
+                  />
                   <span className={`font-medium ${mastered ? 'text-foreground' : 'text-muted-foreground'}`}>
                     {lesson.stepNumber}. {lesson.title}
                   </span>
                 </div>
                 {mastered && (
-                  <CheckCircle2 className="w-4 h-4 text-foreground stroke-[2]" />
+                  <CheckCircle2 className="w-4 h-4 text-[#075CF5] stroke-[2]" />
                 )}
               </div>
             );
