@@ -34,7 +34,7 @@ export const ProgressPage: React.FC = () => {
     resetProgress,
   } = useLearnerStore();
 
-  const { isAuthenticated, isGuest, user, signIn, signOut } = useAuthStore();
+  const { isAuthenticated, isGuest, user, signOut } = useAuthStore();
   const navigate = useNavigate();
 
   // Beta Request State
@@ -138,17 +138,12 @@ export const ProgressPage: React.FC = () => {
     setLoginError(null);
 
     if (!loginEmail.trim() || !betaKey.trim()) {
-      setLoginError('Both email and beta authorization key are required.');
+      setLoginError('Both email and password are required.');
       return;
     }
 
-    const res = signIn(loginEmail.trim(), loginEmail.split('@')[0], betaKey.trim());
-    if (res.success) {
-      setIsSignInModalOpen(false);
-      showNotice(`Authenticated into Progress Beta as ${loginEmail.trim()}`);
-    } else {
-      setLoginError(res.error || 'Invalid credentials or expired beta key.');
-    }
+    // For any combination of mail and password for now say "oops you are not a verified beta tester"
+    setLoginError('Oops, you are not a verified beta tester.');
   };
 
   // If user is a guest or not authenticated, render the Protected Closed Beta Gate Screen
@@ -350,7 +345,10 @@ export const ProgressPage: React.FC = () => {
                     </div>
 
                     {loginError && (
-                      <p className="text-xs text-[#D92638] font-mono font-medium">{loginError}</p>
+                      <div className="p-3 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center space-x-2 text-xs text-[#D92638] font-medium animate-in fade-in duration-150">
+                        <ShieldAlert className="w-4 h-4 shrink-0 stroke-[2]" />
+                        <span>{loginError}</span>
+                      </div>
                     )}
 
                     <div className="flex items-center justify-end space-x-3 pt-2">

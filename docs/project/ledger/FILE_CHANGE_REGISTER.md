@@ -1,3 +1,4 @@
+| OOPS-20261108-0048 | PBR-01 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Enforced universal rejection message 'Oops, you are not a verified beta tester.' for any login combination |
 | OOPS-20261108-0040 | PTOC-01 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Neutralized card backgrounds and borders; applied Cherry Red, Cobalt Blue, and Orange exclusively to text |
 | OOPS-20261108-0025 | RRS-01 | `frontend/src/features/rules/RulesPage.tsx` | MODIFIED | Removed category tab overflow and vertical max-h-64 scrollbars from verified code preview cards |
 | OOPS-20261107-1836 | RH3C-01 | `frontend/src/features/landing/components/HeroPreviewCard.tsx` | MODIFIED | Restored 3D tilt, spring physics, specular sheen, and parallax depth exclusively for Hero Preview Card |
