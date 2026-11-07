@@ -281,3 +281,4 @@ export function runSystemCompatibilityScan(): SystemCompatibilityResult {
     deviceSpecs: specs,
   };
 }
+
