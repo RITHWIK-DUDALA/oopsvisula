@@ -25,3 +25,4 @@ The user reported unwanted scrollbars on the Rules page (`/app/rules`), corrobor
 ## 3. Verification
 - Built frontend with `pnpm run build` (`tsc -b && vite build`): Succeeded in 17.61s with 0 TypeScript and 0 Vite errors across 3,272 modules.
 - Preserved all code actions ("Open in Playground", "Copy", syntax highlighting).
+

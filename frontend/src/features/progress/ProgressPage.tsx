@@ -155,17 +155,14 @@ export const ProgressPage: React.FC = () => {
   if (!isAuthenticated || isGuest) {
     return (
       <div className="p-6 sm:p-12 max-w-4xl mx-auto space-y-8 animate-in fade-in duration-200">
-        {/* Beta Restriction Notice Card with Tri-Color Accent */}
+        {/* Beta Restriction Notice Card - Neutral Clean Card, Colors Only On Text */}
         <div className="relative bg-white border border-[#E5E7EB] rounded-3xl shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] overflow-hidden text-[#111111]">
-          {/* Top Tri-Color Accent Line (Cherry Red, Cobalt Blue, Orange) */}
-          <div className="h-2 w-full bg-gradient-to-r from-[#D92638] via-[#075CF5] to-[#EA580C]" />
-
           <div className="p-8 sm:p-12 space-y-8">
             {/* Top Badge Section */}
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center space-x-4">
-                {/* Cherry Red Lock Badge */}
-                <div className="w-12 h-12 rounded-2xl bg-[#D92638]/10 text-[#D92638] border border-[#D92638]/25 flex items-center justify-center shadow-xs shrink-0">
+                {/* Neutral Container with Cherry Red Icon */}
+                <div className="w-12 h-12 rounded-2xl bg-[#F9FAFB] text-[#D92638] border border-[#E5E7EB] flex items-center justify-center shadow-xs shrink-0">
                   <Lock className="w-5 h-5 stroke-[2.2]" />
                 </div>
                 <div>
@@ -173,28 +170,28 @@ export const ProgressPage: React.FC = () => {
                     <span className="text-[11px] font-mono uppercase tracking-wider text-[#D92638] font-bold block">
                       Closed Beta Restricted Area
                     </span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#EA580C] animate-pulse" />
+                    <span className="text-[11px] font-mono text-[#EA580C] font-semibold">• Testing Phase</span>
                   </div>
                   <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#111111] mt-0.5">
-                    Learner Progress & Cloud Analytics
+                    Learner <span className="text-[#D92638]">Progress</span> & <span className="text-[#075CF5]">Cloud Analytics</span>
                   </h1>
                 </div>
               </div>
 
-              {/* Cobalt Blue Cohort Badge */}
-              <span className="px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-[#075CF5]/10 text-[#075CF5] border border-[#075CF5]/25 uppercase tracking-wider">
+              {/* Neutral Container with Cobalt Blue Text */}
+              <span className="px-3.5 py-1.5 rounded-full text-xs font-mono font-bold bg-[#F9FAFB] text-[#075CF5] border border-[#E5E7EB] uppercase tracking-wider">
                 Batch #03 Testing Cohort
               </span>
             </div>
 
-            {/* User Directive Notice with Cherry Red Left Border */}
-            <div className="p-5 sm:p-6 bg-[#D92638]/[0.03] rounded-2xl border border-[#E5E7EB] border-l-4 border-l-[#D92638] space-y-3">
+            {/* User Directive Notice - Neutral Card with Colored Text */}
+            <div className="p-5 sm:p-6 bg-[#F9FAFB] rounded-2xl border border-[#E5E7EB] space-y-3">
               <div className="flex items-center space-x-2 text-xs font-mono font-bold uppercase tracking-wider text-[#D92638]">
                 <ShieldAlert className="w-4 h-4 stroke-[2.2] shrink-0" />
                 <span>Restricted Access Specification</span>
               </div>
               <p className="text-sm text-[#374151] leading-relaxed">
-                This mode is currently in <strong>beta testing</strong>. Only a selected batch of people are granted access to this version and it is not ready for mass usage. Please submit a request to receive an invite for the upcoming cohort.
+                This mode is currently in <strong className="text-[#D92638]">beta testing</strong>. Only a selected <strong className="text-[#075CF5]">batch of people</strong> are granted access to this version and it is not ready for mass usage. Please <strong className="text-[#EA580C]">submit a request</strong> to receive an invite for the upcoming cohort.
               </p>
             </div>
 
@@ -204,7 +201,7 @@ export const ProgressPage: React.FC = () => {
                 <span className="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">
                   Request Beta Access Invitation
                 </span>
-                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#FFF7ED] text-[#EA580C] border border-[#FFEDD5] font-semibold">
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#F9FAFB] text-[#EA580C] border border-[#E5E7EB] font-semibold">
                   Queue Open
                 </span>
               </div>
@@ -213,14 +210,14 @@ export const ProgressPage: React.FC = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-5 rounded-2xl bg-[#075CF5]/[0.04] border border-[#075CF5]/25 shadow-2xs space-y-2"
+                  className="p-5 rounded-2xl bg-[#F9FAFB] border border-[#E5E7EB] shadow-2xs space-y-2"
                 >
                   <div className="flex items-center space-x-2.5 text-sm font-semibold text-[#075CF5]">
                     <CheckCircle2 className="w-5 h-5 stroke-[2.2]" />
                     <span>Request Received & Queued</span>
                   </div>
                   <p className="text-xs text-[#374151] leading-relaxed">
-                    Your request has been logged. Access is provisioned in sequential cohorts. You will receive an invitation access key once your cohort slot becomes active.
+                    Your request has been logged. Access is provisioned in <span className="text-[#075CF5] font-semibold">sequential cohorts</span>. You will receive an invitation access key once your <span className="text-[#EA580C] font-semibold">cohort slot</span> becomes active.
                   </p>
                 </motion.div>
               ) : (
@@ -233,10 +230,9 @@ export const ProgressPage: React.FC = () => {
                       placeholder="Enter your email to request beta invitation..."
                       className="flex-1 px-4 py-3 rounded-xl border border-[#D1D5DB] bg-white text-xs text-[#111111] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#075CF5] focus:ring-2 focus:ring-[#075CF5]/15 transition-all"
                     />
-                    {/* Cobalt Blue Action Button */}
                     <button
                       type="submit"
-                      className="px-6 py-3 rounded-xl bg-[#075CF5] hover:bg-[#064ECC] text-white text-xs font-semibold flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-xs active:scale-98"
+                      className="px-6 py-3 rounded-xl bg-[#111111] hover:bg-[#222222] text-white text-xs font-semibold flex items-center justify-center space-x-2 transition-all cursor-pointer shadow-xs active:scale-98"
                     >
                       <Send className="w-3.5 h-3.5 stroke-[2]" />
                       <span>Submit Request</span>
@@ -251,7 +247,7 @@ export const ProgressPage: React.FC = () => {
 
             {/* Alternative Action Rows */}
             <div className="pt-6 border-t border-[#E5E7EB] flex flex-col sm:flex-row items-center justify-between gap-4">
-              {/* Cobalt Blue Sign-In Link */}
+              {/* Cobalt Blue Text Link */}
               <button
                 onClick={() => setIsSignInModalOpen(true)}
                 className="text-xs font-mono font-semibold text-[#075CF5] hover:text-[#064ECC] hover:underline flex items-center space-x-2 cursor-pointer"
@@ -268,10 +264,10 @@ export const ProgressPage: React.FC = () => {
                   Browse Concepts
                 </button>
 
-                {/* Orange Playground Action Button */}
+                {/* Neutral Button with Orange Text */}
                 <button
                   onClick={() => navigate('/app/playground')}
-                  className="px-5 py-2.5 rounded-xl border border-[#EA580C] bg-[#FFF7ED] hover:bg-[#FFEDD5] text-[#EA580C] text-xs font-semibold flex items-center space-x-2 transition-all cursor-pointer active:scale-98 shadow-2xs"
+                  className="px-5 py-2.5 rounded-xl border border-[#E5E7EB] bg-white hover:bg-[#F9FAFB] text-[#EA580C] text-xs font-semibold flex items-center space-x-2 transition-all cursor-pointer active:scale-98 shadow-2xs"
                 >
                   <Code2 className="w-3.5 h-3.5 stroke-[2]" />
                   <span>Open Playground</span>
@@ -300,18 +296,17 @@ export const ProgressPage: React.FC = () => {
                 transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
                 className="relative w-full max-w-md bg-white border border-[#E5E7EB] shadow-2xl rounded-2xl overflow-hidden text-[#111111] z-10"
               >
-                {/* Tri-Color Modal Top Stripe */}
-                <div className="h-1.5 w-full bg-gradient-to-r from-[#D92638] via-[#075CF5] to-[#EA580C]" />
-
                 <div className="p-8 space-y-6">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-3">
-                      {/* Cobalt Blue Icon Box */}
-                      <div className="w-10 h-10 rounded-xl bg-[#075CF5] text-white flex items-center justify-center shadow-xs">
+                      {/* Neutral Container with Cobalt Blue Icon */}
+                      <div className="w-10 h-10 rounded-xl bg-[#F9FAFB] text-[#075CF5] border border-[#E5E7EB] flex items-center justify-center shadow-xs">
                         <KeyRound className="w-5 h-5 stroke-[2]" />
                       </div>
                       <div>
-                        <h3 className="text-base font-bold text-[#111111]">Beta Access Sign In</h3>
+                        <h3 className="text-base font-bold text-[#111111]">
+                          Beta Access <span className="text-[#075CF5]">Sign In</span>
+                        </h3>
                         <p className="text-xs text-[#6B7280]">Authorized tester authorization</p>
                       </div>
                     </div>
@@ -324,9 +319,9 @@ export const ProgressPage: React.FC = () => {
                     </button>
                   </div>
 
-                  {/* Cherry Red Left-Border Notice */}
-                  <div className="p-3.5 bg-[#D92638]/[0.04] rounded-xl border border-[#E5E7EB] border-l-4 border-l-[#D92638] text-xs text-[#4B5563] leading-relaxed">
-                    <strong className="text-[#D92638]">Notice:</strong> This mode is currently in beta testing. Only a batch of people are granted access to this version. Please submit a request if you have not been assigned an access key.
+                  {/* Neutral Card with Colored Text */}
+                  <div className="p-3.5 bg-[#F9FAFB] rounded-xl border border-[#E5E7EB] text-xs text-[#4B5563] leading-relaxed">
+                    <strong className="text-[#D92638]">Notice:</strong> This mode is currently in <span className="text-[#D92638] font-semibold">beta testing</span>. Only a <span className="text-[#075CF5] font-semibold">batch of people</span> are granted access to this version. Please <span className="text-[#EA580C] font-semibold">submit a request</span> if you have not been assigned an access key.
                   </div>
 
                   <form onSubmit={handleBetaLoginSubmit} className="space-y-4">
@@ -367,10 +362,9 @@ export const ProgressPage: React.FC = () => {
                         Cancel
                       </button>
 
-                      {/* Cobalt Blue Authorize Button */}
                       <button
                         type="submit"
-                        className="px-5 py-2.5 rounded-xl bg-[#075CF5] hover:bg-[#064ECC] text-white text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-98"
+                        className="px-5 py-2.5 rounded-xl bg-[#111111] hover:bg-[#222222] text-white text-xs font-semibold transition-all shadow-xs cursor-pointer active:scale-98"
                       >
                         Authorize & Enter
                       </button>
@@ -407,9 +401,6 @@ export const ProgressPage: React.FC = () => {
         className="hidden"
       />
 
-      {/* Top Tri-Color Accent Line */}
-      <div className="h-1.5 w-full bg-gradient-to-r from-[#D92638] via-[#075CF5] to-[#EA580C] rounded-full" />
-
       {/* Header with Authenticated Badge & Sign Out */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
@@ -417,11 +408,13 @@ export const ProgressPage: React.FC = () => {
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
               Analytics & History
             </span>
-            <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#075CF5]/10 text-[#075CF5] border border-[#075CF5]/25 font-bold uppercase tracking-wider">
+            <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#F9FAFB] text-[#075CF5] border border-[#E5E7EB] font-bold uppercase tracking-wider">
               BETA TESTER: {user?.email || 'Authorized'}
             </span>
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground mt-1">Learner Progress Tracker</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground mt-1">
+            Learner <span className="text-[#D92638]">Progress</span> <span className="text-[#075CF5]">Tracker</span>
+          </h1>
           <p className="text-xs text-muted-foreground mt-0.5">
             Locally persisted metrics, concept mastery milestones, and code experiment history.
           </p>
@@ -470,16 +463,16 @@ export const ProgressPage: React.FC = () => {
         </div>
       </div>
 
-      {/* High-Level Stat Cards with Distinct Color Signatures */}
+      {/* High-Level Stat Cards - Clean Neutral Cards with Colored Metric Text */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Card 1: Cobalt Blue Accent (Overall Track) */}
-        <div className="p-5 bg-white border border-border rounded-xl space-y-2 border-t-2 border-t-[#075CF5]">
+        {/* Card 1: Cobalt Blue Text Accent (Overall Track) */}
+        <div className="p-5 bg-white border border-border rounded-xl space-y-2">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-medium">Overall Track</span>
             <BookOpen className="w-4 h-4 text-[#075CF5] stroke-[1.8]" />
           </div>
           <div className="text-2xl font-bold text-[#075CF5]">{completionPercentage}%</div>
-          <div className="w-full h-1.5 bg-[#075CF5]/10 rounded-full overflow-hidden">
+          <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
             <div
               className="h-full bg-[#075CF5] transition-all duration-300"
               style={{ width: `${completionPercentage}%` }}
@@ -487,8 +480,8 @@ export const ProgressPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Card 2: Orange Accent (Practice Solved) */}
-        <div className="p-5 bg-white border border-border rounded-xl space-y-2 border-t-2 border-t-[#EA580C]">
+        {/* Card 2: Orange Text Accent (Practice Solved) */}
+        <div className="p-5 bg-white border border-border rounded-xl space-y-2">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-medium">Practice Solved</span>
             <Award className="w-4 h-4 text-[#EA580C] stroke-[1.8]" />
@@ -497,8 +490,8 @@ export const ProgressPage: React.FC = () => {
           <div className="text-xs text-muted-foreground">Challenges verified</div>
         </div>
 
-        {/* Card 3: Cherry Red Accent (Visual Traces) */}
-        <div className="p-5 bg-white border border-border rounded-xl space-y-2 border-t-2 border-t-[#D92638]">
+        {/* Card 3: Cherry Red Text Accent (Visual Traces) */}
+        <div className="p-5 bg-white border border-border rounded-xl space-y-2">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-medium">Visual Traces</span>
             <Cpu className="w-4 h-4 text-[#D92638] stroke-[1.8]" />
@@ -507,8 +500,8 @@ export const ProgressPage: React.FC = () => {
           <div className="text-xs text-muted-foreground">Snapshots executed</div>
         </div>
 
-        {/* Card 4: Cobalt Blue Accent (Lab Time) */}
-        <div className="p-5 bg-white border border-border rounded-xl space-y-2 border-t-2 border-t-[#075CF5]">
+        {/* Card 4: Cobalt Blue Text Accent (Lab Time) */}
+        <div className="p-5 bg-white border border-border rounded-xl space-y-2">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-xs font-medium">Lab Time</span>
             <Clock className="w-4 h-4 text-[#075CF5] stroke-[1.8]" />
