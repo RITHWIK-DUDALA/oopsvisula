@@ -494,6 +494,20 @@ const ArchitectureCanvasInner: React.FC<ClassArchitectureMapProps> = ({
     return () => clearTimeout(timer);
   }, [filteredClasses.length, density, groupingPerspective, fitView]);
 
+  // Viewport resize observer to ensure continuous auto-fit on panel drag and window resize
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver(() => {
+      if (filteredClasses.length <= 3) {
+        fitView({ padding: 0.28, duration: 250, maxZoom: 1 });
+      } else {
+        fitView({ padding: 0.18, duration: 250 });
+      }
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [filteredClasses.length, fitView]);
+
   // Click on connector edge to inspect evidence
   const handleEdgeClick = (_: React.MouseEvent, edge: Edge) => {
     const rel = edge.data?.relationship;

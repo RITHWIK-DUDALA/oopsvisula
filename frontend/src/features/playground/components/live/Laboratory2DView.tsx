@@ -143,6 +143,25 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
     });
   }, [entities]);
 
+  // Viewport-aware Auto-Fit on entity changes and initial mount
+  useEffect(() => {
+    if (entities.length === 0) return;
+    const timer = setTimeout(() => {
+      fitToScreen();
+    }, 60);
+    return () => clearTimeout(timer);
+  }, [entities.length, fitToScreen]);
+
+  // Continuous Auto-Fit on viewport container resize (e.g. dragging panels, window resize)
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver(() => {
+      fitToScreen();
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [fitToScreen]);
+
   const resetView = useCallback(() => {
     setZoomLevel(0.9);
     setPanOffset({ x: 50, y: 50 });
@@ -436,11 +455,11 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
           <div className="h-3.5 w-px bg-slate-200 mx-0.5" />
           <button
             onClick={fitToScreen}
-            title="Fit to Screen (Calculate Complete Graph Bounds)"
+            title="Auto-Fit (Calculate Complete Graph Bounds)"
             className="flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 transition-colors cursor-pointer text-[10.5px] font-bold border border-blue-200"
           >
             <Scan className="w-3.5 h-3.5" />
-            <span>Fit All</span>
+            <span>Auto-Fit</span>
           </button>
           <button
             onClick={resetView}

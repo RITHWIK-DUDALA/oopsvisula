@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 import {
   ReactFlow,
   Background,
@@ -25,6 +25,7 @@ import { LabScenarioBar } from './LabScenarioBar';
 
 export const VisualizationCanvas: React.FC = () => {
   const { fitView } = useReactFlow();
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
 
   const {
     nodes,
@@ -32,6 +33,8 @@ export const VisualizationCanvas: React.FC = () => {
     activeCategoryId,
     activeSubsectionId,
     activeScenarioId,
+    libraryCollapsed,
+    inspectorCollapsed,
     onNodesChange,
     onEdgesChange,
     onConnect,
@@ -48,13 +51,31 @@ export const VisualizationCanvas: React.FC = () => {
     redo,
   } = useVisualizationLabStore();
 
-  // Auto-center and fit diagram whenever active category or scenario changes
+  // Auto-center and fit diagram whenever active category, scenario, nodes, or panel layout changes
   useEffect(() => {
     const timer = setTimeout(() => {
       fitView({ padding: 0.22, duration: 400 });
-    }, 60);
+    }, 80);
     return () => clearTimeout(timer);
-  }, [activeCategoryId, activeSubsectionId, activeScenarioId, fitView]);
+  }, [
+    activeCategoryId,
+    activeSubsectionId,
+    activeScenarioId,
+    nodes.length,
+    libraryCollapsed,
+    inspectorCollapsed,
+    fitView,
+  ]);
+
+  // Viewport resize observer to ensure auto-fit on window / panel drag resize
+  useEffect(() => {
+    if (!canvasContainerRef.current) return;
+    const observer = new ResizeObserver(() => {
+      fitView({ padding: 0.22, duration: 250 });
+    });
+    observer.observe(canvasContainerRef.current);
+    return () => observer.disconnect();
+  }, [fitView]);
 
   const nodeTypes: NodeTypes = useMemo(
     () => ({
@@ -115,7 +136,7 @@ export const VisualizationCanvas: React.FC = () => {
       {/* Dynamic Scenario Bar with Subsection Badge & Educational Guide trigger */}
       <LabScenarioBar />
 
-      <div className="flex-1 w-full relative">
+      <div ref={canvasContainerRef} className="flex-1 w-full relative">
         <ReactFlow
           nodes={nodes}
           edges={edges}

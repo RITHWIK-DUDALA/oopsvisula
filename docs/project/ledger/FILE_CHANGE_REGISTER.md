@@ -1,3 +1,7 @@
+| OOPS-20261108-0210 | AFV-01 | `frontend/src/features/playground/components/live/Laboratory2DView.tsx` | MODIFIED | Added automatic viewport bounding box fitting and continuous ResizeObserver |
+| OOPS-20261108-0210 | AFV-01 | `frontend/src/features/visualization-lab/components/canvas/VisualizationCanvas.tsx` | MODIFIED | Added panel-aware auto-fit and canvas container ResizeObserver |
+| OOPS-20261108-0210 | AFV-01 | `frontend/src/features/visualization-lab/components/canvas/LabScenarioBar.tsx` | MODIFIED | Added dedicated Auto-Fit action button in top scenario bar |
+| OOPS-20261108-0210 | AFV-01 | `frontend/src/features/playground/components/ClassArchitectureMap.tsx` | MODIFIED | Added container ResizeObserver to keep class architecture graph centered during panel resize |
 | OOPS-20261108-0200 | VCD-01 | `vercel.json` | MODIFIED | Added frontend installCommand for automatic Vercel monorepo builds |
 | OOPS-20261108-0200 | VCD-01 | `package.json` | MODIFIED | Enhanced root build script to install and compile frontend seamlessly |
 | OOPS-20261108-0155 | VIF-01 | `frontend/src/features/visualization-lab/visualizationStore.ts` | MODIFIED | Initialized canvas with focused scenario diagram and context-aware scenario reset |

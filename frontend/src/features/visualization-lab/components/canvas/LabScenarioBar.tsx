@@ -1,4 +1,5 @@
 import React from 'react';
+import { useReactFlow } from '@xyflow/react';
 import {
   BookOpen,
   Code2,
@@ -6,11 +7,13 @@ import {
   Sparkles,
   Layers,
   LayoutGrid,
+  Maximize2,
 } from 'lucide-react';
 import { useVisualizationLabStore } from '../../visualizationStore';
 import { getSubsection } from '../../subsectionsData';
 
 export const LabScenarioBar: React.FC = () => {
+  const { fitView } = useReactFlow();
   const {
     activeSubsectionId,
     activeScenarioId,
@@ -78,6 +81,17 @@ export const LabScenarioBar: React.FC = () => {
 
       {/* Right: Concept Guide & Java Code Action Buttons */}
       <div className="flex items-center space-x-1.5 shrink-0">
+        {/* Auto Fit Button */}
+        <button
+          type="button"
+          onClick={() => fitView({ padding: 0.22, duration: 400 })}
+          className="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-[#FAFBFD] hover:bg-white text-[#172033] border border-[#DCE2EA] hover:border-[#1749C8] text-xs font-semibold transition-colors shadow-2xs cursor-pointer"
+          title="Auto-fit diagram to canvas viewport"
+        >
+          <Maximize2 className="w-3.5 h-3.5 text-[#1749C8] shrink-0" />
+          <span className="hidden sm:inline">Auto-Fit</span>
+        </button>
+
         {/* Auto Layout Button */}
         <button
           type="button"
