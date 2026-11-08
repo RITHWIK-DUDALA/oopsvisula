@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Play,
   SkipForward,
@@ -8,6 +8,7 @@ import {
   Layers,
   Sparkles,
 } from 'lucide-react';
+import { ImageExportButton } from '@/components/shared/ImageExportButton';
 
 export interface VisualizerStep {
   step: number;
@@ -41,6 +42,7 @@ export const InlineConceptVisualizer: React.FC<InlineConceptVisualizerProps> = (
 }) => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'memory' | 'console'>('memory');
+  const visualizerRef = useRef<HTMLDivElement>(null);
 
   const currentStep = steps[currentStepIndex] || steps[0];
 
@@ -59,7 +61,7 @@ export const InlineConceptVisualizer: React.FC<InlineConceptVisualizerProps> = (
   };
 
   return (
-    <div className="bg-[#FAFAFA] border border-[#E5E7EB] rounded-2xl overflow-hidden shadow-xs space-y-0">
+    <div ref={visualizerRef} className="bg-[#FAFAFA] border border-[#E5E7EB] rounded-2xl overflow-hidden shadow-xs space-y-0">
       {/* Visualizer Top Bar */}
       <div className="h-12 px-4 bg-white/80 border-b border-[#E5E7EB] flex items-center justify-between">
         <div className="flex items-center space-x-2">
@@ -101,6 +103,14 @@ export const InlineConceptVisualizer: React.FC<InlineConceptVisualizerProps> = (
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
+
+          <div className="h-3.5 w-px bg-[#E5E7EB] mx-0.5" />
+
+          <ImageExportButton
+            getTargetElement={() => visualizerRef.current}
+            fileName={`oops-lab-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+            variant="compact"
+          />
         </div>
       </div>
 

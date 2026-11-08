@@ -21,6 +21,7 @@ import {
 import { VisualMetaphorModel, VisualEntity, VisualField } from './useVisualMetaphorModel';
 import { CARD_WIDTH, positionRegistry } from './layoutEngine';
 import { buildExactFieldConnectors, CardRect, ExactFieldReference, RoutedConnector } from './connectorRouter';
+import { ImageExportButton } from '@/components/shared/ImageExportButton';
 
 interface Laboratory2DViewProps {
   model: VisualMetaphorModel;
@@ -415,7 +416,7 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
         className="flex-1 relative overflow-hidden bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] cursor-grab active:cursor-grabbing select-none"
       >
         {/* Top-Right Floating Canvas Controls */}
-        <div className="absolute top-3 right-4 z-30 flex items-center space-x-1 bg-white/90 backdrop-blur-md p-1 rounded-xl border border-slate-200 shadow-md">
+        <div data-no-export="true" className="absolute top-3 right-4 z-30 flex items-center space-x-1 bg-white/90 backdrop-blur-md p-1 rounded-xl border border-slate-200 shadow-md">
           <button
             onClick={zoomIn}
             title="Zoom In (+15%)"
@@ -449,10 +450,19 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
+
+          <div className="h-3.5 w-px bg-slate-200 mx-0.5" />
+
+          {/* Export 2D Snapshot (PNG / JPG) */}
+          <ImageExportButton
+            getTargetElement={() => containerRef.current}
+            fileName={`oops-lab-playground-2d-${entities.length}-objects`}
+            variant="compact"
+          />
         </div>
 
         {/* Runtime Diagnostics Banner: Validates Runtime Heap Count = Visualized Count */}
-        <div className="absolute top-3 left-4 z-30 pointer-events-none">
+        <div data-no-export="true" className="absolute top-3 left-4 z-30 pointer-events-none">
           {model.heapCountMismatch ? (
             <div className="flex items-center space-x-1.5 px-3 py-1 rounded-lg bg-rose-50 border border-rose-300 text-rose-800 text-[10.5px] font-mono font-bold shadow-xs">
               <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />

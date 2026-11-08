@@ -1,6 +1,9 @@
-| OOPS-20261108-0115 | PFCL-01 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Upgraded to full-card lock animation with card recoil physics, scanning laser, and mechanical deadbolts |
-| OOPS-20261108-0058 | PCLA-01 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Implemented CoolLockIcon with spring shackle physics, denial head-shake, and radar pulse wave |
-| OOPS-20261108-0048 | PBR-01 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Enforced universal rejection message 'Oops, you are not a verified beta tester.' for any login combination |
+| OOPS-20261108-0120 | DIE-01 | `frontend/src/services/export/imageExporter.ts` | CREATED | Local-first DOM/SVG to PNG and JPG rasterization and download service |
+| OOPS-20261108-0120 | DIE-01 | `frontend/src/components/shared/ImageExportButton.tsx` | CREATED | Monochromatic export dropdown button for PNG (2x) and JPG downloads |
+| OOPS-20261108-0120 | DIE-01 | `frontend/src/features/concepts/components/TechnicalDiagram.tsx` | MODIFIED | Added 2D diagram PNG/JPG download button to header |
+| OOPS-20261108-0120 | DIE-01 | `frontend/src/features/concepts/components/ConceptTree.tsx` | MODIFIED | Added Concept Map PNG/JPG download button to controls toolbar |
+| OOPS-20261108-0120 | DIE-01 | `frontend/src/features/concepts/components/InlineConceptVisualizer.tsx` | MODIFIED | Added execution diagram PNG/JPG download button to header |
+| OOPS-20261108-0120 | DIE-01 | `frontend/src/features/playground/components/live/Laboratory2DView.tsx` | MODIFIED | Added 2D simulation canvas PNG/JPG download button to floating controls |
 | OOPS-20261108-0040 | PTOC-01 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Neutralized card backgrounds and borders; applied Cherry Red, Cobalt Blue, and Orange exclusively to text |
 | OOPS-20261108-0025 | RRS-01 | `frontend/src/features/rules/RulesPage.tsx` | MODIFIED | Removed category tab overflow and vertical max-h-64 scrollbars from verified code preview cards |
 | OOPS-20261107-1836 | RH3C-01 | `frontend/src/features/landing/components/HeroPreviewCard.tsx` | MODIFIED | Restored 3D tilt, spring physics, specular sheen, and parallax depth exclusively for Hero Preview Card |
