@@ -25,10 +25,13 @@ Resolve user report where 25+ heap objects were displayed in a single vertical s
    - Prevents entities from stretching across an endless single horizontal line at the canvas bottom.
 
 3. **Smooth Canvas Navigation & Panning (`Laboratory2DView.tsx`):**
-   - Updated `handleWheel` to check `e.ctrlKey || e.metaKey` for zooming. Standard mouse wheel and trackpad scroll now pan smoothly in 2D space (`panOffset.x - deltaX`, `panOffset.y - deltaY`, with `Shift + wheel` for horizontal scrolling).
-   - Removed aggressive `ResizeObserver` snapback loop that reset user pans when simulation finished.
-   - Initial auto-fit only runs once on trace load via `hasInitialFittedRef`, leaving user navigation completely unconstrained.
+   - Attached native `{ passive: false }` wheel event listener directly to `containerRef.current` with `e.preventDefault()`, resolving modern browser passive intervention warnings and guaranteeing 100% reliable 2D trackpad and mouse wheel panning and zooming.
+   - Ref-based canvas panning (`isPanningRef`, `panStartRef`) with `e.preventDefault()` on mousedown, suppressing browser HTML5 native drag-and-drop and text selection from hijacking the cursor.
+   - Disabled CSS transform animation during active panning (`transition-none`) to eliminate dragging lag and stutter.
+   - Added directional Pan Navigation Arrow Buttons (`[←]`, `[↑]`, `[↓]`, `[→]`) directly in the floating canvas toolbar so users can navigate across columns with 1 click.
+   - Enhanced `focusOnEntity` and Object Registry clicking to instantly center any selected entity directly in the viewport.
    - Added keyboard arrow key pan navigation (`ArrowUp`, `ArrowDown`, `ArrowLeft`, `ArrowRight`, `Home` to re-fit).
+   - In `layoutEngine.ts`, invalidated stale cached positions with `y > 850` from previous execution traces so stale vertical stacking from active browser sessions is automatically refreshed into clean multi-column layouts.
 
 ---
 

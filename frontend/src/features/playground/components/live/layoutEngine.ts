@@ -205,7 +205,8 @@ export function computeCollisionFreeLayout(
     const height = estimateCardHeight(entity.fields.length, entity.metaphorType);
     const existing = positionRegistry.get(entity.id);
 
-    if (existing) {
+    // Only preserve cached position if it was manually placed or conforms to the max column height
+    if (existing && (existing.isManual || existing.y <= 850)) {
       const updatedRect = {
         x: existing.x,
         y: existing.y,

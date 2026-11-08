@@ -16,7 +16,11 @@ import {
   Check,
   Move,
   CheckCircle2,
-  Boxes
+  Boxes,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUp,
+  ArrowDown
 } from 'lucide-react';
 import { VisualMetaphorModel, VisualEntity, VisualField } from './useVisualMetaphorModel';
 import { CARD_WIDTH, positionRegistry } from './layoutEngine';
@@ -39,7 +43,13 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
   const [zoomLevel, setZoomLevel] = useState<number>(0.9);
   const [panOffset, setPanOffset] = useState<{ x: number; y: number }>({ x: 50, y: 50 });
   const [isPanning, setIsPanning] = useState(false);
-  const panStartRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const isPanningRef = useRef(false);
+  const panStartRef = useRef<{ startX: number; startY: number; initialPanX: number; initialPanY: number }>({
+    startX: 0,
+    startY: 0,
+    initialPanX: 50,
+    initialPanY: 50,
+  });
 
   // Manual Card Movement Support (Enabled when execution is paused/complete)
   const [manualPositions, setManualPositions] = useState<Map<string, { x: number; y: number }>>(new Map());
@@ -200,59 +210,77 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
   const zoomOut = () => setZoomLevel((z) => Math.max(0.35, Number((z - 0.15).toFixed(2))));
 
   // -----------------------------------------------------------------
-  // 2. SMOOTH 2D MOUSE WHEEL & TRACKPAD PANNING & CURSOR ZOOM
+  // 2. NATIVE NON-PASSIVE 2D WHEEL / TRACKPAD PAN & CURSOR ZOOM
   // -----------------------------------------------------------------
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    if (!containerRef.current) return;
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
 
-    // Zoom on Ctrl/Cmd + wheel, or pinch-to-zoom on trackpad
-    if (e.ctrlKey || e.metaKey) {
-      const rect = containerRef.current.getBoundingClientRect();
-      const cursorX = e.clientX - rect.left;
-      const cursorY = e.clientY - rect.top;
+    const onNativeWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-      const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
-      const newZoom = Math.min(2.0, Math.max(0.35, Number((zoomLevel * zoomFactor).toFixed(3))));
+      // Zoom on Ctrl/Cmd + wheel, or pinch-to-zoom on trackpad
+      if (e.ctrlKey || e.metaKey) {
+        const rect = el.getBoundingClientRect();
+        const cursorX = e.clientX - rect.left;
+        const cursorY = e.clientY - rect.top;
 
-      if (newZoom === zoomLevel) return;
+        const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
+        setZoomLevel(prevZoom => {
+          const newZoom = Math.min(2.0, Math.max(0.35, Number((prevZoom * zoomFactor).toFixed(3))));
+          if (newZoom === prevZoom) return prevZoom;
 
-      const newPanX = cursorX - (cursorX - panOffset.x) * (newZoom / zoomLevel);
-      const newPanY = cursorY - (cursorY - panOffset.y) * (newZoom / zoomLevel);
+          setPanOffset(prevPan => ({
+            x: Math.round(cursorX - (cursorX - prevPan.x) * (newZoom / prevZoom)),
+            y: Math.round(cursorY - (cursorY - prevPan.y) * (newZoom / prevZoom)),
+          }));
+          return newZoom;
+        });
+        return;
+      }
 
-      setZoomLevel(newZoom);
-      setPanOffset({
-        x: Math.round(newPanX),
-        y: Math.round(newPanY),
-      });
-      return;
-    }
+      // Normal wheel / trackpad scroll: PAN smoothly through the canvas in 2D!
+      const deltaX = e.shiftKey ? e.deltaY : e.deltaX;
+      const deltaY = e.shiftKey ? 0 : e.deltaY;
 
-    // Normal wheel / trackpad scroll: PAN smoothly through the canvas in 2D!
-    const deltaX = e.shiftKey ? e.deltaY : e.deltaX;
-    const deltaY = e.shiftKey ? 0 : e.deltaY;
+      setPanOffset((prev) => ({
+        x: Math.round(prev.x - deltaX),
+        y: Math.round(prev.y - deltaY),
+      }));
+    };
 
-    setPanOffset((prev) => ({
-      x: Math.round(prev.x - deltaX),
-      y: Math.round(prev.y - deltaY),
-    }));
-  };
+    el.addEventListener('wheel', onNativeWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onNativeWheel);
+  }, []);
 
   // -----------------------------------------------------------------
-  // 3. CANVAS PAN DRAGGING
+  // 3. ROBUST REF-BASED CANVAS PAN DRAGGING
   // -----------------------------------------------------------------
   const handleMouseDown = (e: React.MouseEvent) => {
-    // Only pan if middle click or left click directly on canvas background
+    // Only pan if left click (button 0) or middle click (button 1)
     if (e.button !== 0 && e.button !== 1) return;
     const target = e.target as HTMLElement;
-    if (target.closest('.interactive-entity') || target.closest('.value-popover') || target.closest('button')) {
+
+    // Don't pan if clicking directly on a button, input, or interactive control
+    if (target.closest('button') || target.closest('input') || target.closest('textarea') || target.closest('.value-popover')) {
       return;
     }
 
+    // If clicking on a draggable entity card header, let card dragging handle it
+    if (target.closest('.card-drag-handle')) {
+      return;
+    }
+
+    // Prevent native browser drag & drop / text selection
+    e.preventDefault();
+    isPanningRef.current = true;
     setIsPanning(true);
     panStartRef.current = {
-      x: e.clientX - panOffset.x,
-      y: e.clientY - panOffset.y,
+      startX: e.clientX,
+      startY: e.clientY,
+      initialPanX: panOffset.x,
+      initialPanY: panOffset.y,
     };
   };
 
@@ -261,6 +289,7 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
   // -----------------------------------------------------------------
   const handleCardDragStart = (e: React.MouseEvent, entityId: string, currentX: number, currentY: number) => {
     if (isExecutionRunning) return; // Automatic layout locked during execution
+    e.preventDefault();
     e.stopPropagation();
 
     setDraggingEntityId(entityId);
@@ -275,11 +304,13 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // 1. Handle Canvas Panning
-      if (isPanning) {
+      // 1. Handle Canvas Panning with 100% reliable ref
+      if (isPanningRef.current) {
+        const dx = e.clientX - panStartRef.current.startX;
+        const dy = e.clientY - panStartRef.current.startY;
         setPanOffset({
-          x: e.clientX - panStartRef.current.x,
-          y: e.clientY - panStartRef.current.y,
+          x: Math.round(panStartRef.current.initialPanX + dx),
+          y: Math.round(panStartRef.current.initialPanY + dy),
         });
         return;
       }
@@ -310,7 +341,10 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
     };
 
     const handleMouseUp = () => {
-      setIsPanning(false);
+      if (isPanningRef.current) {
+        isPanningRef.current = false;
+        setIsPanning(false);
+      }
       if (dragCardRef.current) {
         dragCardRef.current = null;
         setDraggingEntityId(null);
@@ -323,7 +357,7 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isPanning, zoomLevel]);
+  }, [zoomLevel]);
 
   // Keyboard pan navigation (Arrow keys, Home to fit)
   useEffect(() => {
@@ -331,7 +365,7 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
         return;
       }
-      const PAN_STEP = 70;
+      const PAN_STEP = 90;
       if (e.key === 'ArrowUp') {
         e.preventDefault();
         setPanOffset(prev => ({ ...prev, y: prev.y + PAN_STEP }));
@@ -476,11 +510,42 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
       <div
         ref={containerRef}
         onMouseDown={handleMouseDown}
-        onWheel={handleWheel}
         className="flex-1 relative overflow-hidden bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] cursor-grab active:cursor-grabbing select-none"
       >
         {/* Top-Right Floating Canvas Controls */}
         <div className="absolute top-3 right-4 z-30 flex items-center space-x-1 bg-white/90 backdrop-blur-md p-1 rounded-xl border border-slate-200 shadow-md">
+          {/* Pan Navigation Directional Controls */}
+          <div className="flex items-center space-x-0.5 border-r border-slate-200 pr-1 mr-0.5">
+            <button
+              onClick={() => setPanOffset(prev => ({ ...prev, x: prev.x + 200 }))}
+              title="Pan Left (←)"
+              className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => setPanOffset(prev => ({ ...prev, y: prev.y + 200 }))}
+              title="Pan Up (↑)"
+              className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
+            >
+              <ArrowUp className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => setPanOffset(prev => ({ ...prev, y: prev.y - 200 }))}
+              title="Pan Down (↓)"
+              className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
+            >
+              <ArrowDown className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => setPanOffset(prev => ({ ...prev, x: prev.x - 200 }))}
+              title="Pan Right (→)"
+              className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
+            >
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
           <button
             onClick={zoomIn}
             title="Zoom In (+15%)"
@@ -533,7 +598,9 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
 
         {/* Scalable & Pannable Virtual World Layer */}
         <div 
-          className="w-full h-full origin-top-left transition-transform duration-75 ease-out relative"
+          className={`w-full h-full origin-top-left relative ${
+            isPanning || draggingEntityId ? 'transition-none' : 'transition-transform duration-100 ease-out'
+          }`}
           style={{
             transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoomLevel})`,
           }}
@@ -706,7 +773,7 @@ const PhysicalMetaphorEntity: React.FC<PhysicalMetaphorEntityProps> = ({
       {/* 1. Header Banner & Drag Handle */}
       <div 
         onMouseDown={isDraggable ? onDragStart : undefined}
-        className={`px-3.5 py-2.5 rounded-t-2xl border-b flex items-center justify-between select-none ${
+        className={`card-drag-handle px-3.5 py-2.5 rounded-t-2xl border-b flex items-center justify-between select-none ${
           isDraggable ? 'cursor-move' : ''
         } ${
           isVault 
