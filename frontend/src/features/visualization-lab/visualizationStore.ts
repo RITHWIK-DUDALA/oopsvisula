@@ -112,7 +112,11 @@ const MAX_HISTORY = 30;
 
 export const useVisualizationLabStore = create<VisualizationLabStore>((set) => {
   const initialCategory = 'class-rep';
-  const initialPreset = CATEGORY_PRESETS[initialCategory] || { nodes: [], edges: [] };
+  const initialSub = getSubsection('01a-basic-class');
+  const initialScenario = initialSub?.scenarios[0];
+  const initialPreset =
+    initialScenario?.diagram ||
+    CATEGORY_PRESETS[initialCategory] || { nodes: [], edges: [] };
   const initialLayout = applyCollisionFreeLayout(
     JSON.parse(JSON.stringify(initialPreset.nodes)),
     JSON.parse(JSON.stringify(initialPreset.edges))
@@ -709,13 +713,24 @@ export const useVisualizationLabStore = create<VisualizationLabStore>((set) => {
 
     resetWorkspace: () => {
       set((state) => {
-        const preset = CATEGORY_PRESETS[state.activeCategoryId] || { nodes: [], edges: [] };
+        let baseDiagram = CATEGORY_PRESETS[state.activeCategoryId] || { nodes: [], edges: [] };
+        if (state.activeSubsectionId && state.activeScenarioId) {
+          const sub = getSubsection(state.activeSubsectionId);
+          const scenario = sub?.scenarios.find((s) => s.id === state.activeScenarioId);
+          if (scenario) {
+            baseDiagram = scenario.diagram;
+          }
+        }
         const historyUpdate = pushSnapshot(state);
+        const { nodes: layoutNodes, edges: layoutEdges } = applyCollisionFreeLayout(
+          JSON.parse(JSON.stringify(baseDiagram.nodes)),
+          JSON.parse(JSON.stringify(baseDiagram.edges))
+        );
         return {
           ...historyUpdate,
-          nodes: JSON.parse(JSON.stringify(preset.nodes)),
-          edges: JSON.parse(JSON.stringify(preset.edges)),
-          selectedNodeId: preset.nodes[0]?.id || null,
+          nodes: layoutNodes,
+          edges: layoutEdges,
+          selectedNodeId: layoutNodes[0]?.id || null,
           selectedEdgeId: null,
         };
       });

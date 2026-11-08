@@ -1,3 +1,4 @@
+| OOPS-20261108-0155 | VIF-01 | `frontend/src/features/visualization-lab/visualizationStore.ts` | MODIFIED | Initialized canvas with focused scenario diagram and context-aware scenario reset |
 | OOPS-20261108-0150 | ERR-01 | `frontend/src/components/shared/ImageExportButton.tsx` | DELETED | Deleted image export button component per user directive |
 | OOPS-20261108-0150 | ERR-01 | `frontend/src/services/export/imageExporter.ts` | DELETED | Deleted image export rasterization service per user directive |
 | OOPS-20261108-0150 | ERR-01 | `frontend/src/features/visualization-lab/components/toolbar/LabTopToolbar.tsx` | MODIFIED | Restored original JSON export button and overflow-y-hidden header |
