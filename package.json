@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "cd frontend && pnpm run dev",
-    "build": "cd frontend && pnpm run build",
+    "build": "cd frontend && pnpm install && pnpm run build",
     "test": "pnpm exec jest",
     "verify": "node verification/dist/runAllTests.js"
   },

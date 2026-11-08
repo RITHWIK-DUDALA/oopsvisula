@@ -1,3 +1,5 @@
+| OOPS-20261108-0200 | VCD-01 | `vercel.json` | MODIFIED | Added frontend installCommand for automatic Vercel monorepo builds |
+| OOPS-20261108-0200 | VCD-01 | `package.json` | MODIFIED | Enhanced root build script to install and compile frontend seamlessly |
 | OOPS-20261108-0155 | VIF-01 | `frontend/src/features/visualization-lab/visualizationStore.ts` | MODIFIED | Initialized canvas with focused scenario diagram and context-aware scenario reset |
 | OOPS-20261108-0150 | ERR-01 | `frontend/src/components/shared/ImageExportButton.tsx` | DELETED | Deleted image export button component per user directive |
 | OOPS-20261108-0150 | ERR-01 | `frontend/src/services/export/imageExporter.ts` | DELETED | Deleted image export rasterization service per user directive |
