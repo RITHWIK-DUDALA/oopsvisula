@@ -306,7 +306,7 @@ function applyHierarchicalLayout(
     levels[lvl].push(node);
   });
 
-  // Calculate layout layer by layer with dynamic height measurement
+  // Calculate layout layer by layer with dynamic height measurement & row wrapping
   let currentY = 70;
   const sortedLevelKeys = Object.keys(levels)
     .map(Number)
@@ -314,30 +314,35 @@ function applyHierarchicalLayout(
 
   sortedLevelKeys.forEach((lvl) => {
     const groupNodes = levels[lvl];
-    const dimsList = groupNodes.map((n) => estimateEntityDimensions(n));
-
-    // Calculate maximum height in this layer
-    const maxLayerHeight = Math.max(...dimsList.map((d) => d.height), 120);
-
-    // Calculate total width of this layer including spacing
     const HORIZONTAL_GAP = 54;
-    const totalLayerWidth =
-      dimsList.reduce((acc, d) => acc + d.width, 0) + (groupNodes.length - 1) * HORIZONTAL_GAP;
-
-    const canvasCenterX = 520;
-    let currentX = Math.max(80, canvasCenterX - totalLayerWidth / 2);
-
-    groupNodes.forEach((node, idx) => {
-      const dims = dimsList[idx];
-      node.position = {
-        x: Math.round(currentX),
-        y: Math.round(currentY),
-      };
-      currentX += dims.width + HORIZONTAL_GAP;
-    });
-
     const VERTICAL_LEVEL_GAP = 70;
-    currentY += maxLayerHeight + VERTICAL_LEVEL_GAP;
+
+    // Wrap wide layers into balanced rows (max 4 nodes per row) to prevent single endless straight lines
+    const MAX_NODES_PER_ROW = 4;
+    const numRows = Math.ceil(groupNodes.length / MAX_NODES_PER_ROW);
+
+    for (let r = 0; r < numRows; r++) {
+      const rowSlice = groupNodes.slice(r * MAX_NODES_PER_ROW, (r + 1) * MAX_NODES_PER_ROW);
+      const rowDims = rowSlice.map((n) => estimateEntityDimensions(n));
+
+      const maxRowHeight = Math.max(...rowDims.map((d) => d.height), 120);
+      const totalRowWidth =
+        rowDims.reduce((acc, d) => acc + d.width, 0) + (rowSlice.length - 1) * HORIZONTAL_GAP;
+
+      const canvasCenterX = 520;
+      let currentX = Math.max(80, canvasCenterX - totalRowWidth / 2);
+
+      rowSlice.forEach((node, idx) => {
+        const dims = rowDims[idx];
+        node.position = {
+          x: Math.round(currentX),
+          y: Math.round(currentY),
+        };
+        currentX += dims.width + HORIZONTAL_GAP;
+      });
+
+      currentY += maxRowHeight + VERTICAL_LEVEL_GAP;
+    }
   });
 
   return resolveCollisions(resultNodes, MIN_HORIZONTAL_SEPARATION);

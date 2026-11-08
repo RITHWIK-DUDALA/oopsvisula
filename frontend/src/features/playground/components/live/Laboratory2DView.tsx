@@ -122,16 +122,16 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
 
     if (graphWidth <= 0 || graphHeight <= 0) return;
 
-    const paddingX = 70;
-    const paddingY = 70;
-    const availableWidth = Math.max(200, viewportWidth - paddingX * 2);
-    const availableHeight = Math.max(200, viewportHeight - paddingY * 2);
+    const paddingX = 60;
+    const paddingY = 60;
+    const availableWidth = Math.max(100, viewportWidth - paddingX * 2);
+    const availableHeight = Math.max(100, viewportHeight - paddingY * 2);
 
     const scaleX = availableWidth / graphWidth;
     const scaleY = availableHeight / graphHeight;
 
-    // Readable bounds: don't shrink smaller than 45% or larger than 105%
-    const bestScale = Math.min(1.05, Math.max(0.45, Math.min(scaleX, scaleY)));
+    // Readable bounds: don't shrink smaller than 35% or larger than 100%
+    const bestScale = Math.min(1.0, Math.max(0.35, Math.min(scaleX, scaleY)));
 
     const targetPanX = (viewportWidth - graphWidth * bestScale) / 2 - minX * bestScale;
     const targetPanY = (viewportHeight - graphHeight * bestScale) / 2 - minY * bestScale;
@@ -143,24 +143,28 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
     });
   }, [entities]);
 
-  // Viewport-aware Auto-Fit on entity changes and initial mount
-  useEffect(() => {
-    if (entities.length === 0) return;
-    const timer = setTimeout(() => {
-      fitToScreen();
-    }, 60);
-    return () => clearTimeout(timer);
-  }, [entities.length, fitToScreen]);
+  // Initial Auto-Fit: Only triggers on initial load so user can freely navigate and pan
+  const hasInitialFittedRef = useRef(false);
+  const prevEntitiesLengthRef = useRef(0);
 
-  // Continuous Auto-Fit on viewport container resize (e.g. dragging panels, window resize)
   useEffect(() => {
-    if (!containerRef.current) return;
-    const observer = new ResizeObserver(() => {
-      fitToScreen();
-    });
-    observer.observe(containerRef.current);
-    return () => observer.disconnect();
-  }, [fitToScreen]);
+    if (entities.length === 0) {
+      hasInitialFittedRef.current = false;
+      prevEntitiesLengthRef.current = 0;
+      return;
+    }
+
+    // Auto-fit on first load or when switching from 0 entities to loaded state
+    if (!hasInitialFittedRef.current && entities.length > 0) {
+      const timer = setTimeout(() => {
+        fitToScreen();
+        hasInitialFittedRef.current = true;
+      }, 80);
+      prevEntitiesLengthRef.current = entities.length;
+      return () => clearTimeout(timer);
+    }
+    prevEntitiesLengthRef.current = entities.length;
+  }, [entities.length, fitToScreen]);
 
   const resetView = useCallback(() => {
     setZoomLevel(0.9);
@@ -170,8 +174,9 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
   const restoreAutoLayout = useCallback(() => {
     positionRegistry.clear();
     setManualPositions(new Map());
-    resetView();
-  }, [resetView]);
+    hasInitialFittedRef.current = false;
+    fitToScreen();
+  }, [fitToScreen]);
 
   // Focus directly on a specific entity (Instant Navigation)
   const focusOnEntity = useCallback((entityId: string) => {
@@ -195,36 +200,49 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
   const zoomOut = () => setZoomLevel((z) => Math.max(0.35, Number((z - 0.15).toFixed(2))));
 
   // -----------------------------------------------------------------
-  // 2. CURSOR-CENTERED MOUSE WHEEL ZOOM
+  // 2. SMOOTH 2D MOUSE WHEEL & TRACKPAD PANNING & CURSOR ZOOM
   // -----------------------------------------------------------------
   const handleWheel = (e: React.WheelEvent) => {
     e.preventDefault();
     if (!containerRef.current) return;
 
-    const rect = containerRef.current.getBoundingClientRect();
-    const cursorX = e.clientX - rect.left;
-    const cursorY = e.clientY - rect.top;
+    // Zoom on Ctrl/Cmd + wheel, or pinch-to-zoom on trackpad
+    if (e.ctrlKey || e.metaKey) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const cursorX = e.clientX - rect.left;
+      const cursorY = e.clientY - rect.top;
 
-    const zoomFactor = e.deltaY < 0 ? 1.1 : 0.9;
-    const newZoom = Math.min(2.0, Math.max(0.35, Number((zoomLevel * zoomFactor).toFixed(3))));
+      const zoomFactor = e.deltaY < 0 ? 1.08 : 0.92;
+      const newZoom = Math.min(2.0, Math.max(0.35, Number((zoomLevel * zoomFactor).toFixed(3))));
 
-    if (newZoom === zoomLevel) return;
+      if (newZoom === zoomLevel) return;
 
-    const newPanX = cursorX - (cursorX - panOffset.x) * (newZoom / zoomLevel);
-    const newPanY = cursorY - (cursorY - panOffset.y) * (newZoom / zoomLevel);
+      const newPanX = cursorX - (cursorX - panOffset.x) * (newZoom / zoomLevel);
+      const newPanY = cursorY - (cursorY - panOffset.y) * (newZoom / zoomLevel);
 
-    setZoomLevel(newZoom);
-    setPanOffset({
-      x: Math.round(newPanX),
-      y: Math.round(newPanY),
-    });
+      setZoomLevel(newZoom);
+      setPanOffset({
+        x: Math.round(newPanX),
+        y: Math.round(newPanY),
+      });
+      return;
+    }
+
+    // Normal wheel / trackpad scroll: PAN smoothly through the canvas in 2D!
+    const deltaX = e.shiftKey ? e.deltaY : e.deltaX;
+    const deltaY = e.shiftKey ? 0 : e.deltaY;
+
+    setPanOffset((prev) => ({
+      x: Math.round(prev.x - deltaX),
+      y: Math.round(prev.y - deltaY),
+    }));
   };
 
   // -----------------------------------------------------------------
   // 3. CANVAS PAN DRAGGING
   // -----------------------------------------------------------------
   const handleMouseDown = (e: React.MouseEvent) => {
-    // Only pan if middle click or left click directly on background
+    // Only pan if middle click or left click directly on canvas background
     if (e.button !== 0 && e.button !== 1) return;
     const target = e.target as HTMLElement;
     if (target.closest('.interactive-entity') || target.closest('.value-popover') || target.closest('button')) {
@@ -306,6 +324,34 @@ export const Laboratory2DView: React.FC<Laboratory2DViewProps> = ({
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isPanning, zoomLevel]);
+
+  // Keyboard pan navigation (Arrow keys, Home to fit)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+      const PAN_STEP = 70;
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setPanOffset(prev => ({ ...prev, y: prev.y + PAN_STEP }));
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setPanOffset(prev => ({ ...prev, y: prev.y - PAN_STEP }));
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        setPanOffset(prev => ({ ...prev, x: prev.x + PAN_STEP }));
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        setPanOffset(prev => ({ ...prev, x: prev.x - PAN_STEP }));
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        fitToScreen();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [fitToScreen]);
 
   // Compute virtual canvas bounds
   let maxExtentX = 3000;

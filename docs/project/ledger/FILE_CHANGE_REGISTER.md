@@ -887,3 +887,13 @@
 | 2026-11-08 00:06:00 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Protected Progress page behind signed-in beta gate with interactive email invite request form and beta credentials modal | OOPS-20261108-0006 |
 | 2026-11-08 00:06:00 | `frontend/src/components/navigation/LeftSidebar.tsx` | MODIFIED | Added BETA badge next to Progress item in sidebar navigation | OOPS-20261108-0006 |
 | 2026-11-08 00:14:00 | `frontend/src/features/progress/ProgressPage.tsx` | MODIFIED | Added Cherry Red (#D92638), Cobalt Blue (#075CF5), and Orange (#EA580C) accents to Progress beta gate and tracker cards | OOPS-20261108-0014 |
+| 2026-11-08 02:10:00 | `frontend/src/features/playground/components/live/Laboratory2DView.tsx` | MODIFIED | Added continuous viewport auto-fit and Auto-Fit toolbar button | OOPS-20261108-0210 |
+| 2026-11-08 02:10:00 | `frontend/src/features/visualization-lab/components/canvas/VisualizationCanvas.tsx` | MODIFIED | Added ResizeObserver and expanded auto-fit dependencies | OOPS-20261108-0210 |
+| 2026-11-08 02:10:00 | `frontend/src/features/visualization-lab/components/canvas/LabScenarioBar.tsx` | MODIFIED | Added Auto-Fit button in scenario toolbar | OOPS-20261108-0210 |
+| 2026-11-08 02:10:00 | `frontend/src/features/playground/components/ClassArchitectureMap.tsx` | MODIFIED | Added ResizeObserver to auto-fit architecture map | OOPS-20261108-0210 |
+| 2026-11-08 02:10:00 | `docs/project/ledger/records/OOPS-20261108-0210-AUTO_FIT_VIEWPORT.md` | CREATED | Permanent audit ledger record for viewport auto-fit | OOPS-20261108-0210 |
+| 2026-11-08 10:50:00 | `frontend/src/features/playground/components/live/layoutEngine.ts` | MODIFIED | Configured MAX_COLUMN_HEIGHT multi-column horizontal wrapping for heap cards | OOPS-20261108-0220 |
+| 2026-11-08 10:50:00 | `frontend/src/features/visualization-lab/services/collisionFreeLayoutEngine.ts` | MODIFIED | Configured MAX_NODES_PER_ROW multi-row horizontal wrapping in applyHierarchicalLayout | OOPS-20261108-0220 |
+| 2026-11-08 10:50:00 | `frontend/src/features/playground/components/live/Laboratory2DView.tsx` | MODIFIED | Added smooth 2D mouse wheel / trackpad pan, keyboard arrow pan, decoupled snapback | OOPS-20261108-0220 |
+| 2026-11-08 10:50:00 | `docs/project/ledger/records/OOPS-20261108-0220-MULTI_COLUMN_HORIZONTAL_LAYOUT.md` | CREATED | Permanent audit ledger record for multi-column horizontal layout and 2D canvas pan | OOPS-20261108-0220 |
+

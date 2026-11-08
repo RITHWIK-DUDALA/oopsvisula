@@ -243,10 +243,12 @@ export function computeCollisionFreeLayout(
     let candidateX = CANVAS_START_X + targetCol * (CARD_WIDTH + MIN_GAP_X);
     let candidateY = preferredY;
 
-    // AABB Collision avoidance: find next available collision-free coordinate
+    // AABB Collision avoidance with multi-column horizontal wrapping
+    // Prevents stacking in a single endless vertical line
+    const MAX_COLUMN_HEIGHT = 820;
     let hasCollision = true;
     let attempts = 0;
-    const MAX_ATTEMPTS = 200;
+    const MAX_ATTEMPTS = 250;
 
     while (hasCollision && attempts < MAX_ATTEMPTS) {
       attempts++;
@@ -258,14 +260,21 @@ export function computeCollisionFreeLayout(
       );
 
       if (colliding) {
-        // Nudge candidate vertically below the colliding card with generous margin
-        candidateY = colliding.y + colliding.height + MIN_GAP_Y;
+        const nextY = colliding.y + colliding.height + MIN_GAP_Y;
+        if (nextY > MAX_COLUMN_HEIGHT) {
+          // Wrap horizontally to next column
+          targetCol++;
+          candidateX = CANVAS_START_X + targetCol * (CARD_WIDTH + MIN_GAP_X);
+          candidateY = CANVAS_START_Y;
+        } else {
+          candidateY = nextY;
+        }
       } else {
         hasCollision = false;
       }
     }
 
-    // Safety fallback: if column reached extreme length (> 4000px), advance column
+    // Safety fallback: if search exceeded attempts, advance column cleanly
     if (hasCollision) {
       targetCol++;
       candidateX = CANVAS_START_X + targetCol * (CARD_WIDTH + MIN_GAP_X);
