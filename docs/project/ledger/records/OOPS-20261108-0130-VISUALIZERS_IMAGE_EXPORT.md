@@ -27,3 +27,4 @@ Previously, the Download tray icon in the top-right toolbar strictly exported a 
 
 ## 3. Verification
 - Built frontend with `pnpm run build` (`tsc -b && vite build`): Succeeded in 18.95s with 0 errors across 3,274 modules.
+

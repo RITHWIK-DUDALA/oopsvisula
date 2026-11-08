@@ -1,21 +1,20 @@
 /**
  * Image Exporter Service (Local-First / Zero-Cloud)
- * Enables exporting any 2D visualizer or diagram component as PNG or JPG.
- * Utilizes standard HTML5 Canvas and SVG ForeignObject serialization
- * without requiring any external server, cloud API, or third-party binary.
+ * Converts any DOM / SVG visualizer component into PNG, JPG, or SVG downloads.
+ * 100% self-contained in the browser using HTML5 Canvas & SVG ForeignObject.
  */
 
 export interface ExportImageOptions {
   fileName?: string;
-  format?: 'png' | 'jpg';
+  format?: 'png' | 'jpg' | 'svg';
   backgroundColor?: string;
-  scale?: number; // 2x for Retina / HiDPI crispness
+  scale?: number; // 2x for crisp Retina resolution
   quality?: number; // 0.95 for JPEG
 }
 
 /**
- * Inlines computed styles from source elements into cloned elements
- * so that SVG foreignObject retains 100% accurate styling, colors, and fonts.
+ * Inlines computed styles from source DOM tree into the cloned DOM tree
+ * so that SVG foreignObject retains 100% accurate colors, fonts, and geometry.
  */
 function inlineComputedStyles(source: Element, target: Element): void {
   const sourceNodes = [source, ...Array.from(source.querySelectorAll('*'))];
@@ -37,10 +36,6 @@ function inlineComputedStyles(source: Element, target: Element): void {
     'border-style',
     'border-color',
     'border-radius',
-    'border-top',
-    'border-right',
-    'border-bottom',
-    'border-left',
     'box-shadow',
     'padding',
     'padding-top',
@@ -54,30 +49,28 @@ function inlineComputedStyles(source: Element, target: Element): void {
     'justify-content',
     'flex-wrap',
     'gap',
-    'row-gap',
-    'column-gap',
     'grid-template-columns',
-    'grid-template-rows',
     'width',
     'height',
     'min-width',
     'min-height',
-    'max-width',
-    'max-height',
     'box-sizing',
     'position',
+    'top',
+    'left',
+    'right',
+    'bottom',
     'opacity',
-    'overflow',
     'fill',
     'stroke',
     'stroke-width',
     'stroke-linecap',
     'stroke-linejoin',
-    'stroke-dasharray',
     'white-space',
   ];
 
-  for (let i = 0; i < sourceNodes.length; i++) {
+  const count = Math.min(sourceNodes.length, targetNodes.length);
+  for (let i = 0; i < count; i++) {
     const srcEl = sourceNodes[i] as HTMLElement;
     const tgtEl = targetNodes[i] as HTMLElement;
     if (!srcEl || !tgtEl || !tgtEl.style) continue;
@@ -90,7 +83,7 @@ function inlineComputedStyles(source: Element, target: Element): void {
       }
     }
 
-    // Ensure SVGs carry required xmlns attributes
+    // Ensure child SVGs have proper XML namespaces
     if (srcEl.tagName.toLowerCase() === 'svg') {
       tgtEl.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     }
@@ -98,27 +91,19 @@ function inlineComputedStyles(source: Element, target: Element): void {
 }
 
 /**
- * Exports a DOM node or SVG element to a PNG or JPG Data URL
+ * Generates an SVG string representation of an HTML or SVG element
  */
-export async function exportElementAsDataUrl(
+export function generateSvgData(
   element: HTMLElement | SVGElement,
-  options: ExportImageOptions = {}
-): Promise<string> {
-  const {
-    format = 'png',
-    backgroundColor = '#FFFFFF',
-    scale = 2,
-    quality = 0.95,
-  } = options;
-
+  backgroundColor: string = '#FFFFFF'
+): { svgData: string; width: number; height: number } {
   const rect = element.getBoundingClientRect();
-  const width = Math.max(100, Math.ceil(rect.width) || (element as HTMLElement).offsetWidth || 800);
-  const height = Math.max(100, Math.ceil(rect.height) || (element as HTMLElement).offsetHeight || 600);
+  const width = Math.max(200, Math.ceil(rect.width) || (element as HTMLElement).offsetWidth || 1000);
+  const height = Math.max(200, Math.ceil(rect.height) || (element as HTMLElement).offsetHeight || 700);
 
   let svgData: string;
 
   if (element.tagName.toLowerCase() === 'svg') {
-    // Pure SVG Element
     const cloneSvg = element.cloneNode(true) as SVGElement;
     cloneSvg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     cloneSvg.setAttribute('width', `${width}`);
@@ -127,19 +112,25 @@ export async function exportElementAsDataUrl(
     const serializer = new XMLSerializer();
     svgData = serializer.serializeToString(cloneSvg);
   } else {
-    // HTML Element with potential child SVGs (foreignObject encapsulation)
     const clone = element.cloneNode(true) as HTMLElement;
     inlineComputedStyles(element, clone);
 
-    // Ensure no scrollbars or clipped borders in the clone
     clone.style.margin = '0';
     clone.style.boxSizing = 'border-box';
 
-    // Strip out interactive floating controls / export buttons marked with data-no-export
-    clone.querySelectorAll('[data-no-export="true"], .react-flow__controls, .react-flow__minimap, .react-flow__attribution').forEach((el) => el.remove());
+    // Strip UI overlays, buttons, minimaps from output
+    clone
+      .querySelectorAll('[data-no-export="true"], .react-flow__controls, .react-flow__minimap, .react-flow__attribution')
+      .forEach((el) => el.remove());
 
     const serializer = new XMLSerializer();
-    const serializedHtml = serializer.serializeToString(clone);
+    let serializedHtml = serializer.serializeToString(clone);
+
+    // Sanitize non-standard entities that break strict XML parsers in browser Image()
+    serializedHtml = serializedHtml
+      .replace(/&nbsp;/g, '&#160;')
+      .replace(/&times;/g, '&#215;')
+      .replace(/&copy;/g, '&#169;');
 
     svgData = `
       <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
@@ -152,12 +143,40 @@ export async function exportElementAsDataUrl(
     `.trim();
   }
 
-  const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-  const blobUrl = URL.createObjectURL(svgBlob);
+  return { svgData, width, height };
+}
 
-  return new Promise((resolve, reject) => {
+/**
+ * Downloads a DOM or SVG element as PNG, JPG, or SVG
+ */
+export async function downloadElementAsImage(
+  element: HTMLElement | SVGElement,
+  options: ExportImageOptions = {}
+): Promise<void> {
+  const {
+    fileName = 'oops-lab-diagram',
+    format = 'png',
+    backgroundColor = '#FFFFFF',
+    scale = 2,
+    quality = 0.95,
+  } = options;
+
+  const { svgData, width, height } = generateSvgData(element, backgroundColor);
+
+  // If format is SVG, download directly without rasterization
+  if (format === 'svg') {
+    const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(svgBlob);
+    triggerDownload(url, `${fileName}.svg`);
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    return;
+  }
+
+  // For PNG or JPG: rasterize through HTML5 Canvas
+  return new Promise<void>((resolve) => {
+    // Use data URI with percent-encoding to prevent cross-origin taint in Chromium
+    const dataUri = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgData)}`;
     const img = new Image();
-    img.crossOrigin = 'anonymous';
 
     img.onload = () => {
       try {
@@ -167,60 +186,55 @@ export async function exportElementAsDataUrl(
 
         const ctx = canvas.getContext('2d');
         if (!ctx) {
-          URL.revokeObjectURL(blobUrl);
-          reject(new Error('HTML5 Canvas 2D context not available'));
+          fallbackDownloadSvg(svgData, fileName);
+          resolve();
           return;
         }
 
-        // Optional image smoothing for crisp vector rendering
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'high';
         ctx.scale(scale, scale);
 
-        // Fill background (ensures JPG is not black and PNG has solid background)
-        if (backgroundColor) {
-          ctx.fillStyle = backgroundColor;
-          ctx.fillRect(0, 0, width, height);
-        }
+        // Fill background
+        ctx.fillStyle = backgroundColor;
+        ctx.fillRect(0, 0, width, height);
 
         ctx.drawImage(img, 0, 0, width, height);
-        URL.revokeObjectURL(blobUrl);
 
         const mimeType = format === 'jpg' ? 'image/jpeg' : 'image/png';
         const dataUrl = canvas.toDataURL(mimeType, quality);
-        resolve(dataUrl);
+        triggerDownload(dataUrl, `${fileName}.${format}`);
+        resolve();
       } catch (err) {
-        URL.revokeObjectURL(blobUrl);
-        reject(err);
+        console.warn('Canvas rasterization blocked by security sandbox, falling back to SVG:', err);
+        fallbackDownloadSvg(svgData, fileName);
+        resolve();
       }
     };
 
-    img.onerror = (err) => {
-      URL.revokeObjectURL(blobUrl);
-      reject(new Error(`Failed to rasterize diagram into Image: ${err}`));
+    img.onerror = () => {
+      // In case browser Image fails to parse foreignObject, fallback to direct SVG download
+      console.warn('Image rasterization failed, downloading SVG vector fallback.');
+      fallbackDownloadSvg(svgData, fileName);
+      resolve();
     };
 
-    img.src = blobUrl;
+    img.src = dataUri;
   });
 }
 
-/**
- * Downloads a DOM element or SVG element as a PNG or JPG file
- */
-export async function downloadElementAsImage(
-  element: HTMLElement | SVGElement,
-  options: ExportImageOptions = {}
-): Promise<void> {
-  const {
-    fileName = 'oops-lab-diagram',
-    format = 'png',
-  } = options;
-
-  const dataUrl = await exportElementAsDataUrl(element, options);
+function triggerDownload(url: string, filename: string): void {
   const link = document.createElement('a');
-  link.download = `${fileName}.${format}`;
-  link.href = dataUrl;
+  link.download = filename;
+  link.href = url;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+}
+
+function fallbackDownloadSvg(svgData: string, fileName: string): void {
+  const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  triggerDownload(url, `${fileName}.svg`);
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
 }

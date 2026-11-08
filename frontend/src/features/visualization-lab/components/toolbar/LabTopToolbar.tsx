@@ -71,7 +71,7 @@ export const LabTopToolbar: React.FC = () => {
 
   return (
     <header
-      className="h-12 px-3 sm:px-4 bg-white border-b border-[#DCE2EA] flex items-center justify-between shrink-0 select-none font-sans z-20 gap-2 overflow-x-auto overflow-y-hidden no-scrollbar"
+      className="h-12 px-3 sm:px-4 bg-white border-b border-[#DCE2EA] flex items-center justify-between shrink-0 select-none font-sans z-20 gap-2 overflow-x-auto no-scrollbar"
       style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
     >
       {/* Left: Brand + Divider + Mode Switcher + Search Bar */}
@@ -260,10 +260,13 @@ export const LabTopToolbar: React.FC = () => {
           <Upload className="w-3.5 h-3.5" />
         </button>
 
-        {/* Export Diagram (PNG / JPG / JSON) */}
+        {/* Export Diagram (PNG / JPG / SVG / JSON) */}
         <ImageExportButton
           variant="icon"
-          getTargetElement={() => document.querySelector('.react-flow') as HTMLElement}
+          getTargetElement={() =>
+            ((document.querySelector('.react-flow__viewport') as HTMLElement) ||
+              (document.querySelector('.react-flow') as HTMLElement))
+          }
           fileName={`oops-lab-${activeCategoryId || 'diagram'}`}
           onExportJson={exportCurrentWorkspace}
         />

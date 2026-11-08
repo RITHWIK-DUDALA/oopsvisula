@@ -1,3 +1,6 @@
+| OOPS-20261108-0145 | EPF-01 | `frontend/src/components/shared/ImageExportButton.tsx` | MODIFIED | Rendered dropdown directly via createPortal to document.body preventing parent clipping |
+| OOPS-20261108-0145 | EPF-01 | `frontend/src/services/export/imageExporter.ts` | MODIFIED | Added fail-safe SVG fallback, percent-encoded data URI, and direct SVG export format |
+| OOPS-20261108-0145 | EPF-01 | `frontend/src/features/visualization-lab/components/toolbar/LabTopToolbar.tsx` | MODIFIED | Removed overflow-y-hidden and enhanced element target selector |
 | OOPS-20261108-0130 | VIE-01 | `frontend/src/features/visualization-lab/components/toolbar/LabTopToolbar.tsx` | MODIFIED | Upgraded toolbar Download icon to support PNG (2x), JPG, and JSON exports |
 | OOPS-20261108-0120 | DIE-01 | `frontend/src/services/export/imageExporter.ts` | CREATED | Local-first DOM/SVG to PNG and JPG rasterization and download service |
 | OOPS-20261108-0120 | DIE-01 | `frontend/src/components/shared/ImageExportButton.tsx` | CREATED | Monochromatic export dropdown button for PNG (2x) and JPG downloads |
