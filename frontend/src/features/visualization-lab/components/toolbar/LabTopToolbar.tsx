@@ -9,6 +9,7 @@ import {
   Trash2,
   Copy,
   Code2,
+  Download,
   Upload,
   LayoutGrid,
   Maximize2,
@@ -17,7 +18,6 @@ import {
   Search,
 } from 'lucide-react';
 import { useVisualizationLabStore } from '../../visualizationStore';
-import { ImageExportButton } from '@/components/shared/ImageExportButton';
 
 export const LabTopToolbar: React.FC = () => {
   const { fitView } = useReactFlow();
@@ -43,7 +43,6 @@ export const LabTopToolbar: React.FC = () => {
     importWorkspace,
     activeSidebarTab,
     setActiveSidebarTab,
-    activeCategoryId,
     searchQuery,
     setSearchQuery,
   } = useVisualizationLabStore();
@@ -71,7 +70,7 @@ export const LabTopToolbar: React.FC = () => {
 
   return (
     <header
-      className="h-12 px-3 sm:px-4 bg-white border-b border-[#DCE2EA] flex items-center justify-between shrink-0 select-none font-sans z-20 gap-2 overflow-x-auto no-scrollbar"
+      className="h-12 px-3 sm:px-4 bg-white border-b border-[#DCE2EA] flex items-center justify-between shrink-0 select-none font-sans z-20 gap-2 overflow-x-auto overflow-y-hidden no-scrollbar"
       style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
     >
       {/* Left: Brand + Divider + Mode Switcher + Search Bar */}
@@ -260,16 +259,15 @@ export const LabTopToolbar: React.FC = () => {
           <Upload className="w-3.5 h-3.5" />
         </button>
 
-        {/* Export Diagram (PNG / JPG / SVG / JSON) */}
-        <ImageExportButton
-          variant="icon"
-          getTargetElement={() =>
-            ((document.querySelector('.react-flow__viewport') as HTMLElement) ||
-              (document.querySelector('.react-flow') as HTMLElement))
-          }
-          fileName={`oops-lab-${activeCategoryId || 'diagram'}`}
-          onExportJson={exportCurrentWorkspace}
-        />
+        {/* Export JSON */}
+        <button
+          type="button"
+          onClick={exportCurrentWorkspace}
+          className="p-1.5 rounded-md border border-[#DCE2EA] hover:border-[#172033] bg-white text-[#172033] text-xs font-mono transition-colors shrink-0"
+          title="Export Workspace JSON"
+        >
+          <Download className="w-3.5 h-3.5" />
+        </button>
 
         {/* Reset Workspace */}
         <button

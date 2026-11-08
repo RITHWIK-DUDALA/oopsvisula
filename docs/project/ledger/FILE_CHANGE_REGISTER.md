@@ -1,3 +1,10 @@
+| OOPS-20261108-0150 | ERR-01 | `frontend/src/components/shared/ImageExportButton.tsx` | DELETED | Deleted image export button component per user directive |
+| OOPS-20261108-0150 | ERR-01 | `frontend/src/services/export/imageExporter.ts` | DELETED | Deleted image export rasterization service per user directive |
+| OOPS-20261108-0150 | ERR-01 | `frontend/src/features/visualization-lab/components/toolbar/LabTopToolbar.tsx` | MODIFIED | Restored original JSON export button and overflow-y-hidden header |
+| OOPS-20261108-0150 | ERR-01 | `frontend/src/features/playground/components/live/Laboratory2DView.tsx` | MODIFIED | Restored clean floating canvas toolbar without export button |
+| OOPS-20261108-0150 | ERR-01 | `frontend/src/features/concepts/components/TechnicalDiagram.tsx` | MODIFIED | Restored clean header layout without export button |
+| OOPS-20261108-0150 | ERR-01 | `frontend/src/features/concepts/components/InlineConceptVisualizer.tsx` | MODIFIED | Restored clean execution controls toolbar without export button |
+| OOPS-20261108-0150 | ERR-01 | `frontend/src/features/concepts/components/ConceptTree.tsx` | MODIFIED | Restored clean pan/zoom controls toolbar without export button |
 | OOPS-20261108-0145 | EPF-01 | `frontend/src/components/shared/ImageExportButton.tsx` | MODIFIED | Rendered dropdown directly via createPortal to document.body preventing parent clipping |
 | OOPS-20261108-0145 | EPF-01 | `frontend/src/services/export/imageExporter.ts` | MODIFIED | Added fail-safe SVG fallback, percent-encoded data URI, and direct SVG export format |
 | OOPS-20261108-0145 | EPF-01 | `frontend/src/features/visualization-lab/components/toolbar/LabTopToolbar.tsx` | MODIFIED | Removed overflow-y-hidden and enhanced element target selector |

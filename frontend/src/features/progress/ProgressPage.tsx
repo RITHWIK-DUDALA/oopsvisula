@@ -10,6 +10,7 @@ import {
   BookOpen,
   Clock,
   Cpu,
+  Lock,
   ShieldAlert,
   Send,
   KeyRound,
@@ -21,93 +22,6 @@ import {
 import { useLearnerStore } from '@/services/storage/localStore';
 import { useAuthStore } from '@/services/storage/authStore';
 import { curriculumLessons } from '@/data/curriculumData';
-
-interface CoolLockIconProps {
-  size?: number;
-  shake?: boolean;
-  locked?: boolean;
-  pulseRing?: boolean;
-  className?: string;
-}
-
-const CoolLockIcon: React.FC<CoolLockIconProps> = ({
-  size = 24,
-  shake = false,
-  locked = true,
-  pulseRing = false,
-  className = '',
-}) => {
-  return (
-    <div className={`relative flex items-center justify-center ${className}`}>
-      {/* Shockwave Radar Pulse Ring */}
-      {pulseRing && (
-        <motion.span
-          key={`ring-${shake ? 'active' : 'idle'}`}
-          className="absolute inset-0 rounded-2xl border border-[#D92638]/50 pointer-events-none"
-          initial={{ scale: 0.85, opacity: 0.9 }}
-          animate={{ scale: 1.55, opacity: 0 }}
-          transition={{ duration: 0.75, ease: 'easeOut' }}
-        />
-      )}
-
-      {/* Main Animated Padlock Frame with Denial Shake Physics */}
-      <motion.svg
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        animate={
-          shake
-            ? {
-                x: [0, -7, 7, -5, 5, -3, 3, -1, 1, 0],
-                rotate: [0, -4, 4, -3, 3, -1.5, 1.5, 0],
-              }
-            : { x: 0, rotate: 0 }
-        }
-        transition={{ duration: 0.52, ease: [0.36, 0.07, 0.19, 0.97] }}
-      >
-        {/* Shackle: Physically springs open/closed with tactile damping */}
-        <motion.path
-          d="M7 11V7a5 5 0 0 1 10 0v4"
-          initial={false}
-          animate={
-            locked
-              ? { y: 0, scaleY: 1 }
-              : { y: -3.8, scaleY: 1.05 }
-          }
-          transition={{
-            type: 'spring',
-            stiffness: 450,
-            damping: 18,
-            mass: 0.7,
-          }}
-        />
-
-        {/* Padlock Body */}
-        <motion.rect
-          x="4"
-          y="11"
-          width="16"
-          height="10"
-          rx="3"
-          ry="3"
-          animate={{
-            scale: shake ? [1, 1.05, 0.97, 1] : 1,
-          }}
-          transition={{ duration: 0.35 }}
-        />
-
-        {/* Center Keyhole Core */}
-        <circle cx="12" cy="15" r="1.3" fill="currentColor" />
-        <path d="M12 16.3v1.7" strokeWidth="2.4" />
-      </motion.svg>
-    </div>
-  );
-};
 
 export const ProgressPage: React.FC = () => {
   const {
@@ -133,12 +47,6 @@ export const ProgressPage: React.FC = () => {
   const [loginEmail, setLoginEmail] = useState('');
   const [betaKey, setBetaKey] = useState('');
   const [loginError, setLoginError] = useState<string | null>(null);
-
-  // Smooth Lock Animation State
-  const [isCardLocked, setIsCardLocked] = useState(true);
-  const [headerLockHovered, setHeaderLockHovered] = useState(false);
-  const [modalShaking, setModalShaking] = useState(false);
-  const [shakeKey, setShakeKey] = useState(0);
 
   // File import & notification state
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -228,156 +136,30 @@ export const ProgressPage: React.FC = () => {
   const handleBetaLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError(null);
-    setModalShaking(true);
-    setIsCardLocked(true);
-    setShakeKey((prev) => prev + 1);
 
     if (!loginEmail.trim() || !betaKey.trim()) {
       setLoginError('Both email and password are required.');
-      setTimeout(() => setModalShaking(false), 550);
       return;
     }
 
     // For any combination of mail and password for now say "oops you are not a verified beta tester"
     setLoginError('Oops, you are not a verified beta tester.');
-    setTimeout(() => setModalShaking(false), 550);
   };
 
   // If user is a guest or not authenticated, render the Protected Closed Beta Gate Screen
   if (!isAuthenticated || isGuest) {
     return (
       <div className="p-6 sm:p-12 max-w-4xl mx-auto space-y-8 animate-in fade-in duration-200">
-        {/* Beta Restriction Notice Card - Neutral Clean Card with Full-Card Lock Mechanism */}
-        <motion.div
-          animate={
-            modalShaking
-              ? {
-                  x: [0, -12, 12, -9, 9, -5, 5, -2, 2, 0],
-                  scale: [1, 0.993, 1.004, 1],
-                }
-              : { x: 0, scale: 1 }
-          }
-          transition={{ duration: 0.52, ease: [0.36, 0.07, 0.19, 0.97] }}
-          className="relative bg-white border border-[#E5E7EB] rounded-3xl shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] overflow-hidden text-[#111111]"
-        >
-          {/* Sweeping Laser Scan Line Across Entire Card */}
-          <motion.div
-            className="absolute left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#D92638]/50 to-transparent pointer-events-none z-20"
-            animate={{ top: ['0%', '100%'] }}
-            transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
-          />
-
-          {/* Full-Card Mechanical Vault Lock Shutter Bar */}
-          <div className="relative w-full border-b border-[#E5E7EB] bg-[#F9FAFB]/80 backdrop-blur-sm px-6 py-4 flex items-center justify-between overflow-hidden">
-            {/* Continuous Horizontal Scanning Light */}
-            <motion.div
-              className="absolute top-0 bottom-0 w-36 bg-gradient-to-r from-transparent via-[#D92638]/15 to-transparent pointer-events-none"
-              animate={{ x: ['-100%', '800%'] }}
-              transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
-            />
-
-            {/* Left Mechanical Deadbolt Bar */}
-            <div className="flex items-center space-x-3 flex-1 min-w-0 pr-4">
-              <div className="h-1.5 flex-1 bg-[#E5E7EB] rounded-full overflow-hidden relative">
-                <motion.div
-                  className="h-full bg-[#D92638]"
-                  initial={false}
-                  animate={{ width: isCardLocked ? '100%' : '15%' }}
-                  transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                />
-              </div>
-              <span className="text-[10px] font-mono tracking-widest text-[#6B7280] uppercase hidden md:inline">
-                VAULT SECURED
-              </span>
-            </div>
-
-            {/* Center Hero Mechanical Vault Lock Hub */}
-            <motion.div
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.96 }}
-              onClick={() => {
-                setIsCardLocked((prev) => !prev);
-                setModalShaking(true);
-                setTimeout(() => setModalShaking(false), 520);
-              }}
-              className="relative px-4 sm:px-5 py-2 rounded-xl bg-white border border-[#E5E7EB] shadow-xs flex items-center space-x-3 cursor-pointer shrink-0 group select-none"
-              title="Click to engage/disengage card lock mechanism"
-            >
-              {/* Shockwave Radar Ring */}
-              <motion.span
-                className="absolute inset-0 rounded-xl border border-[#D92638]/40 pointer-events-none"
-                animate={{ scale: [1, 1.35], opacity: [0.6, 0] }}
-                transition={{ repeat: Infinity, duration: 1.8, ease: 'easeOut' }}
-              />
-
-              {/* Counter-rotating Gyro Dial + Padlock */}
-              <div className="relative w-7 h-7 flex items-center justify-center text-[#D92638]">
-                <motion.svg
-                  width="28"
-                  height="28"
-                  viewBox="0 0 28 28"
-                  className="absolute inset-0 text-[#E5E7EB]"
-                  animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 14, ease: 'linear' }}
-                >
-                  <circle
-                    cx="14"
-                    cy="14"
-                    r="12"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeDasharray="3 4"
-                    fill="none"
-                  />
-                </motion.svg>
-                <CoolLockIcon size={18} locked={isCardLocked} shake={modalShaking} />
-              </div>
-
-              <div className="text-left">
-                <div className="text-[11px] font-mono font-bold tracking-wider text-[#D92638] uppercase flex items-center space-x-1.5">
-                  <span>{isCardLocked ? 'CARD LOCKED' : 'CARD UNLOCKED'}</span>
-                  <span className={`w-1.5 h-1.5 rounded-full ${isCardLocked ? 'bg-[#D92638] animate-pulse' : 'bg-[#10B981]'}`} />
-                </div>
-                <div className="text-[10px] font-mono text-[#6B7280]">BATCH #03 ONLY</div>
-              </div>
-            </motion.div>
-
-            {/* Right Mechanical Deadbolt Bar */}
-            <div className="flex items-center space-x-3 flex-1 min-w-0 pl-4 justify-end">
-              <span className="text-[10px] font-mono tracking-widest text-[#6B7280] uppercase hidden md:inline">
-                256-BIT ISOLATION
-              </span>
-              <div className="h-1.5 flex-1 bg-[#E5E7EB] rounded-full overflow-hidden relative">
-                <motion.div
-                  className="h-full bg-[#D92638]"
-                  initial={false}
-                  animate={{ width: isCardLocked ? '100%' : '15%' }}
-                  transition={{ type: 'spring', stiffness: 320, damping: 22 }}
-                />
-              </div>
-            </div>
-          </div>
-
+        {/* Beta Restriction Notice Card - Neutral Clean Card, Colors Only On Text */}
+        <div className="relative bg-white border border-[#E5E7EB] rounded-3xl shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] overflow-hidden text-[#111111]">
           <div className="p-8 sm:p-12 space-y-8">
             {/* Top Badge Section */}
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center space-x-4">
-                {/* Interactive Animated Padlock with Mechanical Spring Shackle */}
-                <motion.div
-                  onMouseEnter={() => setHeaderLockHovered(true)}
-                  onMouseLeave={() => setHeaderLockHovered(false)}
-                  whileHover={{ scale: 1.06 }}
-                  whileTap={{ scale: 0.94 }}
-                  className="relative w-12 h-12 rounded-2xl bg-[#F9FAFB] text-[#D92638] border border-[#E5E7EB] flex items-center justify-center shadow-xs shrink-0 cursor-pointer group"
-                  title="Closed Beta - Click or hover to test lock mechanism"
-                >
-                  <CoolLockIcon
-                    size={22}
-                    locked={!headerLockHovered}
-                    shake={false}
-                    pulseRing={true}
-                  />
-                </motion.div>
+                {/* Neutral Container with Cherry Red Icon */}
+                <div className="w-12 h-12 rounded-2xl bg-[#F9FAFB] text-[#D92638] border border-[#E5E7EB] flex items-center justify-center shadow-xs shrink-0">
+                  <Lock className="w-5 h-5 stroke-[2.2]" />
+                </div>
                 <div>
                   <div className="flex items-center space-x-2">
                     <span className="text-[11px] font-mono uppercase tracking-wider text-[#D92638] font-bold block">
@@ -488,7 +270,7 @@ export const ProgressPage: React.FC = () => {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Beta Sign-In Modal */}
         <AnimatePresence>
@@ -512,9 +294,9 @@ export const ProgressPage: React.FC = () => {
                 <div className="p-8 space-y-6">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center space-x-3">
-                      {/* Animated Padlock Icon in Modal Header */}
-                      <div className="w-10 h-10 rounded-xl bg-[#F9FAFB] text-[#D92638] border border-[#E5E7EB] flex items-center justify-center shadow-xs">
-                        <CoolLockIcon size={20} shake={modalShaking} locked={true} pulseRing={modalShaking} />
+                      {/* Neutral Container with Cobalt Blue Icon */}
+                      <div className="w-10 h-10 rounded-xl bg-[#F9FAFB] text-[#075CF5] border border-[#E5E7EB] flex items-center justify-center shadow-xs">
+                        <KeyRound className="w-5 h-5 stroke-[2]" />
                       </div>
                       <div>
                         <h3 className="text-base font-bold text-[#111111]">
@@ -563,18 +345,10 @@ export const ProgressPage: React.FC = () => {
                     </div>
 
                     {loginError && (
-                      <motion.div
-                        key={`error-${shakeKey}`}
-                        initial={{ opacity: 0, y: -6, scale: 0.96 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                        className="p-3.5 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center space-x-3 text-xs text-[#D92638] font-medium shadow-2xs"
-                      >
-                        <div className="shrink-0 p-1.5 rounded-lg bg-white border border-[#E5E7EB] shadow-2xs flex items-center justify-center">
-                          <CoolLockIcon size={18} shake={modalShaking} locked={true} pulseRing={modalShaking} />
-                        </div>
-                        <span className="leading-tight font-medium">{loginError}</span>
-                      </motion.div>
+                      <div className="p-3 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center space-x-2 text-xs text-[#D92638] font-medium animate-in fade-in duration-150">
+                        <ShieldAlert className="w-4 h-4 shrink-0 stroke-[2]" />
+                        <span>{loginError}</span>
+                      </div>
                     )}
 
                     <div className="flex items-center justify-end space-x-3 pt-2">

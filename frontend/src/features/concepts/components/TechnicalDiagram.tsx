@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   Layers,
   ArrowRight,
@@ -9,7 +9,6 @@ import {
   FileCode,
   Lock,
 } from 'lucide-react';
-import { ImageExportButton } from '@/components/shared/ImageExportButton';
 
 export type DiagramType =
   | 'bit-width'
@@ -55,7 +54,6 @@ export const TechnicalDiagram: React.FC<TechnicalDiagramProps> = ({
   config = {},
 }) => {
   const [selectedElement, setSelectedElement] = useState<string | null>(null);
-  const diagramRef = useRef<HTMLDivElement>(null);
 
   // Render Bit-Width Layout
   const renderBitWidthDiagram = () => {
@@ -849,22 +847,14 @@ export const TechnicalDiagram: React.FC<TechnicalDiagramProps> = ({
   };
 
   return (
-    <div ref={diagramRef} className="bg-[#FAFAFA] border border-[#E5E7EB] rounded-2xl p-4 sm:p-6 space-y-4">
+    <div className="bg-[#FAFAFA] border border-[#E5E7EB] rounded-2xl p-4 sm:p-6 space-y-4">
       {/* Diagram Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div className="space-y-0.5">
-          <div className="flex items-center space-x-2">
-            <Layers className="w-4 h-4 text-[#075CF5]" />
-            <h3 className="text-sm font-bold text-[#17191D]">{title}</h3>
-          </div>
-          {subtitle && <p className="text-xs text-[#64748B]">{subtitle}</p>}
+      <div className="space-y-0.5">
+        <div className="flex items-center space-x-2">
+          <Layers className="w-4 h-4 text-[#075CF5]" />
+          <h3 className="text-sm font-bold text-[#17191D]">{title}</h3>
         </div>
-
-        <ImageExportButton
-          getTargetElement={() => diagramRef.current}
-          fileName={`oops-lab-${type}-diagram`}
-          variant="compact"
-        />
+        {subtitle && <p className="text-xs text-[#64748B]">{subtitle}</p>}
       </div>
 
       {/* Diagram Content */}

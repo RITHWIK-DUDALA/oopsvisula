@@ -30,3 +30,4 @@ Investigation revealed:
 
 ## 3. Verification
 - Built frontend with `pnpm run build` (`tsc -b && vite build`): Succeeded in 18.90s with 0 errors across 3,274 modules.
+

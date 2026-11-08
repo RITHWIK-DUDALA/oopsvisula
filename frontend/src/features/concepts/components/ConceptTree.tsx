@@ -10,7 +10,6 @@ import {
   Layers,
   ArrowRight,
 } from 'lucide-react';
-import { ImageExportButton } from '@/components/shared/ImageExportButton';
 
 export interface ConceptTreeNode {
   id: string;
@@ -340,14 +339,6 @@ export const ConceptTree: React.FC<ConceptTreeProps> = ({
               <Maximize2 className="w-3.5 h-3.5 stroke-[2]" />
             )}
           </button>
-
-          <div className="w-px h-4 bg-[#E5E7EB] mx-1" />
-
-          <ImageExportButton
-            getTargetElement={() => containerRef.current}
-            fileName={`oops-lab-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
-            variant="compact"
-          />
         </div>
       </div>
 
