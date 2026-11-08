@@ -9,7 +9,6 @@ import {
   Trash2,
   Copy,
   Code2,
-  Download,
   Upload,
   LayoutGrid,
   Maximize2,
@@ -18,6 +17,7 @@ import {
   Search,
 } from 'lucide-react';
 import { useVisualizationLabStore } from '../../visualizationStore';
+import { ImageExportButton } from '@/components/shared/ImageExportButton';
 
 export const LabTopToolbar: React.FC = () => {
   const { fitView } = useReactFlow();
@@ -43,6 +43,7 @@ export const LabTopToolbar: React.FC = () => {
     importWorkspace,
     activeSidebarTab,
     setActiveSidebarTab,
+    activeCategoryId,
     searchQuery,
     setSearchQuery,
   } = useVisualizationLabStore();
@@ -259,15 +260,13 @@ export const LabTopToolbar: React.FC = () => {
           <Upload className="w-3.5 h-3.5" />
         </button>
 
-        {/* Export JSON */}
-        <button
-          type="button"
-          onClick={exportCurrentWorkspace}
-          className="p-1.5 rounded-md border border-[#DCE2EA] hover:border-[#172033] bg-white text-[#172033] text-xs font-mono transition-colors shrink-0"
-          title="Export Workspace JSON"
-        >
-          <Download className="w-3.5 h-3.5" />
-        </button>
+        {/* Export Diagram (PNG / JPG / JSON) */}
+        <ImageExportButton
+          variant="icon"
+          getTargetElement={() => document.querySelector('.react-flow') as HTMLElement}
+          fileName={`oops-lab-${activeCategoryId || 'diagram'}`}
+          onExportJson={exportCurrentWorkspace}
+        />
 
         {/* Reset Workspace */}
         <button

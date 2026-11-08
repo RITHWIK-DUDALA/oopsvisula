@@ -136,7 +136,7 @@ export async function exportElementAsDataUrl(
     clone.style.boxSizing = 'border-box';
 
     // Strip out interactive floating controls / export buttons marked with data-no-export
-    clone.querySelectorAll('[data-no-export="true"]').forEach((el) => el.remove());
+    clone.querySelectorAll('[data-no-export="true"], .react-flow__controls, .react-flow__minimap, .react-flow__attribution').forEach((el) => el.remove());
 
     const serializer = new XMLSerializer();
     const serializedHtml = serializer.serializeToString(clone);

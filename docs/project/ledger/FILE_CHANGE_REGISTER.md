@@ -1,3 +1,4 @@
+| OOPS-20261108-0130 | VIE-01 | `frontend/src/features/visualization-lab/components/toolbar/LabTopToolbar.tsx` | MODIFIED | Upgraded toolbar Download icon to support PNG (2x), JPG, and JSON exports |
 | OOPS-20261108-0120 | DIE-01 | `frontend/src/services/export/imageExporter.ts` | CREATED | Local-first DOM/SVG to PNG and JPG rasterization and download service |
 | OOPS-20261108-0120 | DIE-01 | `frontend/src/components/shared/ImageExportButton.tsx` | CREATED | Monochromatic export dropdown button for PNG (2x) and JPG downloads |
 | OOPS-20261108-0120 | DIE-01 | `frontend/src/features/concepts/components/TechnicalDiagram.tsx` | MODIFIED | Added 2D diagram PNG/JPG download button to header |
