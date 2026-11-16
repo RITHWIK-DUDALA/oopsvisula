@@ -39,3 +39,8 @@ skills-lock.json
 ai-design-skills-main (2)/
 scratch/
 
+# Test Results
+test-results/
+playwright-report/
+
+

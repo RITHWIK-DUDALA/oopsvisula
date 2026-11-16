@@ -9,12 +9,13 @@
     "verify": "node verification/dist/runAllTests.js"
   },
   "devDependencies": {
-    "@types/node": "^26.6.6",
-    "ts-node": "^10.9.2",
-    "@types/jest": "^29.5.12",
-    "jest": "^29.7.0",
+    "@playwright/test": "^1.65.1",
     "@testing-library/react": "^14.0.0",
-    "jsdom": "^24.0.0"
+    "@types/jest": "^29.5.12",
+    "@types/node": "^26.6.6",
+    "jest": "^29.7.0",
+    "jsdom": "^24.0.0",
+    "ts-node": "^10.9.2"
   },
   "packageManager": "pnpm@11.0.9"
 }

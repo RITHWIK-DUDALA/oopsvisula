@@ -1,0 +1,1156 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\LENOVO\\OneDrive\\Desktop\\java oops\\node_modules\\.pnpm\\@playwright+test@1.65.1\\node_modules\\@playwright\\test\\cli.js",
+      "test"
+    ],
+    "configFile": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\java oops\\playwright.config.ts",
+    "rootDir": "C:/Users/LENOVO/OneDrive/Desktop/java oops/tests/security",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/LENOVO/OneDrive/Desktop/java oops/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "security-chromium",
+        "name": "security-chromium",
+        "testDir": "C:/Users/LENOVO/OneDrive/Desktop/java oops/tests/security",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\java oops\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "security-chromium",
+        "testDir": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\java oops\\tests\\security",
+        "snapshotDir": "C:\\Users\\LENOVO\\OneDrive\\Desktop\\java oops\\tests\\security",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://localhost:5000",
+          "trace": "off",
+          "video": "off",
+          "screenshot": "off",
+          "channel": "chrome",
+          "headless": true,
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/159.0.8154.6 Safari/537.36",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "security-chromium"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "PRODUCTION_AUDIT/SECURITY/playwright_raw_results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "api-authorization.spec.ts",
+      "file": "api-authorization.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "API & MULTI-TENANT AUTHORIZATION AUDIT SUITE",
+          "file": "api-authorization.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "API-01: BOLA Defense - Student User A cannot access or mutate User B private projects",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2329,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:20.232Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "830ebc39c847bfec2389-ecea1b507de8ae0dd347",
+              "file": "api-authorization.spec.ts",
+              "line": 9,
+              "column": 3
+            },
+            {
+              "title": "API-02: BFLA Defense - Student User A cannot invoke Instructor User B privileged actions",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1429,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:23.276Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "830ebc39c847bfec2389-fcb9d97c737038c93290",
+              "file": "api-authorization.spec.ts",
+              "line": 45,
+              "column": 3
+            },
+            {
+              "title": "API-03: User profile payloads strictly omit password hashes, salt, and internal secrets",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1298,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:24.728Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "830ebc39c847bfec2389-16ac98bb60ca917a1dec",
+              "file": "api-authorization.spec.ts",
+              "line": 70,
+              "column": 3
+            },
+            {
+              "title": "API-04: Public vs Protected endpoint access control matrix is strictly enforced",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2184,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:26.049Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "830ebc39c847bfec2389-46ba855da609f5bb187e",
+              "file": "api-authorization.spec.ts",
+              "line": 95,
+              "column": 3
+            },
+            {
+              "title": "API-05: Multi-tenant cryptographic namespace isolation prevents data leakage between users",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1243,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:28.249Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "830ebc39c847bfec2389-5f58cc9d6df0371bc906",
+              "file": "api-authorization.spec.ts",
+              "line": 120,
+              "column": 3
+            },
+            {
+              "title": "API-06: Operations submitted without valid authorization token fail gracefully",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1184,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:29.510Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "830ebc39c847bfec2389-aa62f2be52d7033789d4",
+              "file": "api-authorization.spec.ts",
+              "line": 153,
+              "column": 3
+            },
+            {
+              "title": "API-07: Oversized payloads and malformed structures are rejected cleanly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:30.710Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "830ebc39c847bfec2389-f875159fef361e6bcc29",
+              "file": "api-authorization.spec.ts",
+              "line": 171,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "node-runtime-security.spec.ts",
+      "file": "node-runtime-security.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "NODE.JS & RUNTIME SECURITY AUDIT SUITE",
+          "file": "node-runtime-security.spec.ts",
+          "line": 6,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Node-01: SQL injection characters in search and parser do not cause crashes or execution",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3149,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:30.786Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-e5a933a45b9a98f47df1",
+              "file": "node-runtime-security.spec.ts",
+              "line": 11,
+              "column": 3
+            },
+            {
+              "title": "Node-02: NoSQL operator objects do not bypass storage lookups or corrupt state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1231,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:33.948Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-0f322ea80dede425b967",
+              "file": "node-runtime-security.spec.ts",
+              "line": 27,
+              "column": 3
+            },
+            {
+              "title": "Node-03: OS command injection and process execution payloads are blocked by AST filter",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:35.194Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-32d279a09dd801c1084f",
+              "file": "node-runtime-security.spec.ts",
+              "line": 48,
+              "column": 3
+            },
+            {
+              "title": "Node-04: Network socket and URL connection attempts are blocked before execution",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:35.209Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-fe599f2889a0a409afab",
+              "file": "node-runtime-security.spec.ts",
+              "line": 77,
+              "column": 3
+            },
+            {
+              "title": "Node-05: Path traversal sequences in project file management are blocked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:35.221Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-9ca7f01dd023c364c0bf",
+              "file": "node-runtime-security.spec.ts",
+              "line": 96,
+              "column": 3
+            },
+            {
+              "title": "Node-06: Tampered JWT signatures and none-algorithm tokens are rejected",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2039,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:35.231Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-db77ec92c9737acb2c46",
+              "file": "node-runtime-security.spec.ts",
+              "line": 113,
+              "column": 3
+            },
+            {
+              "title": "Node-07: Logout completely purges session tokens and restores guest state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1983,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:37.282Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-3ea0b900bdb0e3e7c6c1",
+              "file": "node-runtime-security.spec.ts",
+              "line": 144,
+              "column": 3
+            },
+            {
+              "title": "Node-08: State-changing operations cannot be forged via cross-origin GET requests",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2040,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:39.280Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-dd25990c3887f336b313",
+              "file": "node-runtime-security.spec.ts",
+              "line": 185,
+              "column": 3
+            },
+            {
+              "title": "Node-09: CORS header restricts unauthorized external domains",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1208,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:41.334Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-8450fa103293dd9492c8",
+              "file": "node-runtime-security.spec.ts",
+              "line": 199,
+              "column": 3
+            },
+            {
+              "title": "Node-10: Brute force login lockout activates after 5 failed attempts",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:42.557Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-4d000021220fdde5519c",
+              "file": "node-runtime-security.spec.ts",
+              "line": 212,
+              "column": 3
+            },
+            {
+              "title": "Node-11: Protected routes redirect unauthenticated guest users to sign-in",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2096,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:42.572Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-1506e140ad7420df7269",
+              "file": "node-runtime-security.spec.ts",
+              "line": 244,
+              "column": 3
+            },
+            {
+              "title": "Node-12: Mass assignment payloads injecting admin role are sanitized",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1128,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:44.681Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-6e7a2c8fa4e114151692",
+              "file": "node-runtime-security.spec.ts",
+              "line": 264,
+              "column": 3
+            },
+            {
+              "title": "Node-13: Production runtime errors do not disclose file system paths or stack traces",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1298,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:45.823Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "7fb5ea2a9393de21bc0f-57947cc7707b65ffcb0b",
+              "file": "node-runtime-security.spec.ts",
+              "line": 294,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "react-security.spec.ts",
+      "file": "react-security.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "REACT SECURITY AUDIT SUITE",
+          "file": "react-security.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "React-01: XSS payload in search query parameter is sanitized and not executed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2104,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:47.149Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5e903e2d002fd3fec70b-7c8efe9fef4475f903de",
+              "file": "react-security.spec.ts",
+              "line": 15,
+              "column": 3
+            },
+            {
+              "title": "React-02: XSS script injection in curriculum filter is not executed",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2142,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:49.267Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5e903e2d002fd3fec70b-844f424e2546db697c54",
+              "file": "react-security.spec.ts",
+              "line": 39,
+              "column": 3
+            },
+            {
+              "title": "React-03: DOM injection attempts do not create unauthorized DOM nodes",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2141,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:51.426Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5e903e2d002fd3fec70b-c2ae2b3f636951bbe43d",
+              "file": "react-security.spec.ts",
+              "line": 58,
+              "column": 3
+            },
+            {
+              "title": "React-04: No dangerous HTML rendering of user input in visualizer cards",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2505,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:53.589Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5e903e2d002fd3fec70b-73e3ee696dc3b8eaf132",
+              "file": "react-security.spec.ts",
+              "line": 69,
+              "column": 3
+            },
+            {
+              "title": "React-05: Authentication tokens are never exposed in URL query parameters or window globals",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1976,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:56.109Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5e903e2d002fd3fec70b-0c62e2aa7f0582b9584e",
+              "file": "react-security.spec.ts",
+              "line": 84,
+              "column": 3
+            },
+            {
+              "title": "React-06: Local storage stores zero plaintext passwords or secrets",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2113,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:03:58.102Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5e903e2d002fd3fec70b-cfb4e9d7af90173af68f",
+              "file": "react-security.spec.ts",
+              "line": 121,
+              "column": 3
+            },
+            {
+              "title": "React-07: Open redirect attempts via returnUrl/redirect parameters are blocked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4329,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:04:00.231Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5e903e2d002fd3fec70b-0b2d099392238a9708cd",
+              "file": "react-security.spec.ts",
+              "line": 143,
+              "column": 3
+            },
+            {
+              "title": "React-08: Content Security Policy enforces object-src none and frame-ancestors none",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1555,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:04:04.577Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5e903e2d002fd3fec70b-585f27a2279b124f475e",
+              "file": "react-security.spec.ts",
+              "line": 161,
+              "column": 3
+            },
+            {
+              "title": "React-09: Required browser security headers are present with secure configurations",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "security-chromium",
+                  "projectName": "security-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1644,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-16T08:04:06.147Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5e903e2d002fd3fec70b-986a8708b27da982b0f2",
+              "file": "react-security.spec.ts",
+              "line": 175,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-16T08:03:19.436Z",
+    "duration": 48656.542,
+    "expected": 29,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
